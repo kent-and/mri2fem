@@ -1,0 +1,305 @@
+%--------------------------------
+%  Collaboration 
+%--------------------------------
+\newcommand{\citeme}{\textcolor{red}{(Reference needed)}}
+\newcommand{\fixme}[1]{\textcolor{red}{#1}}
+
+\newcommand{\kam}[1]{\todo[inline,color=green!10]{KAM: #1}}
+\newcommand{\kent}[1]{\kam{#1}}
+\newcommand{\kamf}[1]{\kam{#1}}
+\newcommand{\lmv}[1]{\todo[inline,color=green!20]{LMV: #1}}
+\newcommand{\mer}[1]{\todo[inline,color=magenta!10]{MER: #1}}
+\newcommand{\tbt}[1]{\todo[inline,color=yellow!20]{TBT: #1}}
+\newcommand{\COMMENT}[1]{}
+
+% ----------------------- %
+% ---- Theorems, etc ---- %
+% ----------------------- %
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{exmp}[thm]{Example}
+
+%%
+% equation counter will be reset at the start of each section
+\numberwithin{equation}{chapter}
+
+% ------------------------------ %
+% ---- Math definitions -------- %
+% ------------------------------ %
+%matrices
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\Id}{\mathbb{I}}
+
+%\newcommand{\vecnot}[1]{\mathbf{#1}}
+\newcommand{\vecnot}[1]{#1}
+\newcommand{\vu}{\vecnot{u}}
+\newcommand{\vf}{\vecnot{f}}
+\newcommand{\vg}{\vecnot{g}}
+\newcommand{\vn}{\vecnot{n}}
+\newcommand{\vv}{\vecnot{v}}
+\newcommand{\vx}{\vecnot{x}}
+\newcommand{\vp}{\vecnot{p}}
+\newcommand{\vq}{\vecnot{q}}
+\newcommand{\vG}{\vecnot{G}}
+
+% mathematical operators
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator{\Div}{\mathrm{div}}
+\DeclareMathOperator{\Curl}{\mathrm{curl}}
+\DeclareMathOperator{\Grad}{\nabla}
+\DeclareMathOperator{\trace}{\mathrm{tr}}
+
+\newcommand{\suml}[2]{\ensuremath{\sum\limits_{#1}^{#2}}}
+\newcommand{\tr}[1]{\trace\left(#1\right)}
+\newcommand{\sig}[1]{\sigma\left(#1\right)}
+\newcommand{\e}[1]{\varepsilon\left(#1\right)}
+
+% inner products / duality pairings 
+\newcommand{\inner}[2]{\langle #1,#2\rangle}
+\newcommand{\innerwtd}[3]{\inner{#1}{#2}_{#3}}
+
+% norms
+\newcommand{\nrmbar}[1]{\vert\vert #1 \vert\vert}
+\newcommand{\nrm}[2]{\nrmbar{#1}_{#2}}
+
+% inequalities 
+\newcommand{\ls}{\lesssim} %needs \usepackage{amsmath,amssymb}
+
+% tensor notation
+\newcommand{\tnsr}[1]{#1}
+
+
+% ------------------------------------------------------
+% Used to create a consistent command line command
+% appearance for tutorials
+% ------------------------------------------------------ 
+\newcommand{\hedr}[1]{\noindent {\large \textbf{#1}}\\}
+
+% Paths used in the text
+\newcommand\dirstyle[1]{\texttt{#1}} %% MER says: Use this one
+\newcommand{\emp}[1]{\texttt{#1}}
+\def\coderoot{src/mri}
+\def\abbydicom{dicom/abby}
+\def\erniedicom{dicom/ernie} % Raw MRI data from ernie
+\def\ernieT1{dicom/ernie/T13D} % Extracted MRI series from dicom/ernie
+\def\ernieoutput{freesurfer/ernie} % Output from freesurfer
+\def\fenicsdiffusion{fenics/diffusion} % Output from freesurfer
+
+\def\mridataroot{\emp{FIXME}}
+\def\mridataseq{\emp{FIXME-T13D}}
+
+
+\def\mriTONEdataseq{\emp{MRI-Series-T13D}}
+\def\mriTTWOdataseq{\emp{MRI-Series-T23D}}
+\def\mriDTIdataseq{\emp{MRI-Series-DTI3D}}
+
+
+%\def\freesurfer{\dirstyle{freesurfer}}
+
+% the `command prompt' formatting utility
+\def\dir[#1]{{\textasciitilde}/#1}
+%usage: \cmdprmpt{current directory}{command}
+\newcommand{\cmdprmpt}[2]{\text{dir[#1]\$} #2}
+
+% Simple command prompt
+\newcommand{\smpprmpt}[1]{\text{\$ }#1}
+\newcommand{\outprmpt}[1]{#1}
+% text symbols
+\def\dash{\texttt{-}}
+\def\ddash{\texttt{-{}-}}
+
+% misc text names
+\def\subjid{ernie}
+\def\fenics{FEniCS}
+\def\svmtk{SVM-Tk}
+\def\svmtkfull{Surface-Volume-Meshing Toolkit}
+\def\btk{BrainToolKit}
+\def\freesurfer{FreeSurfer}
+\def\paraview{ParaView}
+
+% Others macros
+\newcommand{\mesh}{\mathcal{T}}
+\newcommand{\dx}{\, \mathrm{d}x}
+
+% Used for image placement
+\def\imagetop#1{\vtop{\null\hbox{#1}}}
+
+\definecolor{codebox}{gray}{0.92}
+\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
+\definecolor{bananamania}{rgb}{0.98, 0.91, 0.71}
+\definecolor{goldenpoppy}{rgb}{0.99, 0.76, 0.0}
+\newcommand{\freesurfernote}[1]{
+\begin{tcolorbox}[width=\textwidth ,colback=bananamania!50,title={\textbf{Freesurfer comments}},colbacktitle=bananamania!20,coltitle=black,arc =0pt,colframe=black,lefttitle=0.35\textwidth ,
+    outer arc = 0pt,
+    titlerule = 0pt]    
+   #1
+\end{tcolorbox} 
+}
+
+\newcommand{\terminal}[1]{
+  \vspace{-1em}
+  \begin{programcode}{}%{Terminal window}%
+    \colorbox{blue!10}{\parbox{0.98\textwidth}{\textcolor{black}{\texttt{#1}}}}
+  \end{programcode}
+  \vspace{-0.5em}
+}
+\newcommand{\ubuntu}[1]{
+  \vspace{-1em}
+  \begin{programcode}{}
+    \colorbox{blue!10}{\parbox{0.98\textwidth}{\textcolor{black}{\texttt{#1 \hfill (Ubuntu)}}}}
+  \end{programcode}
+  \vspace{-0.5em}
+}
+%\newcommand{\button}[1]{\emph{#1}}
+\newcommand{\button}[1]{\ovalbox{{#1}}}
+\newcommand{\name}[1]{"#1"}
+
+
+%% \newcommand{\texteditor}[1]{
+%% \begin{mdframed}
+%% \begin{programcode}{Text editor}%
+%% \parbox{0.98\textwidth}{#1}
+%% \end{programcode}
+%% \end{mdframed}
+%% }
+
+%\newenvironment{programcode}[1]{\ignorespaces\def\stmtopen##1{##1}%
+%\formtmp{programcode}{#1}}{\noindent\textcolor{programcode}{\rule{\columnwidth}{1pt}}\vskip2pt\par\addvspace{\baselineskip}}%
+
+
+% ------------------------------ %
+%      python code style         %
+% ------------------------------ %
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{10} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{10}  % for normal
+
+% Custom colors
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{codebox}{gray}{0.92}
+
+% Python style for highlighting
+%% \newcommand\pythonstyle{\lstset{
+%% 	language=Python,
+%% 	basicstyle=\ttm,
+%% 	otherkeywords={self},             % Add keywords here
+%% 	keywordstyle=\ttb\color{deepblue},
+%% 	emph={MyClass,__init__},          % Custom highlighting
+%% 	emphstyle=\ttb\color{deepred},    % Custom highlighting style
+%% 	stringstyle=\color{deepgreen},
+%% 	commentstyle=\color{blue},
+%% 	frame=tb,                         % Any extra options here
+%% 	showstringspaces=false,            % 
+%% 	backgroundcolor = \color{codebox},
+%%     breaklines=true
+%% }}
+
+
+
+
+
+%% % Python environment
+%% \lstnewenvironment{python}[1][]
+%% {
+%% \pythonstyle
+%% \lstset{#1}
+%% }
+%% {}
+
+% Python for external files
+%% \newcommand\pythonexternal[2][]{{
+%%     \begin{python}
+%%       %\pythonstyle
+%% \lstinputlisting[#1]{#2}}}
+%% \end{python}
+% path for pythonexternal is relative
+% to book.tex.  Source is assumed to be
+% included in ./chapters/chp-num/src
+% so you use this command as 
+% \pyfile{chp3}{filename} etc
+
+% MER: These Python commands depend on \usepackage{pythonhighlight}
+
+\newcommand\pyfile[2]{
+  \inputpython{./chapters/#1/src/#2}{0}{1000}
+}
+
+\newcommand\pythonsnippet[4]{
+  \inputpython{./chapters/#1/src/#2}{#3}{#4}
+}
+
+\newcommand\newpythonsnippet[4]{
+  \inputpython{../mri2fem/mri2fem/#1/#2}{#3}{#4}
+}
+
+% Python for inline
+\newcommand\pythoninline[1]{\pyth{#1}}
+%\newcommand{\pythoninline[1]}{{#1}}
+
+
+% ---------------------------------
+
+%% \lstdefinestyle{pyStyle2}{
+%%     language=python,
+%%     basicstyle=\ttfamily ,       
+%% 	keywordstyle=\ttb\color{deepblue},
+%%     emph={class},
+%% 	emphstyle=\ttb\color{deepred},   
+%% 	stringstyle=\color{deepgreen},
+%% 	commentstyle=\color{blue},
+%%     columns=fullflexible,
+%%     frame=single,                      
+%% 	showstringspaces=false,            
+%% 	backgroundcolor = \color{codebox},
+%% 	breaklines=true,
+%% 	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}
+%% 	}
+
+
+
+
+% ------------------------------ %
+%      bash code style           %
+% ------------------------------ %
+\lstdefinestyle{BashStyle}{
+    language=bash,
+    basicstyle=\ttfamily ,       
+	keywordstyle=\ttb\color{deepblue},
+	emphstyle=\ttb\color{deepred},   
+	stringstyle=\color{deepgreen},
+	commentstyle=\color{blue},
+	frame=tb,                         
+	showstringspaces=false,            
+	backgroundcolor = \color{codebox}
+	}
+
+\newcommand{\terminaltilde}{\raisebox{-0.5ex}{\textasciitilde}}
+
+%% \newcommand{\lstvdots}{%
+%%   \vbox{\baselineskip3pt\lineskiplimit0pt\kern1pt\hbox{.}\hbox{.}\hbox{.}\kern-1pt}}
+\def\CC{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++}}}
+
+\newcommand\namestyle[1]{\emp{#1}}
+
+\lstdefinestyle{CStyle}{
+    language=c++,
+    basicstyle=\ttfamily ,       
+	keywordstyle=\ttb\color{deepblue},
+    emph={class},
+	emphstyle=\ttb\color{deepred},   
+	stringstyle=\color{deepgreen},
+	commentstyle=\color{blue},
+    columns=fullflexible,
+    frame=single,                      
+	showstringspaces=false,            
+	backgroundcolor = \color{codebox},
+	breaklines=true,
+	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}
+	}
+

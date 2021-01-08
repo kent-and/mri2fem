@@ -324,16 +324,16 @@ the number of smoothing iterations on the output surface.
 
 To extract the ventricular surface from our white matter parcellation,
 we define a customizable bash script (\emp{extract-ventricles.sh}). We begin by defining the input and output file names:
-\lstinputlisting[style=bashStyle,firstline=1,lastline=5]{mri2fem/mri2fem/chp4/extract-ventricles.sh}
+\lstinputlisting[style=bashStyle,firstline=1,lastline=5]{../mri2fem/mri2fem/chp4/extract-ventricles.sh}
 
 \noindent To extract a surface file of the ventricular system, we call
 \emp{mri\_binarize} with the input filename (in \emp{input}), the \emp{--ventricles} flag, additional tags given by \emp{matchval}, and a number of smoothing iterations:
-\lstinputlisting[style=bashStyle,firstline=47,lastline=51]{mri2fem/mri2fem/chp4/extract-ventricles.sh}
+\lstinputlisting[style=bashStyle,firstline=47,lastline=51]{../mri2fem/mri2fem/chp4/extract-ventricles.sh}
 
 \noindent Prior to this call, we allow for including the fourth
 ventricle and aqueduct by setting the \emp{matchval} variable, and
 we set the \emp{num\_smoothing} iterations:
-\lstinputlisting[style=bashStyle,firstline=7,lastline=15]{mri2fem/mri2fem/chp4/extract-ventricles.sh}
+\lstinputlisting[style=bashStyle,firstline=7,lastline=15]{../mri2fem/mri2fem/chp4/extract-ventricles.sh}
 
 \noindent It is suggested to set \emp{num\_smoothing} to an
 integer value between $1$ and $5$. The resulting ventricular surfaces
@@ -415,7 +415,7 @@ iterations \emp{num\_closing} and minimal largest cluster size
 iterations relatively low (e.g.~to 1 or 2). Setting the number of closing
 iterations too high can cause non-physiological connections in the
 resulting ventricular surface.
-\lstinputlisting[style=bashStyle,firstline=16,lastline=46]{mri2fem/mri2fem/chp4/extract-ventricles.sh}
+\lstinputlisting[style=bashStyle,firstline=16,lastline=46]{../mri2fem/mri2fem/chp4/extract-ventricles.sh}
 
 \begin{figure}%\sidecaption
   \centering
