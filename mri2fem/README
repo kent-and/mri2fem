@@ -1,0 +1,12 @@
+Software collection for 
+
+Mathematical modeling of the human brain
+From magnetic resonance images to finite element simulation
+
+by
+
+Kent-Andre Mardal, Marie E. Rognes, Travis B. Thompson, and Lars Magnus Valnes
+
+
+Python modules, Bash scripts, and input files organized by chapter but
+with otherwise minimal structure for the sake of readability.
