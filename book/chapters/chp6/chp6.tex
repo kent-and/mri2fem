@@ -1,39 +1,47 @@
 \chapter{Simulating anisotropic diffusion in heterogeneous brain regions}
 \label{chp:chp6}
 
+In this chapter, we return to our model problem~\eqref{eq:diffusion}
+and bring together the different tools and techniques introduced in
+Chapters~\ref{chp:chp3}--\ref{chap:dti}. The computational domain will
+be determined from T1 data and divided into grey and white matter
+subdomains, DTI data will be employed in the construction of the
+heterogeneous and anisotropic diffusion tensor, and select specific
+sub-regions, such as the hippocampus, will be selected to assess
+site-specific clearance.
 
-In this chapter, we bring together the different tools and techniques, discussed 
-throughout the text, to perform a comprehensive simulation of the following 
-continuous problem
-\begin{align}\label{eqn:chp6:model-problem}
-	\partial_t u = \Div\left(\tnsr{K(x)} \Grad u\right) + f,& \quad x\in\Omega \text{ and } t>0,\\
-	u=u_d(t,x),&\quad x\in\partial\Omega \text{ and } t>0, \\ 
-        u(0,x) =  u_0(x),&\quad x\in \Omega \text{ and } t=0.
-\end{align}
-The computational mesh, $\Omega_h$, is determined from T1 data and is  
-divided into grey and white matter subdomains; DTI data is employed in the 
-construction of the diffusion tensor, $K(x)$, and select specific  
-sub-regions, such as the hippocampus, will be selected to assess site-specific 
-clearance.  For a point $x$ in the gray matter, $K(x)$ is known to be isotropic and can 
-therefore be approximated by a scalar.  In the grey matter, the mean values of 
-the apparent diffusion coefficient of water in young and healthy subjects is known 
-to in the range of $0.78-1.09 \times 10^{-3} \mbox{mm}^2 /\mbox{s}$.  In the white 
-matter, $K(x)$ is anisotropic and is represented as a symmetric, positive definite 
-$3\times 3$ matrix with an apparent diffusion coefficient in the range of 
-$0.7-0.9 \times 10^{-3}\mbox{mm}^2/\mbox{s}$ (c.f.~\cite{helenius2002diffusion}). 
+%% discussed 
+%% throughout the text, to perform a comprehensive simulation of the following 
+%% continuous problem
+%% \begin{align}\label{eqn:chp6:model-problem}
+%% 	\partial_t u = \Div\left(\tnsr{K(x)} \Grad u\right) + f,& \quad x\in\Omega \text{ and } t>0,\\
+%% 	u=u_d(t,x),&\quad x\in\partial\Omega \text{ and } t>0, \\ 
+%%         u(0,x) =  u_0(x),&\quad x\in \Omega \text{ and } t=0.
+%% \end{align}
 
-In practice, one must first address data and mesh-resolution issues 
-informing $K(x)$ and $\Omega_h$.  For instance, raw diffusion tensor data can exhibit 
-a certain degree of sharp, or rough, transitions in addition to noise; 
-c.f.~Fig~\ref{fig:chp5:freesurfer-parc}.  This is particularly true in the grey 
-matter proximal to the cerebrospinal fluid.  Here, we assume that the DTI data 
-has been suitably smoothed, and de-noised, for use in simulations.  In addition, 
-we must contend with the critical question of ascertaining a suitable mesh resolution; 
-this consideration directly impacts the computational costs and results.
-A resolution which is suitable to provide reliable estimates of the clearance, 
-or spread, of molecules of difference sizes is essential; however, we also seek 
-to avoid over-resolving the mesh to avoid incurring an unnecessary computational 
-costs.  
+
+%% The computational mesh, $\Omega_h$, is determined from T1 data and is  
+%% divided into grey and white matter subdomains; DTI data is employed in the 
+%% construction of the diffusion tensor, $K(x)$, and select specific  
+%% sub-regions, such as the hippocampus, will be selected to assess site-specific 
+%% clearance.  For a point $x$ in the gray matter, $K(x)$ is known to be isotropic and can 
+%% therefore be approximated by a scalar.  In the grey matter, the mean values of 
+%% the apparent diffusion coefficient of water in young and healthy subjects is known 
+%% to in the range of $0.78-1.09 \times 10^{-3} \mbox{mm}^2 /\mbox{s}$.  In the white 
+%% matter, $K(x)$ is anisotropic and is represented as a symmetric, positive definite 
+%% $3\times 3$ matrix with an apparent diffusion coefficient in the range of 
+%% $0.7-0.9 \times 10^{-3}\mbox{mm}^2/\mbox{s}$ (c.f.~\cite{helenius2002diffusion}). 
+
+In practice, one should first address data and mesh-resolution
+issues. For instance, raw DTI data can exhibit rough transitions as
+well as noise. This is particularly true in the grey matter proximal
+to the cerebrospinal fluid (see e.g.~Figs.~\ref{fig:chp5:DTIfa} and
+\ref{fig:chp5:freesurfer-parc}). Here, we assume that the DTI data has
+been suitably smoothened and de-noised for use in simulations. In
+addition, we must ascertain a mesh resolution that is suitable to
+provide reliable estimates of the spread and clearance of different
+molecules. while avoiding the unnecessary computational costs
+associated with over-resolving the mesh.
 
 %\kent{In the 3D simulations we actually do not estimate clearance but rather 
 %the spread of Amyloid beta from CSF and into the brain. I think I have read that 
@@ -43,115 +51,129 @@ costs.
 %\tbt{hippocampus, it is an anatomical region and not a proper noun}
 
 %\section{Clearance in a 1D brain}\label{sec:chp6:1D-tests}
-\section{Molecular diffusion in 1D}\label{sec:chp6:1D-tests}
-In order to estimate the required spatial mesh resolution, discrete time step, 
-and the time scale of solute clearance, it is useful to consider 
-\eqref{eqn:chp6:model-problem} in one dimension.  Molecules of different sizes 
-are also considered; in particular, Amyloid-beta, the tracer Gadovist, and water.  
-The effective diffusion constant, $D$, for these three molecules are estimated to 
-be $6.2e-5 \mbox{mm}^2/\mbox{s}$, $1.3e-4 \mbox{mm}^2/\mbox{s}$ and 
-$1.1e-3 \mbox{mm}^2/\mbox{s}$, respectively~\cite{waters2010concentration,valnes2020apparent}. 
-In one dimension, the parabolic diffusion problem \eqref{eqn:chp6:model-problem} 
-admits a simple analytic solution for the initial and boundary conditions 
-$u_0(x)=0$, $u(0,t)=1$ and $u(\infty,t)=0$.  The analytic solution is 
+
+\section{Molecular diffusion in 1D}
+\label{sec:chp6:1D-tests}
+
+In order to estimate the required spatial mesh resolution, discrete
+time step, and the time scale of solute clearance, it is useful to
+first consider~\eqref{eq:diffusion} in one dimension for different
+molecules. Here, we consider the protein fragment Amyloid-beta
+(A$\beta$) associated with neurodegenerative
+disease~\cite{iliff2012paravascular}, the tracer Gadobutrol used in
+glymphatic MRI imaging~\cite{ringstad2018brain}, and water. The
+effective diffusion coefficient $K$ in brain tissue for each of these
+molecules is estimated to be $6.2 \times 10^{-5}$ mm$^2$/s,
+$1.3 \times 10^{-4}$ mm$^2$/s, and $1.1 \times 10^{-3}$ mm$^2$/s,
+respectively~\cite{waters2010concentration,valnes2020apparent}.
+
+\subsection{Analytical solution}
+
+In one dimension, and over the domain $(0, \infty)$, the parabolic
+diffusion problem \eqref{eq:diffusion} with $u_0(x)=0$, $u(0, t) = 1$
+and $u(\infty, t) = 0$ admits a simple analytic solution:
 \begin{equation}
-\label{analytical:1D}
-u(x,t) =  \mbox{erfc}(x / (2 \sqrt{D t})),
+  \label{eq:analytical:1D}
+  u(x,t) =  \mbox{erfc}(x / (2 \sqrt{D t})). 
 \end{equation}
-and a plot of \eqref{analytical:1D} appears in Figure~\ref{fig:chp6:analytics} 
-for a 2mm slice (left) and 1cm slice (middle), after 9 hours, alongside a 1cm slice 
-after 24 hours (right).  It is evident, from Figure~\ref{fig:chp6:analytics}, that 
-diffusion is a slow process.  Figure~\ref{fig:chp6:analytics} (left) shows that 
-significant clearance occurs within 2mm of the boundary at the nine hour time point; 
-however, 1cm away it is observed that the heavier molecules, Amyloid-beta and Gadovist, 
-have concentrations near zero.  
+
+Figure~\ref{fig:chp6:analytics} shows solutions
+of~\eqref{eq:analytical:1D} zooming in on the first 2 mm of the domain
+(left) and the first 10 mm after 9 hours, and the first 10 mm after 24
+hours (right). It is evident that diffusion is a slow process:
+significant concentration changes occur within 2 mm of the boundary
+after nine hours; however, 1 cm away that the heavier molecules,
+Amyloid-beta and Gadovist, still have concentrations near zero. The
+source code for generating these plots is available in
+\emp{mri2fem/chp6/analytical\_1D.py}.
 \begin{figure}	
-\includegraphics[width=0.32\textwidth]{./chapters/chp6/FIG/9hours_2mm_WAG}
-\includegraphics[width=0.32\textwidth]{./chapters/chp6/FIG/9hours_1cm_WAG}
-\includegraphics[width=0.32\textwidth]{./chapters/chp6/FIG/24hours_1cm_WAG}
-\caption{
-Diffusion %of Amyloid-beta, Gadovist and water 
-according to \eqref{analytical:1D}; concentration (y-axis) 
-versus distance (x-axis). Concentration in a 2mm slice (left) and 1cm slice (middle) after 9 hours and 
-in a 1cm slice (right) after 24 hours. 
-}
-\label{fig:chp6:analytics}
+  \includegraphics[width=0.32\textwidth]{./chapters/chp6/FIG/9hours_2mm_WAG}
+  \includegraphics[width=0.32\textwidth]{./chapters/chp6/FIG/9hours_1cm_WAG}
+  \includegraphics[width=0.32\textwidth]{./chapters/chp6/FIG/24hours_1cm_WAG}
+  \caption{Diffusion according to \eqref{eq:analytical:1D}:
+    concentration (y-axis, arbitrary unit) versus distance from the
+    source/left boundary (x-axis, mm) after 9 hours (left, middle) and
+    24 hours (right).}
+  \label{fig:chp6:analytics}
 \end{figure}
-%\kent{axis font and legend ok or too small?}
-%\tbt{they are ok}
 
-Equation \eqref{eqn:chp6:model-problem} is then discretized using the finite element 
-approach discussed in Chapter~\ref{chp:chp3}.  The source code for the one-dimensional 
-analytic solution \eqref{analytical:1D} and one-dimensional discretization of  
-\eqref{eqn:chp6:model-problem} are provided, in full, in the files \emp{analytical\_1D.py} 
-and \emp{diffusion\_1D.py}, respectively.  The sharp change in the boundary-versus-initial 
-conditions for our model problem can lead to numerical oscillations in the finite element 
-solution when using the standard Galerkin method, as discussed in Chapter~\ref{chp:chp3}.  
-Such oscillations diminish with refinement; they can also be avoided through the use of 
-so-called monotonic or maximum principle preserving schemes.  Another common method, 
-that we consider here, for Galerkin finite element schemes is called mass lumping.
+\subsection{Numerical solution and handling numerical artifacts}
 
-Figures \ref{fig:chp6:numerics1} and \ref{fig:chp6:numerics2} depict the standard 
-Galerkin solution and mass-lumped Galerkin solution, respectively, for different 
-configurations.  Figure \ref{fig:chp6:numerics1} shows the distribution of Amyloid-beta 
-in a 5cm slice, after 30 minutes, using the standard (left) and mass-lumped (right) 
-Galerkin approach; for coarse resolutions (N=10 or N=20) the standard approach (left) 
-yields considerable non-physical oscillations while the mass-lumped solution (right) 
-produces significant numerical diffusion.  Figure \ref{fig:chp6:numerics2} shows the 
-long-term diffusive behaviour, over nine hours, in a 5mm slice.  In the long-term 
-context, the Galerkin scheme (Figure~\ref{fig:chp6:numerics2}, left) is clearly 
-desirable when contrasted with the overly-diffusive mass-lumped Galerkin 
-approach (Figure~\ref{fig:chp6:numerics2}, right); the former allows for a spatial 
-resolution of $N=10$ or $N=20$ while the latter requires $N=40$ or $N=80$ to control 
-the numerical diffusion.  Essentially, the initial error from the short-term Gibbs 
-phenomena, from the discontinuous initial data, in Figure~\ref{fig:chp6:numerics1} (left) 
-is no match for the long-term regularizing effect of the parabolic PDE 
-\eqref{eqn:chp6:model-problem}; thus, these early errors do not contribute much 
-to the long-term numerical solution.  
-
-The results of Figures~\ref{fig:chp6:numerics1} and \ref{fig:chp6:numerics2} suggest 
-that, if we are interested in long-term dynamics, a time-step size of 
-$\Delta t \approx 6/540$ with spatial resolution of $N=10$ or $N=20$, corresponding 
-roughly to a quasi-uniform mesh simplicial diameter of $0.25 \mbox{mm} \leq h \leq 0.5 \mbox{mm}$, is 
-a good starting target for the standard Galerkin approach in our 3D discretization.  
-Conversely, a mesh size of $N=80$, or $h\approx 6.25\times 10^{-2}\mbox{mm}$, is needed 
-for the mass-lumped case; this would be a much more costly choice on a 3D 
-mesh if the short term dynamics, of Figure~\ref{fig:chp6:numerics1}, need not be 
-resolved. 
+We next discretize \eqref{eq:diffusion} using the finite element
+method (as described in Chapter~\ref{chp:chp3}). Note however that the
+sharp change in the boundary versus initial conditions for our model
+problem can lead to artificial oscillations in the numerical
+solution. Such oscillations often diminish with refinement; they can
+also be avoided through the use of monotonic or maximum principle
+preserving schemes. Another common method, which we consider here, for
+Galerkin finite element schemes is called mass lumping~\cite{}. We
+provide FEniCS-based source code for the finite element solution
+of~\eqref{eq:diffusion} with and without mass lumping in
+\emp{mri2fem/chp6/diffusion\_1D.py}. To use this script, see e.g.
+\terminal{\$ cd mri2fem/chp6 \\
+\$ python3 diffusion\_1D.py -{}-help}
 
 
 \begin{figure}	
 \includegraphics[width=0.49\textwidth]{./chapters/chp6/FIG/Amyloid_numerical_1D_L_max50_dt300_final1800_lumpednot.png}
-\includegraphics[width=0.49\textwidth]{./chapters/chp6/FIG/Amyloid_numerical_1D_L_max50_dt300_final1800_lumpedlumped.png}
+\includegraphics[width=0.49\textwidth]{./chapters/chp6/FIG/Amyloid_numerical_1D_L_max50_dt300_final1800_lumpedlumped.png} \\
+\includegraphics[width=0.49\textwidth]{./chapters/chp6/FIG/Amyloid_numerical_1D_L_max5_dt300_final32400_lumpednot.png}
+\includegraphics[width=0.49\textwidth]{./chapters/chp6/FIG/Amyloid_numerical_1D_L_max5_dt300_final32400_lumpedlumped.png}
 \caption{
 %Distribution of Amyloid-beta over 5 cm at different after 30 minutes with time step of 6 minutes are shown in the left 
 %and right figure, respectively. The leftmost picture shows a standard Galerkin scheme, while a lumped mass matrix is used
 %for the rightmost illustration.
-Solution of \eqref{eqn:chp6:model-problem} over a 5cm slice, final time T=30 min and $\Delta t = 6/30$. 
-Amyloid-beta concentration (y-axis) v.s.~length (x-axis). Standard Galerkin (left) and mass-lumped 
-Galerkin (right) discrete schemes. 
-}
-\label{fig:chp6:numerics1}
+  Comparison of standard Galerkin (left) and mass-lumped (right)
+  finite element schemes of the diffusion
+  equation~\eqref{eq:diffusion} in 1D over $\Omega = (0, 50)$
+  mm. Amyloid-beta concentration (y-axis, arbitrary unit) versus
+  length (x-axis, mm). Upper row: Solution at time $t = 30$ min with
+  $\Delta t = 6/30$. Lower row: Solution at time $t = 9$ hours and
+  $\Delta t = 6/540$.}
+\label{fig:chp6:numerics}
+\mer{@Kent: Could you use same unit for both rows on the x-axis? Also,
+  what is the unit for the $\Delta$ t?}
 \end{figure}
 
-\begin{figure}	
-\includegraphics[width=0.49\textwidth]{./chapters/chp6/FIG/Amyloid_numerical_1D_L_max5_dt300_final32400_lumpednot.png}
-\includegraphics[width=0.49\textwidth]{./chapters/chp6/FIG/Amyloid_numerical_1D_L_max5_dt300_final32400_lumpedlumped.png}
-\caption{
-%Distribution of Amyloid-beta over 5 mm at different after 9 hours with time step of 6 minutes are shown in the left 
-%and right figure, respectively. The leftmost picture shows a standard Galerkin scheme, while a lumped mass matrix is used
-%for the rightmost illustration.
-Solution of \eqref{eqn:chp6:model-problem} over a 5cm slice, final time T=9h and $\Delta t = 6/540$. 
-Amyloid-beta concentration (y-axis) v.s.~length (x-axis). Standard Galerkin (left) and mass-lumped 
-Galerkin (right) discrete schemes. 
-}
-\label{fig:chp6:numerics2}
-\end{figure}
+The standard and mass-lumped finite element solutions are shown in
+Figure~\ref{fig:chp6:numerics} at different times and with different
+time steps. Early, for coarse resolutions (N = 10 or N=20), the
+standard approach yields considerable non-physical oscillations while
+the mass-lumped solution (right) produces significant numerical
+diffusion. However, in the longer term context, the standard Galerkin
+scheme is clearly desirable: the former allows for a spatial
+resolution of $N=10$ or $N=20$ while the latter requires $N=40$ or
+$N=80$ to control the numerical diffusion. Essentially, the initial
+error from the short-term Gibbs phenomena, from the discontinuous
+initial data is no match for the long-term regularizing effect of the
+parabolic PDE; thus, these early errors do not contribute much to the
+long-term numerical solution.
+
+In conclusion, these results suggest that, if we are interested in
+long-term dynamics, a time-step size of $\Delta t \approx 6/540$ with
+a spatial resolution of $N=10$ or $N=20$, corresponding roughly to a
+quasi-uniform mesh cell diameter of $0.25$ mm $\leq h \leq 0.5$ mm, is
+a good starting target for the standard Galerkin approach in our 3D
+discretization. Conversely, a mesh size of $N = 80$, or $ h \approx
+6.25\times 10^{-2}$ mm is needed for the mass-lumped case; this would
+be a much more costly choice on a 3D mesh -- and unnecessary if the
+short term dynamics need not be resolved.
+
+\section{Anisotropic Amyloid-beta diffusion in brain regions}
+%\label{sec:chp6:3D}
+
+%% For a point $x$ in the gray matter, $K(x)$ is known to be isotropic
+%% and can therefore be approximated by a scalar. In the grey matter,
+%% the mean values of the apparent diffusion coefficient of water in
+%% young and healthy subjects is known to in the range of $0.78-1.09
+%% \times 10^{-3} \mbox{mm}^2 /\mbox{s}$.  In the white matter, $K(x)$ is
+%% anisotropic and is represented as a symmetric, positive definite
+%% $3\times 3$ matrix with an apparent diffusion coefficient in the range
+%% of $0.7-0.9 \times 10^{-3}\mbox{mm}^2/\mbox{s}$
+%% (c.f.~\cite{helenius2002diffusion}).
 
 
 
-%\section{Estimating clearance rate in selected regions, with DTI}\label{sec:chp6:3D}
-\section[Estimating regional anisotropic Amyloid-beta diffusion ]{Estimating regional anisotropic Amyloid-beta diffusion with DTI in a 3D brain domain}\label{sec:chp6:3D}
 In this section we consider simulations involving Amyloid-beta.  As the molecule 
 with lowest apparent molecular diffusivity, Amyloid-beta is the most difficult 
 to simulate numerically.  
