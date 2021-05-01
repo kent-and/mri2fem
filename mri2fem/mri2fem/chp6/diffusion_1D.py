@@ -8,7 +8,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--L_max',default=10, type=int)      
-parser.add_argument('--Ns',default=100, type=int, nargs='+')      
+parser.add_argument('--Ns',default=[10, 20, 40, 80], type=int, nargs='+')      
 parser.add_argument('--dt',default=100, type=int)      
 parser.add_argument('--final_time', default=9*60*60, type=float)
 parser.add_argument('--lumped',default="lumped", type=str)      
@@ -92,15 +92,15 @@ xx = scipy.arange(0, args.L_max, 0.001)
 analytical_solution = erfc(xx / (2*sqrt( D.values()[0] * t))) 
 
 import matplotlib.pyplot as plt 
-plt.rc('xtick', labelsize=16) 
-plt.rc('ytick', labelsize=16) 
+plt.rc('xtick', labelsize=20) 
+plt.rc('ytick', labelsize=20) 
 
 for x, vec in numerical_solutions: 
     plt.plot(x, vec, linewidth=7)
 plt.plot(xx, analytical_solution, linewidth=7)
 legend = ["N=%d"%N for N in args.Ns]
 legend.append("analytical sol")
-plt.legend(legend,  prop={"size" : 16}, loc=1)
+plt.legend(legend,  prop={"size" : 20}, loc=1)
 file_str = "Amyloid_numerical_1D_L_max%d_dt%d_final%d_lumped%s"% (args.L_max,args.dt, args.final_time,args.lumped)
 plt.savefig(file_str)
 plt.show()
