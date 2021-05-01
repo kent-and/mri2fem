@@ -5,7 +5,7 @@ import numpy
 mesh = Mesh()
 file = XDMFFile(MPI.comm_world, "ernie.xdmf") # mm 
 file.read(mesh)
-
+file.close()
 # Compute and print basic info about the mesh
 print("#vertices =", mesh.num_vertices())
 print("#cells =", mesh.num_cells())
@@ -18,7 +18,7 @@ tau = Constant(3.0)   # Time step (min)
 time = Constant(0.0)
 
 # Define the diffusion parameter
-K = Constant(7.2e-3)  # mm^2/min
+D = Constant(7.2e-3)  # mm^2/min
 
 # Define the source function and initial condition
 f = Constant(0.0)
@@ -35,11 +35,14 @@ u_ = Function(V)   # AU (Arbitrary Unit)
 u_.assign(u0)
 
 # Define the variational system to be solved at each time
-a = (u*v + tau*K*dot(grad(u), grad(v)))*dx
+a = (u*v + tau*D*dot(grad(u), grad(v)))*dx
 L = (u_*v + tau*f*v)*dx
 
 # (Re-)define u as the solution at the current time 
 u = Function(V)    # AU
+
+# Rename u to Concentration and have unit M (Molar)
+u.rename("Concentration","M")
 
 # Define the boundary condition: grow linearly up
 # to the value c in the first 6 hours:

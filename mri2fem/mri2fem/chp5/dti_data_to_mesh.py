@@ -4,7 +4,7 @@ import nibabel # importing nibabel after dolfin will cause error
 from nibabel.affines import apply_affine
 from dolfin import * 
 
-def adjusting_mean_diffusivity(Dtensor, subdomains_array,tags_with_limits) :
+def adjusting_mean_diffusivity(Dvector, subdomains,tags_with_limits) :
     # Computes the mean diffusivity for each degree of freedom
     MD = (Dvector[:,0]+Dvector[:,4]+Dvector[:,8])/3.
     
@@ -73,7 +73,7 @@ def dti_data_to_mesh(meshfile, dti, outfile, label=None):
     
     # Further manipulate data (described better later)
     if label:
-        adjust_mean_diffusivity(D1, subdomains, Zlabel) 
+       adjusting_mean_diffusivity(D1, subdomains, label) 
 
     # Assign the output to the tensor function 
     D.vector()[:] = D1.reshape(-1) 
@@ -82,7 +82,7 @@ def dti_data_to_mesh(meshfile, dti, outfile, label=None):
     md = 1./3.*tr(D)
     MD = project(md, DG0, solver_type="cg", preconditioner_type="amg") 
     fa = sqrt((3./2)*inner(dev(D), dev(D))/inner(D, D))
-    FA = project(fa, DG0, solver_type="cg", preconditioner_type="amg")
+    FA = project(fa, DG0)
 
     # Now store everything to a new file - ready for use!
     hdf = HDF5File(mesh.mpi_comm(), outfile, 'w')
@@ -99,10 +99,10 @@ if __name__ =='__main__':
     # Create parser for command line arguments for files and filenames
     # TODO: Write about arguments or simplify in the book!
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dti', type=str, default="")   
+    parser.add_argument('--dti' , type=str, default="")   
     parser.add_argument('--mesh', type=str) 
-    parser.add_argument('--out', type=str) 
-    parser.add_argument('--label', action='append',nargs=3, help ="--label TAG MIN MAX. The value of zero is considered void."  ) 
+    parser.add_argument('--out' , type=str) 
+    parser.add_argument('--label', type=float, action='append',nargs=3, help ="--label TAG MIN MAX. The value of zero is considered void."  ) 
     Z = parser.parse_args()
 
     dti_data_to_mesh(Z.mesh, Z.dti, Z.out, Z.label)

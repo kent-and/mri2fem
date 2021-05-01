@@ -20,12 +20,14 @@ if not "SUBJECTS_DIR" in os.environ.keys():
 else :
     print("\t=> FreeSurfer configuration found")
 
+
 print("\nChecking license file.",end = '') 
-if not os.path.exists(os.environ["FREESURFER_HOME"]+"/license.txt"): 
-   print("\n\tNo FreeSurfer license")   
-   error=True
-else: 
+if os.path.exists(os.environ["FREESURFER_HOME"]+"/license.txt") or \
+   os.path.exists(os.environ["FREESURFER_HOME"]+"/.license")  : 
    print("\t=> Found license file.")    
+else: 
+   print("\n\tNo FreeSurfer license")   
+   error=True  
    
 print("\nChecking FSL directory.",end = '') 
 if not "FSL_DIR" in os.environ.keys():
@@ -39,11 +41,13 @@ else:
 from subprocess import call,check_output
 
 print("\nChecking tcsh installation.",end = '')
-if "bin/tcsh" in str(check_output(["dpkg","-S","/bin/tcsh"])):
+
+try :
+    "bin/tcsh" in str(check_output(["dpkg","-S","/bin/tcsh"]))
     print("\t=> tcsh installed")
-else : 
+except : 
     print("\n\n\ttcsh is not installed")
-    print("\tTo install type\n \tsudo apt install tcsh \n\tin the terminal") 
+    print("\tTo install type\n \tsudo apt-get install tcsh \n\tin the terminal") 
     error=True
  
 
@@ -55,7 +59,7 @@ try :
    print("\t=> pip installed") 
 except : 
    print("\n\n\tpip is not installed")
-   print("\tTo install type\n \t\t sudo apt install pip \nin the terminal")
+   print("\tTo install type\n \t\t sudo apt-get install pip \nin the terminal")
    error=True
 
 print("\nChecking meshio with h5py installation.",end = '')  
@@ -67,11 +71,28 @@ except:
     print("\tTo install type\n \t\t pip install meshio[all] \nin the terminal")
     error=True
 
+print("\nChecking matplotlib  installation.",end = '')  
+try : 
+    import matplotlib 
+    print("\t=> matplotlib installed")  
+except:
+    print("\n\n\tmatplotlib is not installed") 
+    print("\tTo install type\n \t\t pip install matplotlib\nin the terminal")
+    error=True
+
+print("\nChecking scipy installation.",end = '')  
+try : 
+    import scipy 
+    print("\t=> scipy installed")  
+except:
+    print("\n\n\tscipy is not installed") 
+    print("\tTo install type\n \t\t pip install scipy\nin the terminal")
+    error=True
 
 print("\nChecking SVMTK installation.",end = '') 
 try : 
     import SVMTK 
-    print("\tSVMTK installed") 
+    print("\t=> SVMTK installed") 
 except:
     print("\n\n\tSVMTK is not found") 
     print("\tFollow the installation guide at\n \thttps://github.com/SVMTK/SVMTK\n")
@@ -88,3 +109,7 @@ except:
 #if error:
 #   print("\nIf errors presists, try to use the book docker image at")
 #   print("fill inn")  
+
+
+
+

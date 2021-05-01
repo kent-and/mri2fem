@@ -14,8 +14,8 @@ def check_dti_data(dti_file, mask_file, order=0):
    mask = mask_image.get_fdata().astype(bool) 
 
    # Examine the differences in shape
-   print(dti_data.shape)
-   print(mask.shape)
+   print("dti shape  ", dti_data.shape)
+   print("mask shape ", mask.shape)
    M1, M2, M3 = mask.shape
 
    # Create an empty image as a helper for mapping
@@ -28,14 +28,14 @@ def check_dti_data(dti_file, mask_file, order=0):
    # Resample the DTI data in the T1 voxel space: 
    image = resample_from_to(dti_image, helper, order=order) 
    D = image.get_fdata() 
-   print(D.shape)
+   print("resampled image shape ", D.shape)
    
    # Reshape D from M1 x M2 x M3 x 9 into a N x 3 x 3:
    D = D.reshape(-1, 3, 3)
    
    # Compute eigenvalues and eigenvectors
    lmbdas, v = numpy.linalg.eigh(D)
-
+   
    def compute_FA(lmbdas):
       MD = (lmbdas[:,0] + lmbdas[:,1] + lmbdas[:,2])/3.
       FA2 = (3./2.)*((lmbdas[:, 0]-MD)**2+(lmbdas[:,1]-MD)**2
@@ -54,8 +54,10 @@ def check_dti_data(dti_file, mask_file, order=0):
 
    # Find all voxels with invalid tensors within the mask
    ii, jj, kk = numpy.where((~valid)*mask)
-   print("Number of invalid tensor voxels")
-   print("in the mask ROI: ", len(ii)) 
+   print("Number of invalid tensor voxels within the mask ROI: ", len(ii)) 
+
+   # Reshape D from N x 3 x 3 to M1 x M2 x M3 x 9
+   D = D.reshape((M1,M2,M3,9))
 
    return valid, mask, D
 

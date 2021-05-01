@@ -1,8 +1,7 @@
 import argparse
-import meshio
-from dolfin import * 
 
-def write_mesh_to_xdmf(meshfile, xdmfdir): 
+def write_mesh_to_xdmf(meshfile, xdmfdir):
+    import meshio
     # Read the .mesh file into meshio 
     mesh = meshio.read(meshfile)
 
@@ -27,24 +26,25 @@ def write_mesh_to_xdmf(meshfile, xdmfdir):
     meshio.write("%s/boundaries.xdmf" % xdmfdir, xdmf)
     
 def write_xdmf_to_h5(xdmfdir, hdf5file):
+    import dolfin as df
     # Read .xdmf mesh into a FEniCS Mesh
-    mesh = Mesh()
-    with XDMFFile("%s/mesh.xdmf" % xdmfdir) as infile:
+    mesh = df.Mesh()
+    with df.XDMFFile("%s/mesh.xdmf" % xdmfdir) as infile:
         infile.read(mesh)
         
     # Read cell data to a MeshFunction (of dim n)
     n = mesh.topology().dim()
-    subdomains = MeshFunction("size_t", mesh, n)
-    with XDMFFile("%s/subdomains.xdmf" % xdmfdir) as infile:
+    subdomains = df.MeshFunction("size_t", mesh, n)
+    with df.XDMFFile("%s/subdomains.xdmf" % xdmfdir) as infile:
         infile.read(subdomains, "subdomains")
         
     # Read facet data to a MeshFunction (of dim n-1)
-    boundaries = MeshFunction("size_t", mesh, n-1, 0)
+    boundaries = df.MeshFunction("size_t", mesh, n-1, 0)
     #with XDMFFile("%s/boundaries.xdmf" % xdmfdir) as infile:
     #    infile.read(boundaries, "boundaries")
 
     # Write all files into a single h5 file.
-    hdf = HDF5File(mesh.mpi_comm(), hdf5file, "w")
+    hdf = df.HDF5File(mesh.mpi_comm(), hdf5file, "w")
     hdf.write(mesh, "/mesh")
     hdf.write(subdomains, "/subdomains")
     hdf.write(boundaries, "/boundaries") 

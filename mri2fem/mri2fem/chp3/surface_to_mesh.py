@@ -18,6 +18,5 @@ create_volume_mesh("lh.pial.stl", "lh.mesh")
 create_volume_mesh("lh.pial.stl", "lh64.mesh", 64)
 
 # Create mesh from the smoother surface
-if False:
-    create_volume_mesh("lh.pial.smooth.stl", "ernie.mesh")
+create_volume_mesh("lh.pial.smooth.stl", "ernie.mesh")
 
