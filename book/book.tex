@@ -6,48 +6,17 @@
 %
 %%%%%%%%%%%%%%%% Springer-Verlag %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-% RECOMMENDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[graybox,envcountchap]{svmono}
 \usepackage[paperwidth=17cm, paperheight=24cm]{geometry}
-% choose options for [] as required from the list
-% in the Reference Guide
-
-%\usepackage{mathptmx}
-%\usepackage{helvet}
-%\usepackage{courier}
-%
-
-% ------------------------------
-% --- Originally uncommented ---
-% ------------------------------
-% See: ./headers/packages.tex
-
-%\usepackage{type1cm}         
-%
 \usepackage{makeidx}         % allows index generation
-%\usepackage{graphicx}        % standard LaTeX graphics tool
-%                             % when including figure files
 \usepackage{multicol}        % used for the two-column index
-%\usepackage[bottom]{footmisc}% places footnotes at page bottom
-%
-%\usepackage{newtxtext}       % 
-%\usepackage{newtxmath}       % selects Times Roman as basic font
-
 
 \input{./headers/packages}
 \input{./headers/macros}
-%\input{./headers/style}
-
-
-% see the list of further useful packages
-% in the Reference Guide
 
 \makeindex             % used for the subject index
                        % please use the style svind.ist with
                        % your makeindex program
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
@@ -56,50 +25,31 @@
 \subtitle{From magnetic resonance images to finite element simulation}
 \maketitle
 
-%\includegraphics[width=0.95\textwidth]{./front.png}
-\frontmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\setcounter{chapter}{1}
-%\include{dedication}
+\frontmatter
+\include{dedication}
 \include{foreword}
 \include{preface}
-%\include{acknowledgement}
 
 \setcounter{tocdepth}{1}
 \tableofcontents
 
-%\include{acronym}
-
-\mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\include{part}
+\mainmatter
 
 %-------------------------------------------------------------------------------
-%-------------------------------------------------------------------------------
-\input{./chapters/chp1/chp1}
-
-\input{./chapters/chp2/chp2}
-
-\input{./chapters/chp3/chp3}
-
-\input{./chapters/chp4/chp4}
-
-\input{./chapters/chp5/chp5}
-
-\input{./chapters/chp6/chp6}
+\input{./chapters/chp1}
+\input{./chapters/chp2}
+\input{./chapters/chp3}
+\input{./chapters/chp4}
+\input{./chapters/chp5}
+\input{./chapters/chp6}
 
 \newpage
 
-%\include{appendix}
-
-\backmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\include{glossary}
-%\include{solutions}
+\backmatter
 \printindex
 
 \bibliographystyle{siamplain}
 \bibliography{bibliography}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
 

@@ -67,7 +67,7 @@
 
 
 
-\node[ rectangle,align=right, minimum width =2.5cm , text width=2.4cm,  align=right,  draw,opacity=0,text opacity=1 ] (boxtxt1) at (-2.0, -2.9) 
+\node[ rectangle,align=right, minimum width =2.5cm , text width=2.4cm,  align=right,  draw,opacity=0,text opacity=1 ] (boxtxt1) at (-2.0, -2.96) 
 {Chapter 5 \\ mri\_convert \\ dt\_recon };
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
@@ -75,15 +75,15 @@
 
 \node [block,draw=blue!50,fill=white!10,text width=2.4cm, align=center ,line width=1.mm, minimum width =2.5cm,minimum height =0.55cm] (Freesurfer header) at (2.1,-2.0) {Segmentation};
 
-\node[ rectangle,align=left, minimum width =2.5cm ,  text width=3.8cm, align=left,draw,opacity=0,text opacity=1 ] (boxtxt1) at (2.4, -2.9) 
+\node[ rectangle,align=left, minimum width =2.5cm ,  text width=3.8cm, align=left,draw,opacity=0,text opacity=1 ] (boxtxt1) at (2.4, -2.96) 
 { Chapter 3 \& 4\\ recon\_all \\ mri\_binarize };
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \node [block,draw=blue!50, line width=3mm, minimum width =4.2cm,minimum height =3.8cm] (SVMTK) at (2.4,-7.5) {};
 
 \node [block,draw=blue!50,fill=white!10 ,line width=1.5mm, minimum width =1.5cm,minimum height =0.55cm] (SVMTK header) at (2.3,-5.6) { \hspace{0.1cm} SVMTK};
-\node[ rectangle,align=left, minimum width =2.5cm ,text width=3.8cm, align=left ,draw,opacity=0,text opacity=1 ] (boxtxt4) at (2.6, -6.8) 
-{ Chapter 4 \\ Surface repair \\ Mesh generation \\ Mesh tags };
+\node[ rectangle,align=left, minimum width =2.5cm ,text width=3.8cm, align=left ,draw,opacity=0,text opacity=1 ] (boxtxt4) at (2.6, -6.91) 
+{ Chapter 3 \& 4 \\ Surface repair \\ Mesh generation \\ Mesh tags };
 
 
 \node [block,draw=blue, line width=1mm, minimum width =2.8cm,minimum height =1.0cm] (MEshio) at (2.0,-8.6) {};
@@ -98,10 +98,12 @@
 \node [block,draw=blue!50,fill=white!10 ,line width=1.5mm,text width=3.5cm, align=center, minimum width =3.5cm,minimum height =0.55cm] (temp header) at (-2.4,-5.6) {Nibabel \& Numpy};
 
 
-\node[ rectangle,align=right, minimum width =2.5cm ,text width=3.3cm, align=right, draw,opacity=0,text opacity=1 ] (boxtxt5) at (-2.5, -6.6) 
+\node[ rectangle,align=right, minimum width =2.5cm ,text width=3.3cm, align=right, draw,opacity=0,text opacity=1 ] (boxtxt5) at (-2.2, -7.3) 
 { Chapter 5 \\
-  prep\_tensor.py \\
-  dti2dolfin.py 
+  check\_dti.py \\
+  clean\_dti\_data.py \\
+  \vspace*{0.8cm}
+  dti\_data\_to\_mesh.py \hspace{3pt} 
 
 
 
@@ -114,8 +116,8 @@
 
 \node [block,draw=blue!50,fill=white!10 ,line width=1.5mm, minimum width =2.5cm,minimum height =0.55cm] (Fenics header) at (0,-10) {\hspace{3mm}FEniCS};
 
-\node[ rectangle,align=left, minimum width =2.5cm ,  draw,opacity=0,text opacity=1 ] (boxtxt5) at (-1.0, -11.4) 
-{Chapter 4 \& 6\\ Scalar diffusion PDE \\ Tensor diffusion PDE\\   };
+\node[ rectangle,align=center, minimum width =2.5cm ,  draw,opacity=0,text opacity=1 ] (boxtxt5) at (0.0, -11.2) 
+{ Chapter 3 \& 6\\ Scalar diffusion PDE \vspace*{0.3cm} \\  Tensor diffusion PDE   };
 
 
 
@@ -180,27 +182,31 @@
                };
                
 \node[circle,draw,fill=white!10 ,minimum width=2.5cm ,draw=blue!50,line width=1.0mm,
-      path picture={   \node at (path picture bounding box.center){ \includegraphics[scale=0.1]{../../chp4/FIG/parcellation-coronalwhiteBG_2.png}}; } ] (parc) at (4.0,-3.65){
+      path picture={   \node at (path picture bounding box.center){ \includegraphics[scale=0.1]{../chp4/parcellation-coronalwhiteBG_2.png}}; } ] (parc) at (4.0,-3.65){
                    
                };
 \node[circle,draw,fill=white!10 ,minimum width=2.7cm ,draw=blue!50,line width=1.0mm,
-      path picture={   \node at (path picture bounding box.center){ \includegraphics[scale=0.12]{../../chp4/FIG/ernie-fullbrain-crop-b.png}}; } ] (MESH) at (4.7,-7.5){                   
+      path picture={   \node at (path picture bounding box.center){ \includegraphics[scale=0.10]{../chp4/ernie-final-comp-d.png}}; } ] (MESH) at (4.7,-7.5){                   
                };
 
 
 \node[circle,draw,fill=white!10 ,minimum width=2.6cm ,draw=blue!50,line width=1.0mm,
-      path picture={   \node at (path picture bounding box.center){ \includegraphics[scale=0.14]{../../chp5/FIG/fa.png}}; } ] (MESH) at (-4.0,-3.65){
+      path picture={   \node at (path picture bounding box.center){ \includegraphics[scale=0.14]{../chp5/fa.png}}; } ] (MESH) at (-4.0,-3.65){
                    
                };
 
 \node[circle,draw,fill=white!10 ,minimum width=3.0cm ,draw=blue!50,line width=1.0mm,
-      path picture={   \node at (path picture bounding box.center){ \includegraphics[scale=0.17]{../../chp5/FIG/fiber-dti.png}}; } ] (MESH) at (-4.5,-7.5){
+      path picture={   \node at (path picture bounding box.center){ \includegraphics[scale=0.17]{../chp5/fiber-dti.png}}; } ] (MESH) at (-4.8,-6.9){
                    
                };
 
 
 \node[circle,draw,fill=white!10 ,minimum width=3.0cm ,draw=blue!50,line width=1.0mm,
-      path picture={   \node at (path picture bounding box.center){ \includegraphics[scale=0.15]{../../chp3/FIG/mri-tracer/48h.png}}; } ] (MESH) at (3.0,-12){
+      path picture={   \node at (path picture bounding box.center){ \includegraphics[scale=0.15]{../chp3/mri-tracer/48h.png}}; } ] (MESH) at (-3.5,-11.6){
+                   
+               };
+\node[circle,draw,fill=white!10 ,minimum width=3.0cm ,draw=blue!50,line width=1.0mm,
+      path picture={   \node at (path picture bounding box.center){ \includegraphics[scale=0.14]{../chp6/Image3.png}}; } ] (NEW) at (3.3,-12.2){
                    
                };
 

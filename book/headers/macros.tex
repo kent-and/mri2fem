@@ -154,21 +154,9 @@
   \end{programcode}
   \vspace{-0.5em}
 }
-%\newcommand{\button}[1]{\emph{#1}}
+
 \newcommand{\button}[1]{\ovalbox{{#1}}}
 \newcommand{\name}[1]{"#1"}
-
-
-%% \newcommand{\texteditor}[1]{
-%% \begin{mdframed}
-%% \begin{programcode}{Text editor}%
-%% \parbox{0.98\textwidth}{#1}
-%% \end{programcode}
-%% \end{mdframed}
-%% }
-
-%\newenvironment{programcode}[1]{\ignorespaces\def\stmtopen##1{##1}%
-%\formtmp{programcode}{#1}}{\noindent\textcolor{programcode}{\rule{\columnwidth}{1pt}}\vskip2pt\par\addvspace{\baselineskip}}%
 
 
 % ------------------------------ %
@@ -184,84 +172,15 @@
 \definecolor{deepgreen}{rgb}{0,0.5,0}
 \definecolor{codebox}{gray}{0.92}
 
-% Python style for highlighting
-%% \newcommand\pythonstyle{\lstset{
-%% 	language=Python,
-%% 	basicstyle=\ttm,
-%% 	otherkeywords={self},             % Add keywords here
-%% 	keywordstyle=\ttb\color{deepblue},
-%% 	emph={MyClass,__init__},          % Custom highlighting
-%% 	emphstyle=\ttb\color{deepred},    % Custom highlighting style
-%% 	stringstyle=\color{deepgreen},
-%% 	commentstyle=\color{blue},
-%% 	frame=tb,                         % Any extra options here
-%% 	showstringspaces=false,            % 
-%% 	backgroundcolor = \color{codebox},
-%%     breaklines=true
-%% }}
-
-
-
-
-
-%% % Python environment
-%% \lstnewenvironment{python}[1][]
-%% {
-%% \pythonstyle
-%% \lstset{#1}
-%% }
-%% {}
-
-% Python for external files
-%% \newcommand\pythonexternal[2][]{{
-%%     \begin{python}
-%%       %\pythonstyle
-%% \lstinputlisting[#1]{#2}}}
-%% \end{python}
-% path for pythonexternal is relative
-% to book.tex.  Source is assumed to be
-% included in ./chapters/chp-num/src
-% so you use this command as 
-% \pyfile{chp3}{filename} etc
 
 % MER: These Python commands depend on \usepackage{pythonhighlight}
 
-\newcommand\pyfile[2]{
-  \inputpython{./chapters/#1/src/#2}{0}{1000}
-}
-
-\newcommand\pythonsnippet[4]{
-  \inputpython{./chapters/#1/src/#2}{#3}{#4}
-}
-
 \newcommand\newpythonsnippet[4]{
-  \inputpython{../mri2fem/mri2fem/#1/#2}{#3}{#4}
+  \inputpython{./mri2fem/mri2fem/#1/#2}{#3}{#4}
 }
 
 % Python for inline
 \newcommand\pythoninline[1]{\pyth{#1}}
-%\newcommand{\pythoninline[1]}{{#1}}
-
-
-% ---------------------------------
-
-%% \lstdefinestyle{pyStyle2}{
-%%     language=python,
-%%     basicstyle=\ttfamily ,       
-%% 	keywordstyle=\ttb\color{deepblue},
-%%     emph={class},
-%% 	emphstyle=\ttb\color{deepred},   
-%% 	stringstyle=\color{deepgreen},
-%% 	commentstyle=\color{blue},
-%%     columns=fullflexible,
-%%     frame=single,                      
-%% 	showstringspaces=false,            
-%% 	backgroundcolor = \color{codebox},
-%% 	breaklines=true,
-%% 	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}
-%% 	}
-
-
 
 
 % ------------------------------ %
