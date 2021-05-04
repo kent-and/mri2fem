@@ -92,8 +92,12 @@ xx = scipy.arange(0, args.L_max, 0.001)
 analytical_solution = erfc(xx / (2*sqrt( D.values()[0] * t))) 
 
 import matplotlib.pyplot as plt 
+plt.gcf().subplots_adjust(bottom=0.25, left=0.25)
 plt.rc('xtick', labelsize=20) 
 plt.rc('ytick', labelsize=20) 
+plt.xlabel("distance [mm]", size=24)
+plt.ylabel("concentration", size=24)
+
 
 for x, vec in numerical_solutions: 
     plt.plot(x, vec, linewidth=7)
