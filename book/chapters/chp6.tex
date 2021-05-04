@@ -83,17 +83,15 @@ this script, see, for example
 \terminal{\$ cd mri2fem/chp6 \\
 \$ python3 diffusion\_1D.py -{}-help}
 \begin{figure}	
-\includegraphics[width=0.49\textwidth]{./graphics/chp6/Amyloid_numerical_1D_L_max50_dt300_final1800_lumpednot.png}
-\includegraphics[width=0.49\textwidth]{./graphics/chp6/Amyloid_numerical_1D_L_max50_dt300_final1800_lumpedlumped.png} \\
-\includegraphics[width=0.49\textwidth]{./graphics/chp6/Amyloid_numerical_1D_L_max50_dt300_final32400_lumpednot.png}
-\includegraphics[width=0.49\textwidth]{./graphics/chp6/Amyloid_numerical_1D_L_max50_dt300_final32400_lumpedlumped.png}
+\subfigure[$t=30$ minutes, standard Galerkin]{ \includegraphics[width=0.49\textwidth]{./graphics/chp6/Amyloid_numerical_1D_L_max50_dt300_final1800_lumpednot.png}}
+\subfigure[$t=30$ minutes, lumped mass matrix]{ \includegraphics[width=0.49\textwidth]{./graphics/chp6/Amyloid_numerical_1D_L_max50_dt300_final1800_lumpedlumped.png}} \\
+\subfigure[$t=9$ hours, standard Galerkin]{ \includegraphics[width=0.49\textwidth]{./graphics/chp6/Amyloid_numerical_1D_L_max50_dt300_final32400_lumpednot.png}}
+\subfigure[$t=9$ hours, lumped mass matrix]{ \includegraphics[width=0.49\textwidth]{./graphics/chp6/Amyloid_numerical_1D_L_max50_dt300_final32400_lumpedlumped.png}}
 \caption{
   Comparison of standard Galerkin (left) and mass-lumped (right)
   finite element schemes of the diffusion
   equation~\eqref{eq:diffusion} in one dimension over $\Omega = (0, 50)$
-  mm. The amyloid-beta concentration (arbitrary unit) versus
-  length. Upper row: solution at time $t = 30$ minutes, with
-  $\Delta t = 5$ minutes. Lower row: Solution at time $t = 9$ hours. }
+  mm at different times.  }
 \label{fig:chp6:numerics}
 \end{figure}
 
@@ -119,7 +117,7 @@ a good starting target for the standard Galerkin approach in our three dimension
 (3D) discretization. Conversely, a mesh size of $N = 80$, or $ h \approx
 6.25\times 10^{-2}$ mm, is needed for the mass-lumped case.  This would
 be a much more costly choice on a 3D mesh, and unnecessary if the
-short-term dynamics need not be resolved.
+short-term dynamics do not need to be resolved.
 
 \section{Anisotropic diffusion in 3D brain regions}
 
