@@ -91,13 +91,13 @@ this script, see, for example
   Comparison of standard Galerkin (left) and mass-lumped (right)
   finite element schemes of the diffusion
   equation~\eqref{eq:diffusion} in one dimension over $\Omega = (0, 50)$
-  mm at different times.  }
+  mm at different times.   }
 \label{fig:chp6:numerics}
 \end{figure}
 
 The standard and mass-lumped finite element solutions are shown in
 Figure~\ref{fig:chp6:numerics} at different times and with different
-time steps. Early, for coarse resolutions ($N = 10$ or $N=20$), the
+time steps. Early, for coarse resolutions ($N = 10$ or $N=20$), with mesh size parameter $h=50 \, \mbox{mm}/N$,  the
 standard approach yields considerable nonphysical oscillations, whereas 
 the mass-lumped solution (right) produces significant numerical
 diffusion. However, in the longer term context, the standard Galerkin
@@ -114,7 +114,7 @@ long-term dynamics, a time step size of $\Delta t \approx$ 5 minutes with
 a spatial resolution of $N=10$ or $N=20$, corresponding roughly to a
 quasi-uniform mesh cell diameter of $0.25$ mm $\leq h \leq 0.5$ mm, is
 a good starting target for the standard Galerkin approach in our three dimensional 
-(3D) discretization. Conversely, a mesh size of $N = 80$, or $ h \approx
+(3D) discretization. Conversely, a mesh resolution of $N = 80$, or $ h \approx
 6.25\times 10^{-2}$ mm, is needed for the mass-lumped case.  This would
 be a much more costly choice on a 3D mesh, and unnecessary if the
 short-term dynamics do not need to be resolved.
@@ -346,3 +346,11 @@ convergence is around two to ten times smaller than our initial estimate
     maximal cell sizes) for the (left) uniformly refined and
     (right) adaptively refined mesh sequences.}
 \end{table}
+
+
+In summary, we have established that assessing the process of  tracer distribution within the brain due to diffusion is a feasible, but somewhat
+computationally demanding task. In our case, we focused on the hippocampus and Gadobutrol enrichment and found that indeed 
+a standard Galerkin procedure was sufficent given a locally refined mesh of a few hundred thousand cells. Quasi-uniform meshes on the
+other hand needs several million cells before convergence. We also remark that mass-lumping schemes, which are often prefered due
+to their monotonic properties that reduce non-physical oscillations on the short-term, is suffering from significant added numerical diffusivity
+and corresponding non-physical spread of tracer in long-term scenarios.     
