@@ -13,9 +13,12 @@ t3035_64 = loadtxt("tracer3035_uniform64notlumped.csv")
 t3028_64 = loadtxt("tracer3028_uniform64notlumped.csv")
 
 
+plt.gcf().subplots_adjust(bottom=0.25, left=0.25)
 plt.rc('xtick', labelsize=16) 
 plt.rc('ytick', labelsize=16) 
 plt.ylim(0,1)
+plt.xlabel("time [h]", size=16)
+plt.ylabel("concentration", size=16)
 plt.plot(time_64, t17_64,  linewidth=7)
 plt.plot(time_64, t1035_64,  linewidth=7)
 plt.plot(time_64, t1028_64,  linewidth=7)
@@ -37,9 +40,12 @@ t3028_128 = loadtxt("tracer3028_uniform128notlumped.csv")
 
 
 
+plt.gcf().subplots_adjust(bottom=0.25, left=0.25)
 plt.rc('xtick', labelsize=16) 
 plt.rc('ytick', labelsize=16) 
 plt.ylim(0,1)
+plt.xlabel("time [h]", size=16)
+plt.ylabel("concentration", size=16)
 plt.plot(time_128, t17_128,  linewidth=7)
 plt.plot(time_128, t1035_128,  linewidth=7)
 plt.plot(time_128, t1028_128,  linewidth=7)
