@@ -8,7 +8,7 @@ be determined from T1-weighted data and divided into grey and white matter
 subdomains, diffusion tensor imaging (DTI) data will be employed in the construction of the
 heterogeneous and anisotropic diffusion tensor, and specific
 sub regions, such as the hippocampus, will be selected to assess
-site-specific clearance.
+site-specific solute distribution governed by a diffusive process.
 
 In practice, one should first address data and mesh resolution
 issues. For instance, raw DTI data can exhibit rough transitions, as
@@ -17,7 +17,7 @@ to cerebrospinal fluid (e.g.~Figures~\ref{fig:chp5:DTIfa} and
 \ref{fig:chp5:freesurfer-parc} in Chapter \ref{chap:dti}). Here, we assume that 
 the DTI data have been suitably smoothened and denoised for use in simulations. In
 addition, we must ascertain a mesh resolution that is suitable to
-provide reliable estimates of the spread and clearance of different
+provide reliable estimates of the spread  of different
 molecules, while avoiding the unnecessary computational costs
 associated with over-resolving the mesh.
 
@@ -25,8 +25,7 @@ associated with over-resolving the mesh.
 \label{sec:chp6:1D-tests}
 
 \index{amyloid-beta}
-To estimate the required spatial mesh resolution, the discrete
-time step, and the time scale of solute clearance, it is useful to
+To estimate a suitable spatial mesh resolution, time step, and time scale of the solute diffusion, it is useful to
 first consider equation \eqref{eq:diffusion} in one dimension for different
 molecules. Here, we consider the protein fragment amyloid-beta
 (A$\beta$) associated with neurodegenerative
@@ -91,7 +90,7 @@ this script, see, for example
   Comparison of standard Galerkin (left) and mass-lumped (right)
   finite element schemes of the diffusion
   equation~\eqref{eq:diffusion} in one dimension over $\Omega = (0, 50)$
-  mm at different times.   }
+  mm at different times. The parameter $N$ is the number of finite elements and the time step is 5 minutes. }
 \label{fig:chp6:numerics}
 \end{figure}
 
@@ -111,13 +110,11 @@ long-term numerical solution.
 
 In conclusion, these results suggest that, if we are interested in
 long-term dynamics, a time step size of $\Delta t \approx$ 5 minutes with
-a spatial resolution of $N=10$ or $N=20$, corresponding roughly to a
-quasi-uniform mesh cell diameter of $0.25$ mm $\leq h \leq 0.5$ mm, is
+a spatial resolution of $N=40$ or $N=80$, corresponding roughly to a
+quasi-uniform mesh cell diameter of $0.5$ mm $\leq h \leq 1$ mm, is
 a good starting target for the standard Galerkin approach in our three dimensional 
-(3D) discretization. Conversely, a mesh resolution of $N = 80$, or $ h \approx
-6.25\times 10^{-2}$ mm, is needed for the mass-lumped case.  This would
-be a much more costly choice on a 3D mesh, and unnecessary if the
-short-term dynamics do not need to be resolved.
+(3D) discretization. The corresponding scheme with a lumped mass matrix does however
+significantly overestimate the diffusion at $N=80$. 
 
 \section{Anisotropic diffusion in 3D brain regions}
 
@@ -164,7 +161,7 @@ matter), and 3028 (superior frontal white matter).  Gadobutrol has a
 diffusivity approximately twice that of amyloid-beta, and the
 estimated mesh size and time step of the previous section should therefore apply
 to this case as well.  The resulting curves are shown in
-Figure~\ref{chp6:regions}, and the simulations are shown in
+Figure~\ref{chp6:regions}, and the simulations results are shown in
 Figures~\ref{fig:chp6:numerics4}--\ref{fig:chp6:numerics5}. Note that, here, 
 we consider the tracer distribution in certain regions as a
 function of time; the distribution therefore starts at a low value and increases 
@@ -267,7 +264,7 @@ python3 chp6-diffusion-mritracer.py --mesh DTI_16.h5 \
 
 The average gadobutrol concentrations in the hippocampus over time
 for the sequence of meshes generated here are shown in
-Figure~\ref{fig:chp6:numerics2}, with (right) and without (left)
+Figure~\ref{fig:chp6:numerics2}, without (left) and with (right)
 mass lumping. Clearly, the standard Galerkin approach (left) seems to
 yield more consistent results than the mass-lumped Galerkin scheme
 (right). However, even for the standard Galerkin scheme, whether the
@@ -298,8 +295,8 @@ $N=16$ brain mesh of the previous mesh sequence. Again, we plot the
 average gadobutrol concentrations in the hippocampus over time for
 a sequence of adaptively refined meshes (see
 Figure~\ref{fig:chp6:numerics3} with (right) and without (left)
-mass-lumping). Using this technique, we find the solutions between the second,
-third, and fourth adaptive refinements differ little for the standard
+mass-lumping). Using this technique, we find the solutions between the first, second,
+and third adaptive refinements differ little for the standard
 scheme. However, mesh convergence for the mass-lumped Galerkin
 strategy remains unclear, even after four refinements to the
 hippocampal region. Finally, looking at the mesh statistics (number of
