@@ -315,7 +315,7 @@ can be inspected visually.
 \subsection{A note on co-registering DTI and T1 data}
 \label{sec:chp-dti:freesurfer-coord}
 \index{co-registration}
-As we have seen, {\freesurfer} a uses several different coordinate
+As we have seen, {\freesurfer} uses several different coordinate
 systems to label the position of data in its various output files.
 Thus, to combine different types of data into something we can use in
 {\fenics} simulations, we need to extract information about the
@@ -330,15 +330,47 @@ In short, let $x_1 = (x_1, y_1, z_1)$ and $x_2 = (x_2, y_2, z_2)$ represent the
 same physiological point in $\R^3$ but represented with respect to two
 different coordinate systems (bases). Then, there is an affine
 transformation such that
-\begin{equation} 
+\begin{equation}\label{eqn:chp5:affinet}
 x_2 = A\, x_1 + b,
 \end{equation}
-for $A \in R^{3 \times 3}$ and $b \in \R^3$. The mapping is often
+for $A \in \R^{3 \times 3}$ and $b \in \R^3$. The mapping is often
 stored instead as a $4\times4$ matrix, where the last row can be
-ignored. The term \textit{co-registration} specifically refers to the
-determination of the transformation matrix $A$ and vector $b$
-corresponding to a pair of files.
+ignored.  As this equivalent $4\times 4$ representation often appears in the 
+discussions, and software documentation, within the neuroimaging community, 
+we also show it here; the above affine transformation \eqref{eqn:chp5:affinet} 
+can also be written as 
+\begin{equation*}
+\left[\begin{array}{c}
+x_{2}\\
+y_{2}\\
+z_{2}\\
+1
+\end{array}\right] = 
+\left[
+\begin{array}{cccc}
+a_{11} & a_{12} & a_{13} & b_1 \\
+a_{21} & a_{22} & a_{23} & b_2 \\
+a_{31} & a_{32} & a_{33} & b_3 \\
+0      &    0   &   0    & 1
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+x_1\\
+y_1\\
+z_1\\
+1
+\end{array}
+\right],
+\end{equation*}
+where the $a_{ij}$ are the entries of the matrix $A$ and the $b_i$ are the 
+entries of the vector $b$. 
 
+
+The term \textit{co-registration} specifically refers to the
+determination of the transformation matrix $A$ and vector $b$
+corresponding to a pair of files.  %
+%
 \index{FreeSurfer!\emp{mri\_info}}
 A key step in the co-registration of T1 and DTI images, or any pair
 of images in general, is to ascertain the type of coordinate system

@@ -2,7 +2,7 @@
 \label{chp:chp3}
 
 The goal of this chapter is to enable numerical simulation over a
-brain region defined from structural magnetic resonance (MR) images. To address this
+brain region defined from structural MR images. To address this
 challenge, we first demonstrate how to generate a high quality mesh of
 a brain hemisphere from T1-weighted MR images using the tools
 introduced in Chapter~\ref{chp:chp2}. Next, we show how to define a
@@ -355,7 +355,7 @@ simulations ahead in Chapter~\ref{sec:chp3:math}.
   of folds in the mesh, as exemplified in
   Figure~\ref{fig:chp3:juncture}. The function
   \pythoninline{separate\_narrow\_gaps} 
-  close junctures until the edge distance between vertices is less
+  closes junctures until the edge distance between vertices is less
   than the distance between unconnected vertices. The iterative
   separation is performed by multiplying the outward surface normal
   with a user-specified negative value. 
@@ -622,16 +622,23 @@ this matrix once, outside the time loop, for the sake of efficiency:
 %
 \index{ParaView}
 %
-We define a PVD file (indicated by the suffix \pythoninline{.pvd}) for
-storing the computed solution at each time step in VTK format and
-store the initial solution. 
+In order to view our solutions using ParaView, we define a PVD file 
+(indicated by the suffix \pythoninline{.pvd}) for 
+%We define a PVD file (indicated by the suffix \pythoninline{.pvd}) for
+storing the solution, computed at each time step, as well as the initial data. 
+%in VTK format and
+%store the initial solution. 
 \newpythonsnippet{chp3}{diffusion.py}{57}{60}
-\noindent This is a file format convenient for visualization in
-ParaView. Note that it is not a convenient format for reading the
-functions back into FEniCS however; for this purpose one should
+\noindent %This is a file format convenient for visualization in
+%ParaView. 
+%Note that it is not a convenient format for reading the
+%functions back into FEniCS however; for this purpose one should
+%instead use the XDMF or h5 formats.
+The PVD format is nice for visualization in ParaView but is not a convenient 
+format for reading the functions back into FEniCS; for this purpose one should
 instead use the XDMF or h5 formats.
 
-We compute the number of time steps \pythoninline{N} and initialize
+Next, we compute the number of time steps, \pythoninline{N}, and initialize
 NumPy arrays for storing computational quantities of interest at each
 time step, such as the total amount of solute (\pythoninline{amounts})
 cf.~\eqref{eq:chp3:qoi}, and the concentration (\pythoninline{concs})
@@ -645,8 +652,20 @@ the right hand side into the vector \pythoninline{b}, apply the
 Dirichlet boundary condition, solve the resulting linear system using
 an iterative solver (gmres, amg), and update the previous solution
 with the current solution:
-\newpythonsnippet{chp3}{diffusion.py}{70}{85} We can
-compute the total amount of solute by integrating the concentration
+\newpythonsnippet{chp3}{diffusion.py}{70}{85} %
+Note that the use of `gmres', in the solve function above, tells {\fenics} to 
+use the `Generalized Minimal Residual Method' as the iterative solution 
+technique; the use of `amg' specifies that the `Algebraic Multigrid Method' 
+should be used as the preconditioning approach for the iterative method.  The 
+interested reader can find more on the GMRES method, including convergence 
+details, in \cite{greenbaum1997} while a review of algebraic multigrid 
+is also available \cite{stuben2001}.  Both GMRES and AMG are well-suited to 
+parabolic problems, like \eqref{eq:diffusion}, and {\fenics} supports several 
+alternative iterative methods and preconditioning options 
+\cite{langtangen2016solving} that can investigated if desired.  % 
+
+
+We can compute the total amount of solute by integrating the concentration
 over the domain, and the concentration in the specified point by
 evaluating the computed solution at this point. We also store the
 entire solution to the PVD file. Writing the solution to file can take
@@ -820,11 +839,13 @@ steps~\cite{freesurfer-wiki}. Data will be produced throughout the
 process, and are often required as input for the next stage. We can
 initiate each step separately by using the following flags instead of
 \emp{-all}.
+% changed the autorecon-1 to autorecon1, etc in line with the freesurfer 
+% documentation from https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all
 \begin{itemize}
-\item \emp{-autorecon-1}: starts the step-1 process, which includes stages 1 to 5, involving normalization and skull stripping; 
-\item \emp{-autorecon-2}: starts the step-2 process, which includes stages 6 to 23, involving segmentation and surface generation;
-\item \emp{-autorecon-2-pial}: starts the construction of the surfaces, which include stages 16 to 23, involving various surface operations;  
-\item \emp{-autorecon-3}: starts the step-3 process, which includes stages 24 to 34, involving statistical data generation and final parcellation;
+\item \emp{-autorecon1}: starts the step-1 process, which includes stages 1 to 5, involving normalization and skull stripping; 
+\item \emp{-autorecon2}: starts the step-2 process, which includes stages 6 to 23, involving segmentation and surface generation;
+\item \emp{-autorecon2-pial}: starts the construction of the surfaces, which include stages 16 to 23, involving various surface operations;  
+\item \emp{-autorecon3}: starts the step-3 process, which includes stages 24 to 34, involving statistical data generation and final parcellation;
 \item \emp{-autorecon-all}: equivalent to \emp{-all}. 
 \end{itemize} 
 

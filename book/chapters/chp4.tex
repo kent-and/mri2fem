@@ -482,8 +482,9 @@ meshes, with and without ventricles removed, are shown in Figure
   \includegraphics[width=0.49\textwidth]{./graphics/chp4/ernie-final-comp-d}
     \caption{Meshes of the left hemisphere (sagittal planes),
       conforming to the gray matter, white matter, and ventricles, with
-      ventricles removed (left) and ventricles not removed but marked
-      in black (right).}
+      ventricles marked in blue (left) and with ventricles removed (right). 
+	%removed (left) and ventricles not removed but marked in black (right).
+	}
     \label{fig:chp4:tags-with-without-ventricles}
 \end{figure}
 \end{center}
@@ -568,7 +569,7 @@ joined surface, without further postprocessing, is data specific.
 There is a higher chance that the {\freesurfer} segmentation process
 of the left and right pial MRI surface data can lead to non-physical
 intersections, thus producing left and right pial surface files that
-overlap and self-intersect when combined..  Self-intersections within
+overlap and self-intersect when combined.  Self-intersections within
 a surface can then cause the meshing process to fail. Similarly, one
 could simply work with all five surfaces separately; this would lead
 to a more complicated tagging process with \emp{SubdomainMap} but
