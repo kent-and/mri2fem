@@ -247,9 +247,12 @@ code\footnote{https://bitbucket.org/xnatdcm/dicombrowser/src/master/}
 is also available. On Ubuntu Linux, DicomBrowser comes pre-packaged
 as a Debian package file; this type of file can be installed on
 Ubuntu using the command \ubuntu{\$ sudo apt install
-  my-dicombrowser.deb}
-\noindent where you should substitute \emp{my-dicombrowser.deb} with
-the path to the DicomBrowser package that you downloaded.
+  /path to file/my-dicombrowser.deb}
+\noindent where you should change `path to file' to the path where the  
+DicomBrowser installation file (ending in .deb) has been downloaded and change 
+the text of `\emp{my-dicombrowser.deb}' to be the specific filename of the 
+DicomBrowser installer package. 
+%the path to the DicomBrowser package that you downloaded.
 
 We now demonstrate how to extract sequences from an MRI dataset. This
 process begins by launching the DicomBrowser utility with the 
@@ -262,9 +265,10 @@ the directory containing the book data set and select the directory
 titled \emp{\erniedicom}.  In this directory select the file titled
 \emp{DICOMDIR}. The main DicomBrowser window should now show a list of
 the patients whose data are included in this dataset (in this case
-just one patient).  In the main window, click the patient
-(whose ID starts with 1.3.46) and then click the symbol to the left of
-the patient ID to expand the entry.
+just one patient).  In the main window (c.f.~Figure~%
+\ref{fig:chp2:dicombrwsr-scr} (left)), click the patient, whose ID starts with 
+1.3.46, and then click the symbol to the left of the patient ID to expand the 
+entry.
 
 \begin{figure}[h]
   \centering
@@ -278,8 +282,8 @@ patient can have several associated studies but the book dataset
 contains one study per patient. Expand the study (beginning with 568)
 by clicking the symbol to the left. A list of MR series now fills the
 main window; many MR series can be contained in a single study and we
-see that the \emp{\erniedicom} data contains three series (201, 501 and 1201), see 
-Figure~\ref{fig:chp2:dicombrwsr-scr}.
+see that the \emp{\erniedicom} data contains three series (201, 501 and 1301), 
+see Figure~\ref{fig:chp2:dicombrwsr-scr}.
 
 Find MR Series 201 and left-click on it. The secondary window now
 contains a list of tags; each tag has an associated name, action, and
@@ -287,24 +291,39 @@ value (Figure \ref{fig:chp2:dicombrwsr-scr}). Note that tag (0018,
 1030)\footnote{Tag identifiers are not standard, and can differ based
   on the MRI scanner manufacturer.  Generally, we identify a
   sequence from the Name field by looking for a label containing T1,
-  T2, or DTI.} is named protocol name and has value WIP T13D; this
+  T2, or DTI.} is named `protocol name' and has value T13D; this
 indicates that MR Series 201 corresponds to a T1-weighted image
-sequence. Extract MR Series 201 by clicking
-\button{File$\rightarrow$Save} and change -anon to -T13D. We also
-remark that DicomBrowser can be used to anonymize the data, as
+sequence. With `MR Series 201' as the current selection, in the DicomBrowser 
+(left) window, we can select \button{File$\rightarrow$Save} to extract the 
+series; a window then appears which provides extraction options.  We would 
+like to extract this series to a directory with a memorable name; we can 
+do this by changing `-anon' to `-T13D' to signify that the series we are 
+extracting represents a T1 weighted image in 3D.  %
+%
+%Extract MR Series 201 by clicking
+%\button{File$\rightarrow$Save} and change -anon to -T13D. 
+We also remark that DicomBrowser can be used to anonymize the data, as
 indicated by the default extension {-anon}, or, in general, to change
-DICOM tags or values either through the GUI or in scripts. 
+DICOM tag values either through the GUI or in scripts. 
 
 We can use the same procedure to extract other image sequences. In our
 book DICOM images, MR Series 501 is a DTI sequence and MR Series 1301
-includes T2-weighted images. We have extracted 501 to the directory
-\emp{DTI} and 1301 to the directory \emp{T23D} in the book dataset.
+includes T2-weighted images.  We have already extracted all three series, 
+present in the sample \emp{DICOMDIR}, into the book dataset.  Image series 
+201 has been extracted to \emp{\erniedicom/T13D}, image series 1301 has been 
+extracted to \emp{\erniedicom/T23D} and image series 501 has been extracted to    
+\emp{\erniedicom/DTI}.  We note that \emp{\erniedicom/DTI} also contains 
+some non-image files; these files are not in the \emp{DICOMDIR} data but 
+will be generated, and discussed, in Chapter~\ref{chap:dti}   
+%
+%We have extracted 501 to the directory
+%\emp{DTI} and 1301 to the directory \emp{T23D} in the book dataset.
 
 
 \section{From images to simulation: A software ecosystem}
 
-In this section, we provide a brief overview the software tools that comprise
-the pipeline used in this book. We will extract data from clinical
+In this section, we provide a brief overview of the software tools that 
+comprise the pipeline used in this book. We will extract data from clinical
 images, segment the data, extract and work with diffusion tensor
 information, generate a finite element mesh, and bring all of this
 together to solve a partial differential equation. Along
@@ -333,7 +352,11 @@ well established, well documented, and widely used and we refer to the
 FreeSurfer website for extensive documentation, online tutorials,
 support, an overview of publications and general installation
 instructions \cite{freesurfer}. Generally, all \freesurfer{} commands
-also have extensive documentation available via \emp{-{}-help}. 
+also have extensive documentation available via \emp{-{}-help}.  At the time of 
+writing, FreeSurfer provides step-by-step installation guides for 
+Linux\footnote{\url{https://surfer.nmr.mgh.harvard.edu/fswiki//FS7\_linux}}
+and Mac\footnote{\url{https://surfer.nmr.mgh.harvard.edu/fswiki//FS7\_mac}}.  
+We will discuss the Linux installation process, here, for completeness. 
 
 To install FreeSurfer on Ubuntu Linux, we suggest downloading the most
 recent FreeSurfer tar archive\footnote{See for example \url{https://surfer.nmr.mgh.harvard.edu/fswiki/FS7\_linux}}
@@ -342,18 +365,21 @@ file is \emp{freesurfer.tar.gz}, unpack the archive via
 \ubuntu{\$ tar -zxvpf freesurfer.tar.gz}
 \noindent The next step is to configure your environment for using
 FreeSurfer. If your FreeSurfer archive has been unpacked at
-\emp{/home/me/local/src/freesurfer}, then add the following lines
+\emp{/home/me/freesurfer}, then you can configure your FreeSurfer 
+environment manually by adding the following lines
 at the end of the file named \emp{.bashrc} in your home
 directory:
 \begin{lstlisting}[style=bashStyle]
-export FREESURFER_HOME=/home/me/local/src/freesurfer 
+export FREESURFER_HOME=/home/me/freesurfer 
 export SUBJECTS_DIR=$FREESURFER_HOME/subjects 
 source $FREESURFER_HOME/SetUpFreeSurfer.sh
 \end{lstlisting}
+  
+
 
 \index{Freeview}
 \noindent The {FreeSurfer} programming team requires that each user
-acquire a license key to use the software; the key is free,
+acquire a license file to use the software; the license file is free,
 and to acquire it, follow the registration directions at the FreeSurfer
 website \cite{freesurfer}. Finally, FreeSurfer comes packaged
 with the Freeview visualization tool. Test Freeview (and your
