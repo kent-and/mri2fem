@@ -799,13 +799,20 @@ ensure that FreeSurfer is installed and configured (see
 Chapter~\ref{sec:chp2:tools:freesurfer}) before proceeding. The useful
 command \emp{mri\_probedicom} can be used to compare the meta
 data of different DICOM files with the flag \emp{-{}-compare} followed
-by two DICOM filenames. We can also view the selected DICOM file by
-using the flag \emp{-{}-view}, for example:
+by two DICOM filenames. We can also view individual images associated to 
+a particular DICOM file collection by specifying the image name and using 
+the flag \emp{-{}-view}, for example:
 \terminal{\$ cd \erniedicom/DICOM \\
 \$ mri\_probedicom -{}-i IM\_0162 -{}-view
 }
-\noindent To probe the book DICOM data set for the tag \textit{Protocol Name}, which
-is associated with the numeric identifier 18 1030, issue the command
+
+\noindent Alternatively, we may desire to look for a specific tag.  DICOM stores 
+tags as numeric identifiers.  If we know that our MR scanner saves the 
+\textit{Protocol Name} to tag 18 1030, as in the book DICOM data set, then we 
+could probe the DICOM data for tag 18 1030 with the command:
+%
+%\noindent To probe the book DICOM data set for the tag \textit{Protocol Name}, which
+%is associated with the numeric identifier 18 1030, issue the command
 \terminal{\$ mri\_probedicom -{}-i IM\_0162 -{}-t 18 1030 \\
 T13D
 } 
@@ -868,35 +875,41 @@ entire process and provide references to related articles and texts.
 The command \emp{recon-all} is a sequential process that consist of 34
 different stages, divided into three different
 steps~\cite{freesurfer-wiki}. Data will be produced throughout the
-process, and are often required as input for the next stage. We can
-initiate each step separately by using the following flags instead of
-\emp{-all}.
+process, and are often required as input for the next stage.  The recon-all 
+command can be used to execute the full set of 34 stages or to execute only 
+a portion of the stages.  Some of the available \emp{recon-all} flags are 
+shown below; a full list of options is available 
+online\footnote{see \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all/}}. 
+%We can
+%initiate each step separately by using the following flags instead of
+%\emp{-all}.
 % changed the autorecon-1 to autorecon1, etc in line with the freesurfer 
 % documentation from https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all
 \begin{itemize}
-\item \emp{-autorecon1}: starts the step-1 process, which includes stages 1 to 5, involving normalization and skull stripping; 
-\item \emp{-autorecon2}: starts the step-2 process, which includes stages 6 to 23, involving segmentation and surface generation;
-\item \emp{-autorecon2-pial}: starts the construction of the surfaces, which include stages 16 to 23, involving various surface operations;  
-\item \emp{-autorecon3}: starts the step-3 process, which includes stages 24 to 34, involving statistical data generation and final parcellation;
-\item \emp{-autorecon-all}: equivalent to \emp{-all}. 
+\item \emp{recon-all -autorecon1 -subjid \textit{subject}}: starts the step-1 process, which includes stages 1 to 5, involving normalization and skull stripping using the data in the subject folder named \textit{subject}; 
+\item \emp{recon-all -autorecon2 -subjid \textit{subject}}: starts the step-2 process, which includes stages 6 to 23, involving segmentation and surface generation using the data in the subject folder named \textit{subject};
+\item \emp{recon-all -autorecon3 -subjid \textit{subject}}: starts the step-3 process, which includes stages 24 to 34, involving statistical data generation and final parcellation using the data in the subject folder named \textit{subject};
+%\item \emp{recon-all -autorecon-pial -subjid \textit{subject}}: starts the construction of the surfaces, which include stages 16 to 23, involving various surface operations using the data in the subject folder named \textit{subject}; 
+%\item \emp{-autorecon-all}: equivalent to \emp{-all}. 
 \end{itemize} 
 
 These flags can be useful for restarting the segmentation. For
-instance, if a failure occurred at stage 36, then we can start over
+instance, if a failure occurred at stage 34, then we can start over
 from stage 24 rather than from the beginning by using the flag
-\emp{-autorecon-3}. This approach can also be useful when it is
+\emp{-autorecon3}, as shown above. This approach can also be useful when it is
 necessary to rerun the segmentation process after correcting an
 error. In FreeSurfer, there exist two types of errors, known as hard
 and soft errors. Hard errors will terminate the segmentation process,
 while soft errors are errors that we find in the produced data. Soft
 errors are mostly segmentation errors, such as the inclusion of the
 dura in the segmentation and erroneous segmentation of white
-matter. We can edit the segmentation to correct the error, and run
-\emp{recon-all} with the flag \emp{-autorecon-2-pial}. This will
-create new surfaces based on the corrected segmentation files. The
-correction of soft errors will not be covered further in this
-book. Instead, we refer to the FreeSurfer
-documentation~\cite{freesurfer-wiki}.
+matter. In such a case, we could edit the segmentation to correct the error, 
+and run \emp{recon-all} with the flag \emp{-autorecon2-pial}.  Specific details 
+for the \emp{-autorecon2-pial} flag, which we do not discuss here, can be found 
+in the FreeSufer documentation \cite{freesurfer-wiki}.  This will create new 
+surfaces based on the corrected segmentation files. The correction of soft 
+errors will not be covered further in this book. Instead, we refer to the 
+FreeSurfer documentation~\cite{freesurfer-wiki}.
 
 %
 \index{FreeSurfer}
@@ -907,8 +920,8 @@ subject directory for the \emp{recon-all} command. This can be quite
 useful for separating the segmentation data for different
 cohorts. The segmentation of CSF filled structures, such as the
 ventricular system, may require the additional use of T2-weighted MR
-images to obtain an acceptable quality. We can include T2 MRI with the
-flag \emp{-{}-T2}, and we can use the flag \emp{-T2-pial} to use
+images to obtain an acceptable quality. We can include T2 MR images with the
+flag \emp{-T2}, and we can use the flag \emp{-T2-pial} to use
 the T2 MRI in the construction of pial surfaces.
 
 The segmentation in FreeSurfer is based on the segmentation atlas of
