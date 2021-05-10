@@ -281,8 +281,10 @@ corners, it may be advantageous to smoothen the surfaces prior to
 volume meshing. \svmtk{} also includes utilities for smoothing surfaces, as
 we demonstrate in the script below (included as
 \emp{mri2fem/chp3/smooth\_surface.py} in the book scripts), using
-our remeshed surface \emp{lh.pial.remesh.stl} as sample input.
-
+our remeshed surface \emp{lh.pial.remesh.stl} as sample input.  It is worth 
+noting that surface smoothing operations alter the position of existing 
+vertices; in particular, smoothing does not alter the number of elements in 
+the mesh.  %
 %
 \index{SVM-Tk!\emp{Surface}}
 \index{smoothing}
@@ -373,8 +375,10 @@ simulations ahead in Chapter~\ref{sec:chp3:math}.
   \pythoninline{separate\_narrow\_gaps} 
   identifies narrow gaps and uses an algorithm to separate them based on 
   the characteristics of the surrounding mesh.  The function requires a 
-  negative value as input; the smaller this value, the more separation is 
-  induced when a narrow gap is detected.  %
+  negative value as input.  Lower values of $L$ results in a faster runtime for 
+  for the algorithm, but may result in a more jagged surface.   
+  Higher values of $L$, e.g.~those closer to zero, can extend computational 
+  time but generally result in a smoother surface as a result.%
   %
   %
   %closes junctures until the edge distance between vertices is less
@@ -408,7 +412,7 @@ covered in Chapter \ref{chp:chp4}.
 \label{sec:chp3:math}
 
 With a mesh representing the domain of interest, we are ready to start
-modelling and numerically simulating biophysical processes in this
+modeling and numerically simulating biophysical processes in this
 domain. As a first example, we will study diffusion into the brain
 parenchyma of a tracer injected in the subarachnoid space (SAS). This is a
 setting encountered, for example, in clinical practice when gadobutrol is 
@@ -441,8 +445,8 @@ often suitable choices of units, although we note of course that the
 duration of some physiological processes is on the order of days,
 months, or years.
 
-Here, we let the concentration $u$ represent the (unit less)
-concentration of gadobutrol solving~\eqref{eq:diffusion} in
+Here, we let the concentration $u$ represent the (unit-less)
+concentration, of gadobutrol tracer, solving~\eqref{eq:diffusion} in
 $\Omega$. The image-based mesh of the left brain hemisphere (for
 example \emp{ernie.xdmf}) defines the computational domain
 $\Omega$. Formally, $\Omega$ is then the union of the cells in the
@@ -460,8 +464,8 @@ which translates to the initial condition
   \label{eq:chp3:ic}
   u_0(x, 0) = 0 \quad \text{ for all } x \in \Omega.
 \end{equation}
-Next, we assume that gadobutrol is distributed to the brain surface
-via the CSF in the SAS by setting the
+Next, we assume that gadobutrol is instantaneously distributed to the brain 
+surface via the CSF in the SAS by setting the
 boundary condition:
 \begin{equation}
   \label{eq:chp3:bc}
@@ -533,7 +537,7 @@ tutorial~\cite{langtangen2016solving} before proceeding.
 
 For the discretization in time, we define a set of discrete times $0 =
 t_0 \leq t_1 \dots \leq t_N = T$, where $N$ is the number of time
-steps and the time step (size) $\tau_n = t_n - t_{n-1}$ for $n = 1,
+steps and the time step (size) is $\tau_n = t_n - t_{n-1}$ for $n = 1,
 \dots, N$. Our aim is to compute approximate solutions $u^n_h$
 of~\eqref{eq:diffusion} such that $u^n_h \approx u(t_n)$ for each
 $n$. To this end, we introduce the (first-order, backward) finite
@@ -694,8 +698,8 @@ entire solution to the PVD file. Writing the solution to file can take
 some time, and, for fine time steps, it may often be practical to 
 do this only say every second, or 10th or 100th time step:
 \newpythonsnippet{chp3}{diffusion.py}{87}{96}
-It can also be practical to store the computed quantities to file
-(and, instead, reread for plotting):
+It can also be practical to store the computed quantities in a file; reading 
+the contents of the file, for plotting, at a later time:
 \newpythonsnippet{chp3}{diffusion.py}{98}{101}
 
 \index{plotting!matplotlib}
@@ -705,16 +709,20 @@ amount of solute and the concentration at the given point) over time
 and save these in, for instance, PNG format. The resulting plots are
 shown in Figure~\ref{fig:chp3:png-plots}. The complete script
 (including the plot code) is available in the book scripts
-(\emp{mri2fem/chp3/diffusion.py}).
+(\emp{mri2fem/chp3/diffusion.py}).  The concentration at various points can be 
+investigated by modifying the value of $p$, in the script, as shown in the code 
+block below:
+\newpythonsnippet{chp3}{diffusion.py}{62}{68}
+
 \begin{figure}
     \begin{tabular}{cc}
     \imagetop{\includegraphics[width=0.49\textwidth]{./graphics/chp3/amounts.png}} &
     \imagetop{\includegraphics[width=0.49\textwidth]{./graphics/chp3/concentrations.png}}
     \end{tabular}
-    \caption{Plots of the quantities of interest associated with the
-      computed concentration: total amount of solute $Q$ over
-      time $t$ (left) and concentration $u(p, t)$ for a
-      given point $p$ over time $t$ (right).}
+    \caption{Plots of the quantities of interest, in arbitrary units (AU), 
+	associated with the computed concentration: total amount of solute 
+	$Q$ over time $t$ (left) and concentration $u(p, t)$ for a given 
+	point $p$ over time $t$ (right).}
     \label{fig:chp3:png-plots}
 \end{figure}
 
@@ -738,11 +746,11 @@ the previous section, we will use ParaView. After launching the
 ParaView graphical user interface (see
 Chapter~\ref{sec:chp2:paraview}), we can open collections of files
 by \button{File$\rightarrow$Open} and selecting the .pvd or .vtu
-file(s). ParaView is a powerful and versatile visualization tool, and
-we refer the reader to the extensive resources available on the ParaView
-website~\cite{paraview:web} for guides, tutorials, and so forth. In
-Figure~\ref{fig:chp3:approximate-numerical-soln} below, we used
-ParaView to plot clips of snapshots of the solute
+file(s) from the folder results. ParaView is a powerful and versatile 
+visualization tool, and we refer the reader to the extensive resources 
+available on the ParaView website~\cite{paraview:web} for guides, tutorials, 
+and so forth. In Figure~\ref{fig:chp3:approximate-numerical-soln} below, we 
+used ParaView to plot clips of snapshots of the solute
 concentrations, with the x-axis as the normal direction for the clips
 and the view direction, rescaled to the data range over all
   timesteps, and using the viridis color scheme.
@@ -755,9 +763,11 @@ and the view direction, rescaled to the data range over all
     \imagetop{48h}& \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/48h}}&
     \imagetop{72h}& \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/72h}}
     \end{tabular}
-    \caption{Simulated tracer concentration at given times (2, 6, 12,
-      24, 48, and 72 hours) post-injection into subarachnoid CSF. Blue
-      represents lower values, while yellow represents higher values.}
+    \caption{Simulated tracer concentration at given times (2, 6, 12, 24, 48, 
+	and 72 hours) post-injection into subarachnoid CSF. Blue 
+	represents lower values, while yellow represents higher values.  
+	The scalar concentration is plotted on the whole brain volume mesh; the 
+	mesh has been sliced, in ParaView, for sagittal visualization.}
     \label{fig:chp3:approximate-numerical-soln}
 \end{figure}
 
