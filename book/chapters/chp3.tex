@@ -822,7 +822,7 @@ T13D
 To extract files with a specific tag on the command-line, we can thus
 probe each file, and copy files with a specific tag to a new
 directory. This can be accomplished via, for example, the following bash script
-(also available at \emp{mri2fem/chp3/mri\_sort.sh}). The script
+(also available at \emp{mri2fem/chp3/extract\_dicom.sh}). The script
 takes three types of input, namely, the DICOM directory, the output directory and
 an identifier for the protocol name:
 \begin{lstlisting}[style=bashStyle]
@@ -857,7 +857,7 @@ the output directory. Spaces are removed from the protocol name, which is prefer
 Thus, we can use the script to extract all the images with the \emp{T1}
 string in the protocol name from the sample data set:
 \terminal{\$ cd \erniedicom \\
-\$ ./mri\_sort.sh ./DICOM ./ "T1" }
+\$ ./extract\_dicom.sh ./DICOM ./ "T1" }
 
 \subsection{More about FreeSurfer's \emp{recon-all}}
 \label{sec:chp3:advanced:recon-all}
