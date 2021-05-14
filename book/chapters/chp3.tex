@@ -124,8 +124,10 @@ directory \emp{\ernieoutput/surf}, we can run
 \terminal{\$ mris\_convert ./lh.pial pial.stl}
 
 \noindent to create the file \emp{lh.pial.stl} in the current
-directory. The resulting file can be opened in several different
-programs, for instance, ParaView or Gmsh.
+directory\footnote{Note that one can avoid 
+the automatic addition of the prefix lh. in lh.pial.stl by using ./ in the 
+output filename if desired.}. The resulting file can be opened in several 
+different programs, for instance, ParaView or Gmsh.
 
 \subsection{Creating a volume mesh from a surface}
 \label{subsec:chp3:mesh-creation}

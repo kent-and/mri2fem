@@ -41,9 +41,12 @@ scalar-valued and $D_w$ tensor-valued. To represent fields such as $D$
 in numerical simulations, it is useful to transfer the information
 about gray and white matter from the magnetic resonance (MR) images
 into the meshes. To introduce the basic concepts of differentiating
-brain regions, we will create a computational mesh of the left
-hemisphere, as in Chapter~\ref{chp:chp3}, but now conforming to the
-gray and white matter regions. In short, we will
+brain regions, we will once more create a computational mesh of the left
+hemisphere.  In Chapter~\ref{chp:chp3}, all of the mesh tetrahedrons belonged 
+to a single region.  In this chapter, we extend the previous approach 
+by creating a mesh where the individual tetrahedrons will be labeled as 
+belonging to the gray matter, the white matter, or the ventricles. In short, 
+we will
 \begin{itemize}
 \item
   Create STL files from the pial and white FreeSurfer left hemisphere
@@ -52,7 +55,9 @@ gray and white matter regions. In short, we will
   Create a mesh from these STL files conforming to the interior interfaces
   between white and gray matter, using \svmtk{}, and
 \item
-  Include tags for the different regions relative to the surfaces.
+  Include tags for different regions of the mesh.  That is, for each 
+  tetrahedron in the mesh we want to label it as residing in the 
+  `gray matter', `white matter', `ventricles', etc.     
 \end{itemize}
 
 \subsection{Converting pial and gray/white surface files to STL}
@@ -73,9 +78,9 @@ Chapter~\ref{sec:chp3:improved-volume-meshing}\footnote{We leave the
   files could be called \emp{lh.pial.smooth.stl} and
   \emp{lh.white.smooth.stl}, respectively. For simplicity, we assume that the
   resulting pial and white surface STL files are (re)named
-  \emp{lh.pial.stl} and \emp{lh.white.stl}, respectively, in the following.  Note
-  that one can avoid the automatic addition of the prefix lh. in
-  lh.pial.stl by using ./ in the output filename.}.
+  \emp{lh.pial.stl} and \emp{lh.white.stl}, respectively, in the following. As 
+  noted in Chapter~\ref{chp:chp3}, the automatic addition of the prefix lh., in
+  lh.pial.stl, can be avoided by using ./ in the output filename.}.
 
 \subsection{Creating the gray and white matter mesh}
 \index{SVM-Tk!\emp{Domain}}
@@ -95,31 +100,56 @@ file \emp{ernie-gw.mesh} for the resulting volume mesh.
 Our function first loads the two surfaces using \svmtk{}:
 \newpythonsnippet{chp4}{two-domain-tagged.py}{0}{8}
 
-\noindent We next create a tailored \svmtk{}
-\pythoninline{SubdomainMap} object that represents a map between
-regions defined by surfaces and tags. This map is defined by
+\noindent Notice that the list \pythoninline{surfaces = [pial, white]} contains 
+two surfaces; the order of these surfaces in this list will matter.  We next 
+create a tailored \svmtk{} \pythoninline{SubdomainMap} object that represents 
+a map between regions defined by surfaces and tags. This map is defined by
 (repeated) calls to \emp{smap.add} with a string representing the
 region and an integer representing the tag as arguments. The (binary)
 string is a sequence of zeros and ones, with zero denoting the outside
 and one the inside.
 \newpythonsnippet{chp4}{two-domain-tagged.py}{9}{14}
 
-An \svmtk{} \pythoninline{Domain} object can be constructed from the
-ordered list of surfaces and the subdomain map:
-
+Intuitively, \pythoninline{smap.add("10",1)} will mean `those tetrahedron 
+inside surface 1 (pial surface) and outside surface 2 (white matter surface) 
+should be marked with the numeric (tag) value of 1' while 
+\pythoninline{smap.add("11",2)} will mean `those tetrahedron inside surface 1 
+(pial surface) and inside surface 2 (white matter surface) should be marked 
+with the numeric (tag) value of 2'.  At this point, however, \svmtk{} does not 
+know that the \pythoninline{surfaces} list and our 
+\pythoninline{SubdomainMap} object, \pythoninline{smap}, are related.  Relating 
+a surface list to a \pythoninline{SubdomainMap} object is handled by creating 
+a \pythoninline{Domain} object; a \pythoninline{Domain} object is constructed  
+from the ordered list of surfaces and the subdomain map as follows:
+%
+%An \svmtk{} \pythoninline{Domain} object can be constructed from the
+%ordered list of surfaces and the subdomain map:
+%
 \newpythonsnippet{chp4}{two-domain-tagged.py}{16}{19}
 
-\noindent Note that the \pythoninline{Domain} object here links the
-surfaces and the subdomain map. The order of the entries in the list
-of surfaces is matched to the binary region strings in the subdomain
-map. The string \pythoninline{"10"} referring to the list
-\pythoninline{[pial, white]} is interpreted as 'inside pial' and
-'outside white' and thus represents the region between the pial and
-white surface, that is, the gray matter. Similarly, the string
-\pythoninline{"11"} is interpreted as 'inside pial' and 'inside white'
-and thus represents the region inside the gray--white surface, that
-is, the white matter. We will discuss \pythoninline{SubdomainMap}
-further in Chapter~\ref{chp4:subdomains} below.
+%\noindent Note that the \pythoninline{Domain} object here links the
+%surfaces and the subdomain map. 
+\noindent The \pythoninline{Domain} object reads the entries, registered above 
+as \pythoninline{smap.add("10",1)} etc, of the 
+\pythoninline{SubdomainMap} with respect to the ordering of the entries in 
+our \pythoninline{surfaces} list.  The important point here is that the 
+order of the entries in the \pythoninline{surfaces} list plays a key role; 
+permuting the entries will yield different results.  % 
+%The order of the entries in the list
+%of surfaces is matched to the binary region strings in the subdomain
+%map. 
+For the code above, the string \pythoninline{"10"} %referring to the list \pythoninline{[pial, white]} 
+is interpreted as `inside pial' and `outside white' and thus represents all 
+tetrahedron in the region between the pial and white surface; this region 
+consists of only the gray matter. Similarly, the string \pythoninline{"11"} is 
+interpreted as 'inside pial' and 'inside white' and thus represents all 
+tetrahedron in the white matter region since this region lies within both 
+surfaces.  %
+%
+%region inside the gray--white surface, that
+%is, the white matter. 
+We will discuss \pythoninline{SubdomainMap} further in 
+Chapter~\ref{chp4:subdomains} below.
 
 With \pythoninline{domain}, we can now create a volume mesh of
 suitable resolution and save it in the .mesh format (as in
@@ -134,7 +164,17 @@ using meshio. For instance, to convert to the ParaView-friendly .vtu format, use
 \terminal{\$ meshio-convert ernie-gw.mesh ernie-gw.vtu}
 
 We used ParaView to visualize the tags associated with this mesh
-in Figure~\ref{fig:chp4:ernie-tagged-twodomain-mesh}. We see that the
+in Figure~\ref{fig:chp4:ernie-tagged-twodomain-mesh}.  To see the view of 
+Figure~\ref{fig:chp4:ernie-tagged-twodomain-mesh} in ParaView, first load 
+\emp{ernie-gw.vtu} by selecting \button{File$\rightarrow$Open} and selecting 
+\emp{ernie-gw.vtu}, then click \button{Apply} to show the mesh.  In the 
+left-hand window, under the \emp{Coloring} heading, select the second 
+entry titled \emp{medit:ref}.  Now select 
+\button{Filters$\rightarrow$Alphabetical$\rightarrow$Clip} from the top menu 
+bar.  The clipping plane should, by default, appear in the middle of the mesh 
+with the (red) clipping plane in the sagittal orientation.  Click the 
+\button{Apply} button in the left-hand window to cut the mesh and reveal the 
+tagged gray and white matter (tagged) tetrahedron.  We see that the
 mesh cells associated with the gray matter region have the value one,
 while the cells associated with the white matter region have the value
 two, as defined by our subdomain map.
@@ -599,8 +639,8 @@ left hemisphere, 17 parcellations refer to the hippocampus,\footnote{In many
   hippocampus and participated voluntarily in many scientific
   experiments, demonstrating the crucial role of the hippocampus. He
   never recognized the scientists who frequently visited him.} 1035
-to the grey matter insula, 3035 to the white matter insula, 1028 to
-the grey matter superiorfrontal region, and 3028 to the white matter
+to the gray matter insula, 3035 to the white matter insula, 1028 to
+the gray matter superiorfrontal region, and 3028 to the white matter
 superiorfrontal region. Figure~\ref{fig:chp4:freesurfer-parc} (left) illustrates 
 some of these regions using \emp{freesurfer/ernie/mri/wmparz.mgz} as an example. 
 %
@@ -747,7 +787,7 @@ information.
 Concretely, we aim to do the following
 \begin{itemize}
 \item
-  Read a mesh with subdomain information, such as grey and white matter
+  Read a mesh with subdomain information, such as gray and white matter
   regions;
 \item
   Iterate the process over the cells in each subdomain separately and calibrate
@@ -762,7 +802,7 @@ Concretely, we aim to do the following
 \index{meshio}
 \index{FEniCS!\emp{Mesh}}
 In Chapter~\ref{sec:chp4:tools:gray-white}, we created a mesh with
-grey and white matter labels stored as subdomain information in the
+gray and white matter labels stored as subdomain information in the
 .mesh format. Our next step is to convert this information to a
 FEniCS-compatible format. We will write a convenient Python script for this
 common operation and use the opportunity to illustrate the use of an
