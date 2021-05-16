@@ -107,7 +107,10 @@ a map between regions defined by surfaces and tags. This map is defined by
 (repeated) calls to \emp{smap.add} with a string representing the
 region and an integer representing the tag as arguments. The (binary)
 string is a sequence of zeros and ones, with zero denoting the outside
-and one the inside.
+and one the inside\footnote{Note that the STL surface 
+format includes information about the orientation of the surfaces via the 
+surface normals: each surface thus has an orientation, with an inside and an 
+outside direction.}.
 \newpythonsnippet{chp4}{two-domain-tagged.py}{9}{14}
 
 Intuitively, \pythoninline{smap.add("10",1)} will mean `those tetrahedron 
@@ -164,26 +167,28 @@ using meshio. For instance, to convert to the ParaView-friendly .vtu format, use
 \terminal{\$ meshio-convert ernie-gw.mesh ernie-gw.vtu}
 
 We used ParaView to visualize the tags associated with this mesh
-in Figure~\ref{fig:chp4:ernie-tagged-twodomain-mesh}.  To see the view of 
-Figure~\ref{fig:chp4:ernie-tagged-twodomain-mesh} in ParaView, first load 
-\emp{ernie-gw.vtu} by selecting \button{File$\rightarrow$Open} and selecting 
-\emp{ernie-gw.vtu}, then click \button{Apply} to show the mesh.  In the 
-left-hand window, under the \emp{Coloring} heading, select the second 
+in Figure~\ref{fig:chp4:ernie-tagged-twodomain-mesh}.  To see a view similar 
+to that of Figure~\ref{fig:chp4:ernie-tagged-twodomain-mesh} in ParaView, first 
+load \emp{ernie-gw.vtu} by selecting \button{File$\rightarrow$Open} and s
+electing \emp{ernie-gw.vtu}, then click \button{Apply} to show the mesh.  In 
+the left-hand window, under the \emp{Coloring} heading, select the second 
 entry titled \emp{medit:ref}.  Now select 
 \button{Filters$\rightarrow$Alphabetical$\rightarrow$Clip} from the top menu 
 bar.  The clipping plane should, by default, appear in the middle of the mesh 
 with the (red) clipping plane in the sagittal orientation.  Click the 
 \button{Apply} button in the left-hand window to cut the mesh and reveal the 
 tagged gray and white matter (tagged) tetrahedron.  We see that the
-mesh cells associated with the gray matter region have the value one,
+mesh cells associated with the gray matter region have the value 1,
 while the cells associated with the white matter region have the value
-two, as defined by our subdomain map.
+2, as defined by our subdomain map.
 
 \begin{figure}
-  \includegraphics[width=0.99\textwidth]{./graphics/chp4/two-domain-tagged.png}
+  \includegraphics[width=0.99\textwidth]{./graphics/chp4/two-domain-tagged-bw.png}
   \caption{Volume mesh of the left hemisphere conforming to the
-    interior gray--white interface, with the gray and white matter
-    regions marked separately.}
+    interior gray--white interface.  Gray matter is tagged with a value of 1 
+    and white matter is tagged with a value of 2.  The color scale is inverted. 
+    A sagittal view (left) of the left hemisphere volume mesh and a sliced 
+    (right) view exposes the inerior white matter region.}
   \label{fig:chp4:ernie-tagged-twodomain-mesh}
 \end{figure}
 
@@ -205,21 +210,42 @@ illustrated in Figure~\ref{fig:chp4:smap-example}. Now, let us see how
 we can tag all the tetrahedra of the ventricles.
 \begin{figure}[t]
   \includegraphics[width=0.95\textwidth]{./graphics/chp4/dot.png}
-  \caption{The upper left panel, A), shows colored squares, each
-    schematically representing a domain enclosed by a surface. The
-    left hemisphere is blue, the right hemisphere is red, the white
-    matter is purple, the ventricles are yellow, and their bounding
-    surfaces are given in this order. The upper right panel B) shows the
-    combination of each colored square. The bottom panel C) shows four
-    different subdomains and its corresponding bit-string. The left
-    image, 1000, denotes the volume that is within the left
-    hemisphere, but not within the right hemisphere, white matter or
-    ventricles -- hence the gray matter of the left hemisphere. The
-    image 0100 is completely analogous for the right hemisphere. Then
-    1011 refers to the surface that is within the left hemisphere
-    and within both the white surface and ventricles; hence the left
-    ventricle. Finally, 0110 represents the white matter of the
-    right hemisphere. }
+%  \caption{The upper left panel, A), shows colored squares, each
+%    schematically representing a domain enclosed by a surface. The
+%    left hemisphere is blue, the right hemisphere is red, the white
+%    matter is purple, the ventricles are yellow, and their bounding
+%    surfaces are given in this order. The upper right panel B) shows the
+%    combination of each colored square. The bottom panel C) shows four
+%    different subdomains and its corresponding bit-string. The left
+%    image, 1000, denotes the volume that is within the left
+%    hemisphere, but not within the right hemisphere, white matter or
+%    ventricles -- hence the gray matter of the left hemisphere. The
+%    image 0100 is completely analogous for the right hemisphere. Then
+%    1011 refers to the surface that is within the left hemisphere
+%    and within both the white surface and ventricles; hence the left
+%    ventricle. Finally, 0110 represents the white matter of the
+%    right hemisphere. }
+  \caption{The upper left panel, (A), shows three colored squares that 
+	differentiate the volumes enclosed by the large scale surfaces 
+	files, in the \pythoninline{surfaces} list, at their simplest level.  
+	The left hemisphere volume is colored blue, the right hemisphere volume 
+	is colored red, the white matter volume is purple and the ventricle 
+	volume is yellow.  The upper right panel (B) shows the complex 
+	combination of volumes that can be separately tagged using 
+	\pythoninline{smap.add} and the surfaces defined in the 
+	\pythoninline{surfaces} list.  The regions of (B) are colored by an 
+	independent color scheme that shows all possible combinations, of 
+	volumes, addressable by \pythoninline{smap.add}.  The bottom panel (C) 
+	shows four different subdomains of (B) and their corresponding bit 
+	strings. The left image, corresponding to bit string `1000', denotes 
+	the volume that is within the left hemisphere, but not within the right 
+	hemisphere, white matter or ventricles -- hence the gray matter of the 
+	left hemisphere.  The image with bit string `0100' is completely 
+	analogous for the right hemisphere. The bit string `1011' refers to the 
+	surface that is within the left hemisphere and within both the white 
+	surface and ventricles; hence the left ventricle. Finally, the image 
+	for the bit string `0110' corresponds to the white matter of the right 
+	hemisphere. }
 \label{fig:chp4:smap-example}
 \end{figure}
 
@@ -230,16 +256,21 @@ To represent the subdomains, assuming that \pythoninline{lpial, rpial,
 surfaces = [lpial, rpial, white, ventricles]
 smap = svmtk.SubdomainMap()
 \end{python}
-To mark all the tetrahedra in the ventricles in the left hemisphere
-with the tag value 6, we need to identify the placement of the left
-ventricles within the ordered list of surfaces. Note that the STL
-surface format includes information about the orientation of the
-surfaces via the surface normals: each surface thus has an orientation,
-with an inside and an outside direction. The ventricles in the left
-hemisphere are inside the left pial surface, outside the right pial
-surface, inside the gray-white matter surface and inside the
-ventricular surface, resulting in the bit-string "1011". We could thus
-call \pythoninline{smap.add} as 
+The ventricles are filled with cerebrospinal fluid.  A practical motivation for 
+tagging the ventricles separately may be, for example, a desire to specify a 
+much faster (isotropic) diffusion coefficient in the ventricular domain.  Here, 
+we demonstrate the marking all of the mesh tetrahedrons that lie inside the 
+subdomain defined by the ventricle surface with a (tag) value of 6. To do this, %
+%To mark all the tetrahedra in the ventricles in the left hemisphere
+%with the tag value 6, 
+%we need to identify the placement of the left ventricles within the ordered 
+%list of surfaces
+we need to identify the placement of volume corresponding to the left 
+ventricles; as we have seen, this volume is defined implicitly by the surfaces 
+within the list \pythoninline{surfaces}.  The ventricles in the left hemisphere are inside the left 
+pial surface, outside the right pial surface, inside the gray-white matter 
+surface and inside the ventricular surface, resulting in the bit-string "1011". 
+We could thus call \pythoninline{smap.add} as 
 \begin{python}
 smap.add("1011", 6)
 \end{python}
@@ -264,9 +295,11 @@ smap.add("10*", 6)
 will mark all underlying domains, that is, in this case "1000", "1001",
 "1010", and "1011".  Note that the use of the asterisk requires a
 prior specification of the number of input surfaces, either as an
-optional argument in the constructor or with the member function
-\pythoninline{smap.set\_number\_of\_surfaces}. Therefore, as an alternative, one
-could just include the line
+optional argument in the constructor, of a \pythoninline{SubdomainMap} object 
+such as \pythoninline{smap}, or by using the member function 
+\pythoninline{set\_number\_of\_surfaces} of the \pythoninline{SubdomainMap} 
+class (for example,  \pythoninline{smap.set\_number\_of\_surfaces}). Therefore, 
+as an alternative, one could just include the line
 \begin{python}
 smap.add("*1", 6)
 \end{python}
