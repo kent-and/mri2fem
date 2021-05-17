@@ -308,8 +308,8 @@ instead of adding each ventricular volume separately.
 \section{Separating the ventricles from the gray and white matter}
 \label{sec:chp4:tools:remove-vent}
 
-The volume meshes created in Chapter~\ref{chp:chp3}, and the
-hemisphere mesh illustrated in
+The volume hemispheric meshes created in Chapter~\ref{chp:chp3}, and the
+volume hemisphere mesh illustrated in 
 Figure~\ref{fig:chp4:ernie-tagged-twodomain-mesh} include the
 ventricles as part of the white matter. Since the physics of the
 fluid-filled ventricles and the soft but solid brain cerebrum may be
@@ -340,7 +340,14 @@ filename. For instance, the file \emp{aseg.mgz} stands for automatic
 segmentation, and the file \emp{wmparc.mgz} stands for white matter
 parcellation. The parcellation will split the segmentation into finer
 regions, for example, the cortical gray matter will be divided into 35
-regions for each hemisphere. We can use the segmentation or the
+regions\footnote{FreeSurfer defines regions via an anatomical atlas.  An 
+atlas is a labeling of distinct regions.  The 35 regions referenced here 
+correspond to the Desikan-Killiany atlas which ships with FreeSurfer; 
+the Destrieux atlas also ships with FreeSurfer and can be used to annotate 
+various cortical regions.  More information regarding FreeSurfer atlas 
+annotations is available at 
+\url{https://surfer.nmr.mgh.harvard.edu/fswiki/CorticalParcellation}} %
+for each hemisphere. We can use the segmentation or the
 parcellation files to construct the surface of the ventricular volume.
 
 \index{parcellations!region tags}
@@ -350,7 +357,7 @@ example, we use the \freesurfer{} generated files from our data set at
 \terminal{\$ cd freesurfer/ernie/mri \\ \$
   freeview -{}-colormap lut -{}-v aseg.mgz}
 
-\noindent The list in the left hand pane of the Freeview window shows
+\noindent The list in the left hand panel of the Freeview window shows
 the segmentation tags, that is, the values associated with different brain
 regions. Alternatively, hovering the pointer over a voxel will
 cause the corresponding region tag and name to appear in the bottom
