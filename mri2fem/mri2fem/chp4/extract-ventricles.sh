@@ -18,7 +18,7 @@ postprocess=true
 num_closing=2
 V_min=100
 
-if [ "$postprocess" = true ]; then
+if [ "$postprocess" == true ]; then
     mri_binarize --i $input --ventricles \
 	         --o "tmp.mgz"
     
@@ -45,6 +45,6 @@ if [ "$postprocess" = true ]; then
 fi
 
 mri_binarize --i $input --ventricles \
-	     --match $matchval \
-	     --surf-smooth $num_smoothing \
-	     --surf $output
+	--match $matchval \
+	--surf-smooth $num_smoothing \
+	--surf $output
