@@ -603,25 +603,40 @@ working with the union of multiple surfaces.
 separately. Combining surfaces from different hemispheres
 can therefore create problems, such as
 \begin{itemize}
-\item The hemisphere surfaces overlap, creating bridges in the cortical gray matter, or
-\item The hemisphere surfaces do not overlap, creating gaps in the white matter. 
+\item The hemisphere surfaces overlap, creating bridges in the cortical gray 
+matter, at the mesh and surface level, that do not exist physically.
+\item The hemisphere surfaces may have gaps between them which are too large 
+and are unphysical. In this case, the resulting mesh may undesirable gaps 
+between the hemispheres where they would otherwise be connected by the 
+white matter nerve tracts.  
 \end{itemize} 
-We can consider this a combined problem, since we typically would want
-to join the hemisphere surfaces via the white matter nerve tracts, while
-avoiding overlapping surfaces in the cortical gray matter. \svmtk{}
-includes utilities for addressing such challenges. In particular,
+In general, we want to join the hemisphere surfaces, via the white matter 
+nerve tracts, while simultaneously avoiding overlapping surfaces in the 
+cortical gray matter.  %We can consider this a combined problem, since we 
+%typically would want to join the hemisphere surfaces via the white matter 
+% nerve tracts, while avoiding overlapping surfaces in the cortical gray matter. 
+\svmtk{} includes utilities for addressing such challenges. In particular,
 \begin{itemize}
 \item
   \pythoninline{separate\_overlapping\_surfaces} can separate
   overlapping surfaces,
 \item
-  \pythoninline{separate\_close\_surfaces} can separate nearly
+  \pythoninline{separate\_close\_surfaces} can separate nearly-%
   overlapping surfaces, and
-\item 
-  if we want to create a single surface for the white matter but the
-  surfaces only partially overlap due to smoothing,
-  \pythoninline{union\_partially\_overlapping\_surfaces} offers
-  improved features to handle the union of white matter surfaces.
+\item
+  if we desire a single surface for the white matter but the white matter 
+  surfaces only partially overlap, due for instance to smoothing, the 
+  \svmtk{} function \pythoninline{union\_partially\_overlapping\_surfaces} 
+  offers an improved set of features to handle the union operation of 
+  the white matter surfaces.
+%
+%  if the surfaces partially overlap, due for instance to smoothing, and we 
+%  want to create a single surface 
+% 
+%  if we want to create a single surface for the white matter but the
+%  surfaces only partially overlap due to smoothing,
+%  \pythoninline{union\_partially\_overlapping\_surfaces} offers
+%  improved features to handle the union of white matter surfaces.
 \end{itemize}
 The following code snippet illustrates an example of the usage of these functions:
 \begin{python}
@@ -670,10 +685,10 @@ of the left and right pial MRI surface data can lead to non-physical
 intersections, thus producing left and right pial surface files that
 overlap and self-intersect when combined.  Self-intersections within
 a surface can then cause the meshing process to fail. Similarly, one
-could simply work with all five surfaces separately; this would lead
-to a more complicated tagging process with \emp{SubdomainMap} but
-alleviate difficulties that may arise when computing the union of two
-surface objects.
+could simply work with all five surfaces separately.  This approach 
+leads to a more complex tagging process, with \emp{SubdomainMap}, but
+alleviates difficulties, such as the self-intersections mentioned above, 
+that can arise when computing the union of two surface objects.
 
 We continue by creating tags, a subdomain map, domain and mesh, and
 leave the option of removing the ventricles, as in previous examples:
@@ -686,8 +701,13 @@ after conversion from .mesh to .vtu or .xdmf.
 \label{sec:import-freesurfer-parcellation}
 \index{parcellations}
 Brain parcellations, as segmented by {\freesurfer}'s \emp{recon-all},
-include hundreds of larger and smaller regions. For instance, in the
-left hemisphere, 17 parcellations refer to the hippocampus,\footnote{In many
+include hundreds of larger and smaller regions\footnote{Numbers are assigned 
+to different regions, by default, when \freesurfer{} performs a segmentation. 
+These numbers are specific to \freesurfer{} but independent of a subject.  
+We note that what \freesurfer{} identifies as `region N' (where N is some 
+number) may differ between patients depending on their individual brain 
+topology.}  For instance, in the left hemisphere, \freesurfer{} assigns the 
+numeric code of 17 to the hippocampus\footnote{In many
   neuroscience applications, the hippocampus region is of special
   interest because it is central to memory consolidation. The reader
   is refered to the interesting story of Henry Molaison, aka Patient
@@ -697,9 +717,9 @@ left hemisphere, 17 parcellations refer to the hippocampus,\footnote{In many
   epilepsy. He lived for more than 50 years after the removal of his
   hippocampus and participated voluntarily in many scientific
   experiments, demonstrating the crucial role of the hippocampus. He
-  never recognized the scientists who frequently visited him.} 1035
+  never recognized the scientists who frequently visited him.}, 1035
 to the gray matter insula, 3035 to the white matter insula, 1028 to
-the gray matter superiorfrontal region, and 3028 to the white matter
+the gray matter superiorfrontal region and 3028 to the white matter
 superiorfrontal region. Figure~\ref{fig:chp4:freesurfer-parc} (left) illustrates 
 some of these regions using \emp{freesurfer/ernie/mri/wmparz.mgz} as an example. 
 %
@@ -728,8 +748,8 @@ some of these regions using \emp{freesurfer/ernie/mri/wmparz.mgz} as an example.
 \subsection{Mapping a parcellation onto a finite element mesh}
 \label{sec:chp4:mapping_parcellation}
 \index{FEniCS}
-In the brain parcellation, each region is identified by an integer
-value. Our next goal now is to map these region tags onto the
+In a brain parcellation, each region is identified by an integer
+value. Our current goal is to map these region tags onto the
 generated volume mesh and into a FEniCS-compatible format. Doing so
 involves
 \begin{itemize}
@@ -765,15 +785,26 @@ file as follows:
 \noindent We can, for example, inspect the image shape (number of voxels in
 each dimension) and extract voxel values by indexing the
 \pythoninline{data} array:
-\newpythonsnippet{chp4}{map_parcellation.py}{12}{15}
+\newpythonsnippet{chp4}{map_parcellation.py}{12}{16}
 
 \subsubsection*{Representing discrete mesh data in FEniCS}
 \index{FEniCS!\emp{MeshFunction}}
-We aim to map these labels onto the brain mesh generated from the same
-T1 images. FEniCS offers the concept of a \emp{MeshFunction} to
-represent such discrete data. Mesh functions can be associated with
-cells, faces, edges, or vertices. Here, we aim to identify the
-parcellation region for each cell in the brain mesh and will thus
+We aim to map the parcellation labels, generated by \freesurfer{} during 
+segmentation, onto the brain mesh.  It is important that we are using the 
+\emp{wmparc.gz} \freesurfer{} parcellation file that was generated from the 
+same set of original T1 images that were used to create the mesh onto which 
+we are mapping these labels.   
+%
+%We aim to map these labels onto the brain mesh generated from the same
+%T1 images.
+
+
+One way to associate discrete data, such as a parcellation label, with mesh 
+elements is to use a {\fenics} \emp{MeshFunction}.
+%FEniCS offers the concept of a \emp{MeshFunction} to represent such discrete 
+%data.  
+Mesh functions can be associated with cells, faces, edges, or vertices. Here, 
+we aim to identify the parcellation region for each cell in the brain mesh and will thus
 make use of a cell function. We first import the full brain mesh:
 \newpythonsnippet{chp4}{map_parcellation.py}{17}{21}
 

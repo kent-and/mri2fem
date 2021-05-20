@@ -5,15 +5,16 @@ from dolfin import *
 
 def map_parcellation_to_mesh(parcfile, meshfile):
     # Load image from the parcellation file,
-    # extract its data and output its dimensions
+    # and extract the data it contains
     image  = nibabel.load(parcfile)
     data = image.get_fdata() 
 
     # Examine the dimensions of the image and
-    # examine at a value
+    # examine the tag for the voxel located at 
+    # data position 100, 100, 100
     print(data.shape)
     print(data[100, 100, 100])
-
+    return
     # Import brain mesh
     mesh = Mesh()
     with XDMFFile(meshfile) as file:
