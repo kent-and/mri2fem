@@ -5,7 +5,7 @@ def write_mesh_to_xdmf(meshfile, xdmfdir):
     # Read the .mesh file into meshio 
     mesh = meshio.read(meshfile)
 
-    # Extract subdomain and boundaries between regions
+    # Extract subdomains and boundaries between regions
     # into appropriate containers
     points = mesh.points
     tetra  = {"tetra": mesh.cells_dict["tetra"]}

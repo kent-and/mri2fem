@@ -711,9 +711,11 @@ amount of solute and the concentration at the given point) over time
 and save these in, for instance, PNG format. The resulting plots are
 shown in Figure~\ref{fig:chp3:png-plots}. The complete script
 (including the plot code) is available in the book scripts
-(\emp{mri2fem/chp3/diffusion.py}).  The concentration at various points can be 
-investigated by modifying the value of $p$, in the script, as shown in the code 
-block below:
+(\emp{mri2fem/chp3/diffusion.py}).  The concentration at various points%
+\footnote{The point we consider, $p$, does not represent a point of any 
+particular significance; $p$ was selected as an arbitrary point in the 
+interior of the brain mesh.} can be investigated by modifying the value of 
+$p$, in the script, as shown in the code block below:
 \newpythonsnippet{chp3}{diffusion.py}{62}{68}
 
 \begin{figure}
