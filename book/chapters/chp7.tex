@@ -1,18 +1,42 @@
 \chapter{Concluding remarks and outlook}
 
-Physics-based modelling of brain mechanics and electrophysiology --
-informed or driven by multi-modal imaging data -- is an exciting and
-active research topic. Through the previous six chapters of this book,
-we have aimed at presenting a material to enable a solid foundation
-for scientific investigations at the research front. Data to meshes.
+Physics-based modelling of brain mechanics,  informed by multi-modal
+imaging data, is an exciting and still very much frontier research
+area. Through this introductory and hands-on text, we have aimed at
+presenting sufficient yet an accessible amount of material to place
+the reader near the research front and to establish a solid foundation
+for further scientific investigations.
 
-\begin{itemize}
-\item
-  Summary
-\item
-  Comparison with others
-\item
-  Limitations
-\item
-  Outlooks
-\end{itemize}
+The MRI data to finite element pipeline presented here can be used for
+further simulations of solute transport within the brain, and
+importantly, provides a basis for more complex simulation
+scenarios. Our techniques for creating finite element meshes from T1
+MR images can be equally applicable for numerical simulation of the
+brain as an elastic medium in the context of traumatic brain injuries,
+as a poroelastic medium for studying neurological disorders or stroke,
+or as an electrical medium for studying the propagation of epileptic
+seizures. Similarly, anisotropy data extracted from DTI can inform
+diffusion tensors (as here), or the permeability tensor in the context
+of brain fluid movement, the conductivity tensor in the context of
+brain electrophysiology, or possibly the compliance tensor(s) in the
+context of brain elasticity. While such physical models have not been
+considered here, the meshes and finite element simulation platform
+FEniCS extend readily to these contexts.
+
+The brain does not exist in isolation, but is tightly coupled to its
+local environment, including the surrounding CSF, vasculature,
+membranes and spinal cord. The components presented here can be used
+as building blocks for computational modelling of the brain and its
+local environment, but geometrical, numerical, and computational
+challenges remain for this non-trivial multi-physics setting.
+
+Over the next decades, we envision that mathematics and numerical
+computations could play a crucial role in gaining new insight into the
+mechanisms and physiological processes of the human brain. Indeed,
+clinicians and experimentalists express a need for modelling and
+simulation as an alternative avenue of investigation to alleviate
+fundamental limitations in traditional techniques. New understanding
+of physiology and pathology could then ultimately pave the way for new
+diagnostics and treatments of a range of brain disorders and diseases
+-- with immense scientific and societal impact.
+
