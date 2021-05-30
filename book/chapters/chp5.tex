@@ -3,20 +3,29 @@
 \index{DTI}
 In this chapter, we focus on how to transfer information from
 diffusion tensor imaging (DTI) data to our finite element
-methods. To do so, we will need to overcome several practical
-challenges. In particular, the DTI data use a different coordinate
-system than the mesh and are stored at a different resolution; DTI
-data can also display sharp transitions that will need to be
-addressed. To overcome these challenges, we will use sub-sampling, and
-smoothing techniques, in addition to co-registering the DTI data with
-several of the images we have already used in the construction of our
-mesh.  
-
+methods. To do so, we will need to overcome a few practical
+challenges. In particular, the raw DTI data can contain non-physiological 
+data, especially near the CSF, which we will repair.  Moreover, raw DTI data 
+is represented both in terms of a different coordinate system, and at a 
+different resolution, than the computational mesh.  To overcome the 
+first challenge, we will use local extrapolation of nearby valid values; 
+to overcome the second challenge, we will co-register\footnote{
+See also section~\ref{sec:chp-dti:freesurfer-coord}.} the data 
+with images, previously mentioned in the text, used to construct the 
+computational mesh.  
+%display sharp transitions that will need to be
+%addressed. To overcome these challenges, we will use sub-sampling, and
+%smoothing techniques, in addition to co-registering the DTI data with
+%several of the images we have already used in the construction of our
+%mesh.  
+%
 Concretely, we will
 \begin{itemize}
 \item
   Process the diffusion tensor images to extract mean diffusivity and
-  fractional anisotropy data, and
+  fractional anisotropy\footnote{Mean diffusivity and fractional 
+  anisotropy are defined in equations \eqref{eqn:chp5:md} and 
+  \eqref{eqn:chp5:fa}, respectively.} data, and
 \item
   Map the DTI tensor data into a finite element representation created from
   the T1-weighted images.
@@ -36,8 +45,11 @@ extracted DTI images to a single volume image and to produce
 supplementary information files about the DTI image data for
 downstream postprocessing.  Various open source tools are available
 for the processing of DTI data \cite{soares2013hitchhiker}. Here, we
-continue to use \freesurfer{} and its associated command-line tools,
-and, in particular, we launch the command \emp{mri\_convert}:
+continue to use \freesurfer{} and its associated command-line tools. 
+As in chapter~\ref{sec:chp3:surfaces}, we can select any of the files 
+extracted from the \emp{DICOM} DTI data (\emp{dicom/ernie/DTI}) to start 
+the process; here, we arbitrarily choose \emp{IM\_1496} and launch the 
+{\freesurfer} command \emp{mri\_convert}:
 \terminal{\$ cd dicom/ernie/DTI \\
 \$ mri\_convert IM\_1496 dti.mgz
 }
@@ -45,19 +57,31 @@ and, in particular, we launch the command \emp{mri\_convert}:
 This process, when successful, creates three files: \emp{dti.mgz},
 \emp{dti.bvals}, and \emp{dti.voxel\_space.bvec}.  The last two, plain
 text files, contain information regarding the b-values and
-b-vectors associated with the DTI data. These values and vectors
-measure the degree of the diffusion weighting applied in the imaging
-process (b-values) and in what direction (b-vectors). The various
-slices in the imaging sequence are measured for the different b-values
-and b-vectors selected for the initial imaging study (see
-Figure~\ref{fig:chp5:DTIslices}).
+b-vectors associated with the DTI data.  %These vectors and values indicate 
+%the direction in which the diffusion weighting is applied (b-vectors) and 
+%the magnitude of the value (b-values) of that weighting. 
+% 
+%These values and vectors
+%measure the degree of the diffusion weighting applied in the imaging
+%process (b-values) and in what direction (b-vectors). 
+%The various slices in the imaging sequence are measured for the different 
+%b-values and b-vectors selected for the initial imaging study (see
+%Figure~\ref{fig:chp5:DTIslices}).
+The b-vectors and b-values are selected as part of the imaging process; they 
+determine the direction (b-vector) and strength (b-value) of the pulsed  
+magnetic diffusion gradient used during the diffusion weighted imaging scan.  
+For instance, Figure~\ref{fig:chp5:DTIslices} shows an axial slice measured 
+with the same choice of b-value but different b-vectors.  Once the scan has 
+taken place, we can read this information but it cannot be altered without 
+scanning the patient again.  
 \begin{figure}	
 \begin{center}
   \includegraphics[width=0.95\textwidth]{./graphics/chp5/dwi.png}
 \end{center}
 \caption{Axial DTI slices measured with different b-vectors. The
   resolution in the diffusion tensor image is typically lower (here, 96x96x50)
-	compared to that in the T1 images (256x256x256).}
+	compared to that in the T1 images; the latter are, canonically, 
+	256x256x256.}
 \label{fig:chp5:DTIslices}
 \end{figure}
 
@@ -69,8 +93,8 @@ b-value, and b-vector files using the \freesurfer{} command
 \emp{dt\_recon}. The command takes an input volume (following
 \emp{-{}-i}), b-vector and b-values files (following \emp{-{}-b}), an
 output directory \emp{-{}-o}, and the \emp{recon-all} subject ID
-\emp{-{}-s}. Within our book data directory \emp{dicom/ernie/DTI}, we
-can launch the following commands:
+\emp{-{}-s} (see Chapter~\ref{sec:chp3:surfaces}). Within our book data 
+directory \emp{dicom/ernie/DTI}, we can launch the following commands:
 \terminal{\$ export SUBJECTS\_DIR=my-freesurfer-dir \\
   \$ dt\_recon -{}-i dti.mgz -{}-b dti.bvals dti.voxel\_space.bvecs -{}-s ernie -{}-o \$SUBJECTS\_DIR/ernie/dti}
 \noindent with \emp{my-freesurfer-dir} replaced by the FreeSurfer subject's
@@ -80,7 +104,12 @@ directory (e.g. \emp{freesurfer/} from the book data-set).
 This command produces multiple output files, including
 \emp{tensor.nii.gz}, \emp{register.dat}, and \emp{register.lta}. The
 registration in \emp{dt\_recon} uses the registration command
-\emp{bbregister} to register the DTI
+\emp{bbregister}\footnote{This registration step is done automatically by 
+{\freesurfer} using the subject's previously {\freesurfer}-processed data that 
+is assumed to be available at this stage of the book; see 
+Chapter~\ref{sec:chp3:surfaces} for the necessary steps. The mathematical 
+details of co-registration are further discussed in 
+Section~\ref{sec:chp-dti:freesurfer-coord}.} to register the DTI
 data~\cite{freesurfer-wiki}. Files with the suffix .nii are in the
 NIfTI format. Of these, \emp{tensor.nii.gz} is the spatially varying
 diffusion tensor. Further, an eigendecomposition of this tensor in
@@ -97,7 +126,7 @@ In addition, \emp{dt\_recon} produces the NIfTI files
 \emp{adc.nii.gz} and \emp{fa.nii.gz} for the mean (or apparent)
 diffusivity (MD) and fractional anisotropy (FA), respectively. 
 The mean diffusivity is given by 
-\begin{equation}
+\begin{equation}\label{eqn:chp5:md}
   \rm{MD} = \frac{1}{3}(\lambda_1 + \lambda_2 + \lambda_3),   
 \end{equation}
 and  fractional
@@ -116,16 +145,19 @@ anisotropy is defined~\cite{kindlmann2007geodesic} by
   \label{fig:chp5:DTIfa}
 \end{figure}
 NIfTI files can be viewed in ParaView. You might first need to enable
-the NIfTI viewer plugin by selecting the ParaView menu option
-\button{Tools$\rightarrow$Manage Plugins}, selecting the plugin option labeled
-\button{AnalyzeNifTIIO} and then clicking \button{Load Selected}. You
+the NIfTI viewer plugin by selecting the ParaView menu option labeled
+\button{Tools$\rightarrow$Manage Plugins}, selecting the plugin option%
+\footnote{the correct plugin may also be named AnalyzeNifTIIO in earlier 
+versions (i.e.~before 5.7.0) of ParaView} 
+\button{AnalyzeNifTIReaderWriter} and then clicking \button{Load Selected}. You
 can then open and view .nii files in ParaView, just as you would any other
 file. To unzip .nii.gz to .nii, one can use \emp{mri\_convert}:
 \terminal{\$ mri\_convert adc.nii.gz adc.nii \\ 
 \$ mri\_convert fa.nii.gz fa.nii} 
 \noindent Try opening the files \emp{adc.nii} and
-\emp{fa.nii}; the results should look similar to 
-Figure~\ref{fig:chp5:DTIfa}.
+\emp{fa.nii}; after loading the files in ParaView, you may also need to select 
+\button{Volume} from the \emp{Representation} menu in the left pane. The 
+results should look similar to Figure~\ref{fig:chp5:DTIfa}.
 
 Generally, the average FA value is around 0.5 and changes by around 2\%
 during day/night~\cite{voldsbekk2020evidence}.  Anisotropy decreases
@@ -231,28 +263,58 @@ to the locations where DTI data are available.  The value at each index of \emp{
 is one precisely when all of the eigenvalues are positive and the fractional anisotropy 
 there is larger than zero but less than one.  The \emp{valid} vector is therefore 
 a mask that indicates where the DTI tensor contains physically admissible values.
-The \emp{valid} mask is then reshaped to fit the dimensions of the original 
-\emp{mask}, created from the \emp{mask\_file}, and the number of zeros, 
-corresponding to invalid entries, is computed and reported in the final lines.
+The \emp{valid} mask is then reshaped\footnote{the term \textit{reshaped} here 
+means that the (tensor) data is re-organized into an expected form.  An example 
+would be reshaping a $1\times 9$ (row) tensor to a $3\times 3$ (matrix) tensor 
+by putting the first three entries, of the $1\times 9$ tensor, in the first 
+row, the next three in the second row and the last three in the final row of 
+the $3\times 3$ tensor.} 
+to fit the dimensions of the original \emp{mask}, created from the 
+\emp{mask\_file}, and the number of zeros, corresponding to invalid entries, is 
+computed and reported in the final lines.
 
-\subsubsection*{Improving the DTI values by extrapolation}
+\subsubsection*{Improving DTI values by extrapolation and resampling to T1 space}
 If numerous invalid DTI voxel data are reported, by \emp{check\_dti.py} as 
 discussed above, we can attempt to improve the DTI data by extrapolating from 
 adjacent valid voxel locations to correct nearby invalid data.  The 
 correction script is \emp{mri2fem/chp5/clean\_dti\_data.py} and can be run as
 \terminal{\$ cd mri2fem/chp5\\
-\$ python3 clean\_dti\_data.py -{}-dti tensor.nii.gz -{}-mask mask.mgz -{}-out\_nii tensor-clean.nii}
+%\$ python3 clean\_dti\_data.py -{}-dti tensor.nii.gz -{}-mask mask.mgz -{}-out\_nii tensor-clean.nii}
+\$ python3 clean\_dti\_data.py -{}-dti tensor.nii.gz -{}-mask mask.mgz -{}-out tensor-clean.nii}
 \noindent and the main functionality reads 
 \newpythonsnippet{chp5}{clean_dti_data.py}{26}{48}
 
-The function \pythoninline{find_valid_adjacent_tensor}, defined in 
-\emp{clean\_dti\_data.py}, will first search for a valid
-tensor in directly adjacent voxels; if no valid tensor is found nearby, the 
-search range is iteratively increased.  
-The script determines that nearby tensor contains valid data if a non zero mean 
-diffusivity (MD) is calculated there. 
-If there are multiple valid tensors within the search range, the tensor data 
-with MD value closest to the median of the non-zero MD is chosen: 
+The first operation carried out by the \pythoninline{clean\_dti\_data} function 
+is to call \pythoninline{check\_dti\_data}, which we discussed in the previous 
+section.  Recall that, among other things, the \pythoninline{check\_dti\_data} 
+function returns a tensor representation (\emp{D}) of the DTI data that has been 
+converted from DTI voxel space coordinates to T1 voxel space coordinates%
+\footnote{T1 coordinates are the same coordinates used by the computational 
+meshes that were constructed, in previous chapters, from the surfaces extracted 
+from {\freesurfer} segmented T1 data.  Thus, \emp{D} is now expressed in terms 
+of coordinates that make sense when used alongside the computational meshes}.
+Next, we will first search for a valid tensor in directly adjacent voxels;
+this is done using the function \pythoninline{find_valid_adjacent_tensor} 
+defined in \emp{clean\_dti\_data.py}. If no valid tensor is found nearby, the 
+search range is iteratively increased.  %
+%
+%Next, the function \pythoninline{find_valid_adjacent_tensor}, defined in 
+%\emp{clean\_dti\_data.py}, will first search for a valid
+%tensor in directly adjacent voxels; if no valid tensor is found nearby, the 
+%search range is iteratively increased.  
+The script determines that a nearby tensor, in the valid region, contains valid 
+data if a non zero mean diffusivity (MD) is also calculated there.  Once one, 
+or more, nearby valid value(s) are found, replacement data is chosen.  If only 
+one valid value is found, it is directly used.  If there are multiple valid 
+tensors within the search range, the tensor data\footnote{Due to the way in 
+which the \emp{valid} mask is constructed, a tensor with invalid data can 
+violate either the required condition that all of the eigenvalues must 
+satisfy $\lambda_i > 0$ or the required condition that the FA must 
+satisfy $0<$FA$<1$.  In either case, the search for a nearby valid tensor 
+identifies a nearby candidate and replaces the whole of the tensor information 
+at the invalid tensor location.  Thus, all of required conditions are satisfied, 
+at the previously invalid location, after the data replacement.} with MD value 
+closest to the median of the non-zero MD is chosen as a replacement: 
 \newpythonsnippet{chp5}{clean_dti_data.py}{7}{24}
 
 \subsection{Representing the DTI tensor in \fenics{}}
@@ -262,7 +324,7 @@ with MD value closest to the median of the non-zero MD is chosen:
 
 With the DTI data checked and potentially improved, we are now ready to map 
 our preprocessed DTI image (now in T1 voxel space) onto a FEniCS mesh.  We will 
-use the code located in \emp{mri2fem/dti\_data\_to\_mesh.py} to accomplish this 
+use the code located in \emp{mri2fem/chp5/dti\_data\_to\_mesh.py} to accomplish this 
 task. To begin, we assume that we have a \emp{mesh} available (e.g.~%
 \emp{ernie-brain-32.h5} from Chapter~\ref{chp4:meshio-converting}), that we have 
 loaded the clean DTI image and data in \emp{dti\_image} and \emp{dti\_data}, respectively, 
@@ -280,8 +342,8 @@ For each cell, we need to associate an identifying coordinate value so
 that we can associate the cells of our mesh to the voxel data.  One
 possibility is to extract the cell midpoints as we have done before;
 here, we opt to extract the coordinates of the degrees of
-freedom associated with the DG \emp{TensorFunctionSpace} defined on our
-mesh and convert these to voxel indices:
+freedom associated with a DG \emp{FunctionSpace} object that we will 
+define on our mesh and convert these to voxel indices:
 \newpythonsnippet{chp5}{dti_data_to_mesh.py}{57}{68}
 
 \noindent The above snippet first retrieves the coordinates of the
@@ -290,7 +352,7 @@ the \emp{ras2vox} transformation to determine coordinates in voxel
 space.
 
 We can now reshape the DTI data into a cell-wise structure based on the 
-extracted indices (now in voxel space): 
+extracted indices (now in voxel space):
 \newpythonsnippet{chp5}{dti_data_to_mesh.py}{70}{72}
 \noindent With the reshaped DTI data in hand, we assign these to a {\fenics} tensor 
 field, \pythoninline{D}, allowing the data to be saved alongside the mesh data.
@@ -303,12 +365,14 @@ The resulting fiber directions, shown in Figure~\ref{fig:chp5:freesurfer-parc},
 can be inspected visually.
 \begin{figure}	
   \begin{center}
-  \includegraphics[width=0.8\textwidth]{./graphics/chp5/fiber-fa-2.png}
+  \includegraphics[width=0.8\textwidth]{./graphics/chp5/fiber-fa-2cb.png}
   \end{center}
 \caption{Upper panels show fiber directions (DTI eigenvectors) colored
-  by the fractional anisotropy in the axial and coronal planes. The
-  lower panels show a zoom focusing on the boundary between grey
-  matter and the cerebrospinal fluid.}
+  by the fractional anisotropy in the axial and coronal planes. The lower 
+  panels show a zoom focusing on the boundary between grey matter and the 
+  cerebrospinal fluid. Note that the vector nature of the data can be seen 
+  more clearly in bottom panel images where the fibers can be seen to have 
+  clear directionality.}
 \label{fig:chp5:freesurfer-parc} 
 \end{figure}
 
@@ -434,19 +498,22 @@ coordinate systems.
 
 Note, however, that this affine transformation matrix is not quite
 realistic. First, it assumes that there is no rotational difference
-between the brains. Second, it assumes that the origins give the same anatomical
-position. This is unlikely to be the case, since the magnetic resonance images 
-differ in modality, occurrence (taken at different times), and
-resolution. Therefore, to find the affine transformation
-matrix, we need to find the optimal overlap of the brain contour in
-the magnetic resonance images. This can be done manually, but it is preferable 
-to do this using registration tools such as \emp{bbregister}, which was used with
+between the brains. Second, due to the lack of offset vector $b$ as in 
+\eqref{eqn:chp5:affinet}, this transformation assumes that the origins have 
+the same anatomical position. This is unlikely to be the case, since the 
+magnetic resonance images differ in modality or occurrence (i.e.~taken at 
+different times).  %, and resolution. 
+Therefore, to find the affine transformation matrix, we need to find the 
+optimal overlap of the brain contour in the magnetic resonance images. This can 
+be done manually, but it is preferable to do this using registration tools 
+such as \emp{bbregister}, which was used with
 \emp{dt\_recon} in Chapter~\ref{sec:chp-dti:freesurfer-dtrecon}. In
 our example, the affine transformation matrix can computed by taking
-the inverse of the augmented matrix found in \emp{register.lta}
-located in folder \emp{\$SUBJECTS\_DIR/ernie/dti}. The augmented
-matrix is a combination of the matrix $A$ and the vector $b$ with the
-following structure:
+the inverse of the augmented matrix found in \emp{register.lta}\footnote{this 
+file was created by bbregister as part of the dt\_recon command discussed 
+in Section~\ref{sec:chp-dti:freesurfer-dtrecon}} located in folder 
+\emp{\$SUBJECTS\_DIR/ernie/dti}. The augmented matrix is a combination of the 
+matrix $A$ and the vector $b$ with the following structure:
 \[\arraycolsep=2.0pt\def\arraystretch{1.3}
 \left[
 \begin{array}{cc}
