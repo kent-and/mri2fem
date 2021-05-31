@@ -86,8 +86,23 @@ general introduction to human physiology.
 \index{MRI}
 \index{MRI!sequence}
 Magnetic resonance imaging (MRI) is a rich and versatile technique for
-the non-invasive medical imaging of the brain and other organs. The method
-can be used for detailed investigations of tissue morphology and
+the non-invasive medical imaging of the brain and other organs.  The method has 
+its roots in studies of Isador Rabi; dating to the early 20th century.  Rabi 
+was able to ascertain information on the rotation and magnetic movements of 
+the nuclei of atoms and molecules \cite{thomas2013}.  MRI leverages these types 
+of magnetic properties; specifically for the nucleus of elemental hydrogen, 
+which is abundant in tissues and in fat \cite{berger2002}.  An MRI scanner 
+creates a strong magnetic field, aligning the poles of hydrogen atoms along the 
+MRI scanner's axis.  A radio wave is added to the magnetic field, causing the 
+hydrogen nuclei to resonate, and different (scanner) slices of the body resonate 
+differently.  Turning off the applied radio frequency induces the realignment 
+of the hydrogen nuclei with the applied magnetic field which; this process, in 
+turn, causes the emission of another radio wave signal which the MRI scanner 
+measures.  The intensity of this last signal is what we visualize as MRI 
+images \cite{berger2002}.    
+
+
+The MRI method can be used for detailed investigations of tissue morphology and
 structure (structural MRI), tissue properties (e.g.~diffusion weighted MRI),
 blood flow (perfusion MRI) as well as aspects relating to brain
 function (functional MRI). To obtain an MR image, the subject is
@@ -186,7 +201,8 @@ are more pronounced.}
 Diffusion MRI (dMRI) is an imaging modality that detects water
 molecule movement patterns \cite{jeurissen2017,soares2013hitchhiker}.
 Both isotropic and anisotropic diffusion coefficients can be
-determined. In Figure~\ref{fig:chp2:dti}, an example of a DTI-weighted
+determined.  Diffusion tensor imaging (DTI) is a specific type of 
+diffusion-weighted MRI. Figure~\ref{fig:chp2:dti}, an example of a DTI-weighted
 image, high signal intensities (white regions of the image) correspond
 to areas where the diffusive motion of particles has a coherent
 directionality; conversely, low directionality regions, where the
@@ -199,10 +215,11 @@ bundles, which heavily bias the extracellular fluid flow, we see
 higher signal intensities and these regions of a dMRI image appear
 brighter.
 
-Diffusion tensor imaging (DTI), which is a specific type of
-diffusion-weighted MRI, can provide information on the diffusion
-tensor $D$ in \eqref{eq:diffusion}. In three dimensions, this tensor
-has nine entries and global representation
+DTI can provide information on both the magnitude and (multiple) directions 
+of the movement of molecular water in the brain; that is, how water travels.  
+In mathematical terms, DTI provides information regarding the diffusion 
+tensor, $D$, in \eqref{eq:diffusion}.  In three dimensions, this tensor has 
+nine entries and a global representation given by
 \begin{equation}
 D = \begin{pmatrix}
   d_{11} & d_{12} & d_{13} \\
@@ -213,9 +230,11 @@ D = \begin{pmatrix}
 Each of the entries $d_{ij}$ can be a function of the position $x \in
 \R^3$. We will extract the heterogeneous, anisotropic,
 and patient-specific diffusion tensor from DTI 
-image data in Chapter~\ref{chap:dti}. We refer the interested reader to
+image data in Chapter~\ref{chap:dti}.  DTI has been used extensively to 
+study the layout of brain's white matter tracts; these tracts heavily bias 
+the movement of water within the brain. We refer the interested reader to
 \cite{jeurissen2017}, and the many sources therein, for a discussion
-on more advanced techniques.
+on more the advanced topics related to the field of dMRI techniques.
 
 \section{Viewing and working with MRI data sets}
 \label{sec:chp2:tools:viewers}
@@ -233,11 +252,18 @@ consistent and safe usage across different vendors and software
 packages.  
 
 The DICOM format gives the output from an MRI scan as a collection of
-files arranged in sequences. A given file within a sequence also
-contains the necessary information to inform the viewer what the
-next file in that sequence is. DICOM files are sometimes stored in a 
-binary file named \emp{DICOMDIR} that indexes the entire
-structure of an MRI dataset. 
+files arranged in sequences. A given file within a sequence\footnote{Formally, 
+the term \textit{MRI sequence} does not refer to an ordered measure (such as a 
+sequence in time) but, rather, to a specific type of pulse sequence, or field 
+gradient, that determines the specific imaging protocol.  A T1 
+\textit{MRI sequence} produces T1 images, a T2 \textit{MRI sequence} produces 
+T2 images, and so forth.  Here, when we speak of `a sequence of files' we are 
+referring to the order in which the files are produced by the MRI scanner; this 
+is typically reflected in the naming of the files such that IM\_0001 would be 
+produced before IM\_0002, and so on.} also contains the necessary information 
+to inform the viewer what the next (or previous) file in that file sequence is. 
+DICOM files are sometimes stored in a binary file named \emp{DICOMDIR} that 
+indexes the entire structure of an MRI dataset. 
 
 \subsection{Working with the contents of an MRI dataset}
 \label{sec:chp2:viewmri}
@@ -266,7 +292,7 @@ command:
 \noindent After the DicomBrowser window opens, select
 \button{File$\rightarrow$Open} from the top menu bar; a dialogue box
 will appear with the heading \button{Select DICOM files}. Navigate to
-the directory containing the book data set and select the directory
+the directory containing the (example) book data set and select the directory
 titled \emp{\erniedicom}.  In this directory select the file titled
 \emp{DICOMDIR}. The main DicomBrowser window should now show a list of
 the patients whose data are included in this dataset (in this case
@@ -277,13 +303,13 @@ entry.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\textwidth]{./graphics/chp2/dicombrowser-d}
+  \includegraphics[width=\textwidth]{./graphics/chp2/dicombrowser-d-ext}
   \caption{Example of the DicomBrowser layout and selection of an MR series (\emp{\erniedicom}).} 
   \label{fig:chp2:dicombrwsr-scr}
 \end{figure}
 
 A list of studies now appears under the patient ID; generally, a
-patient can have several associated studies but the book dataset
+patient can have several associated studies but the (example) book dataset
 contains one study per patient. Expand the study (beginning with 568)
 by clicking the symbol to the left. A list of MR series now fills the
 main window; many MR series can be contained in a single study and we
@@ -314,7 +340,7 @@ DICOM tag values either through the GUI or in scripts.
 We can use the same procedure to extract other image sequences. In our
 book DICOM images, MR Series 501 is a DTI sequence and MR Series 1301
 includes T2-weighted images.  We have already extracted all three series, 
-present in the sample \emp{DICOMDIR}, into the book dataset.  Image series 
+present in the sample \emp{DICOMDIR}, into the (example) book dataset.  Image series 
 201 has been extracted to \emp{\erniedicom/T13D}, image series 1301 has been 
 extracted to \emp{\erniedicom/T23D} and image series 501 has been extracted to    
 \emp{\erniedicom/DTI}.  We note that \emp{\erniedicom/DTI} also contains 
@@ -341,7 +367,15 @@ finite element simulations is shown in Figure
 \begin{figure}
 \centering
  \includegraphics[width=0.95\textwidth]{./graphics/chp2/pipeline-overview.pdf} 
-  \caption{Overview of the imaging, segmentation, meshing, simulation and visualization pipeline.}
+  \caption{Overview of the imaging, segmentation, meshing, simulation and 
+visualization pipeline. T1, T2, and DTI images have already been discussed.  
+Freesurfer and segmentation are discussed in 
+Section~\ref{sec:chp2:tools:freesurfer}. Nibabel and Numpy are Python libraries; 
+the former is used for neuroimaging applications and the latter is used 
+primarily for the convenient manipulation of tensors. {\svmtk} is a 
+computational geometry package, written for this book, which is specialized for 
+creating brain meshes and {\fenics} is a Python library for high-performance 
+finite element method computations.}
   \label{fig:chp2:imaging-pipeine-overview}
 \end{figure}
 
@@ -394,8 +428,10 @@ FreeSurfer environment commands appearing on top), and typing
 \noindent to open the Freeview user interface.
 
 We will use the command \emp{dt\_recon} in FreeSurfer, which has
-additional requirements: tcsh and FSL. The installation of tcsh can be
-done from the terminal with the following command lines.
+additional requirements: tcsh\footnote{tcsh refers to a specific type of Unix 
+shell.  A Unix shell is a command-line interpreter; there are many such shells 
+used in a Unix environment (such as Ubuntu Linux).} and FSL. The installation 
+of tcsh can be done from the terminal with the following command lines.
 \ubuntu{\$ sudo apt update  \\
 \$ sudo apt install tcsh}
 
