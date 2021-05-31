@@ -101,7 +101,12 @@ directory \emp{dicom/ernie/DTI}, we can launch the following commands:
 directory (e.g. \emp{freesurfer/} from the book data-set).
 
 \index{FreeSurfer!\emp{bbregister}}
-This command produces multiple output files, including
+This command produces multiple output files\footnote{The command above will 
+store the files in \$SUBJECTS\_DIR/ernie/dti.  Alternatively, you can run 
+\emp{mri2fem/chp5/all.sh} which will create a directory 
+\emp{mri2fem/chp5/ernie-dti} that includes the same set of the files as well. 
+You will need FSL installed to use \emp{dt\_recon} (see 
+Chapter~\ref{sec:chp2:tools:freesurfer}).}, including
 \emp{tensor.nii.gz}, \emp{register.dat}, and \emp{register.lta}. The
 registration in \emp{dt\_recon} uses the registration command
 \emp{bbregister}\footnote{This registration step is done automatically by 
