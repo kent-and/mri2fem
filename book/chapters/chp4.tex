@@ -478,10 +478,12 @@ large ventricle surface; and smooth the resulting surface before further use.
   the tag 2, and so on.
 \item
   \emp{mri\_morphology} is used to perform certain operations on
-  volume files. There are nine different operations, which includes open,
-  close, dilate, erode, and fill holes. We will illustrate how to use
-  this function below for connecting the extracted domain by closing
-  holes. 
+  volume files and supports many operations.  These operations include opening, 
+  closing, dilating, eroding and filling holes in a volume.  %We will 
+  %illustrate how to use this function below for connecting the extracted 
+  %domain by closing holes.
+  We will make use of the `close' operation, of this utility, to close holes 
+  in an extracted ventricle domain. 
 \end{itemize}
 
 Using these functions, we may extract an improved, higher-quality

@@ -27,13 +27,14 @@ even with these early breakthroughs, positron emission tomography
 (PET) would not arrive until 1950, and it would be 1967 before the
 first clinical x-ray computed tomography (CT) scanner was put to use.
 An explosive development of different techniques followed these
-successes.  We now have many new imaging methods at our disposal; in
-addition to PET and CT, the various magnetic resonance (MR) imaging
-techniques have proven to be indispensable for understanding the brain
-of living patients. The medical imaging field is now vast. For
-instance, the annual meeting of the Radiological Society of North
+successes and the reader who is interested in the fascinating history of 
+radiology can find more details in \cite{thomas2013}.  We now have many new 
+imaging methods at our disposal; in addition to PET and CT, the various 
+magnetic resonance (MR) imaging techniques have proven to be indispensable for 
+understanding the brain of living patients. The medical imaging field is now 
+vast. For instance, the annual meeting of the Radiological Society of North
 America hosts around 25,000 attendees, while the corresponding number
-for the meeting of the Society for Neuroscience is 44,000.
+for the meeting of the Society for Neuroscience is 44,000.  
 
 Meanwhile, engineering and industrial applications have led to the
 rapid development of both numerical methods, and applications using
@@ -50,15 +51,19 @@ barrier. Therefore, the impact of computational modeling on medical
 imaging and neuroscience has not yet reached its full potential. Our
 aim with this book is to provide a bridge between common tools in
 medical imaging and neuroscience, and the numerical solution of PDEs
-that can arise in brain modelling.
+that can arise in brain modelling.  More specifically, our work focuses 
+on the use of two existing tools, {\freesurfer} and {\fenics}, as well as 
+one novel tool, the {\svmtk}, developed for this book.
 
-The generation of physiological finite element meshes of the brain is
-not generally an easy task. The sulcal and gyral folds of the cortex
-are intricate, and the extracellular diffusion tensor, dictated
-largely by axonal white-matter bundles, is anisotropic and
-tortuous. Nevertheless, such features are essential for even the
-simplest, patient-specific PDE models of brain structural deformation
-and fluid dynamics. Accurately capturing anatomical features is
+ 
+A central, and practical, problem preventing a more widespread interest in the 
+mathematical modeling of the human brain is that of anatomical mesh generation. 
+The generation of physiological finite element meshes of the brain is not an 
+easy task. The sulcal and gyral folds of the cortex are intricate, 
+and the extracellular diffusion tensor, dictated largely by axonal white-matter 
+bundles, is anisotropic and tortuous. Nevertheless, such features are essential 
+for even the simplest, patient-specific PDE models of brain structural 
+deformation and fluid dynamics. Accurately capturing anatomical features is
 important for a wide variety of problems of practical interest,
 particularly for understanding the mechanisms underlying
 neurodegenerative pathology evolution. This book stands at the gateway

@@ -2,16 +2,27 @@
 \label{chp:chp1}
 
 Our brain is our most precious, yet most mysterious organ. It consists
-of 100 billion neurons, each neuron typically having 10 000 connections
+of 100 billion neurons, each neuron typically having 10,000 connections
 of lengths of up to a meter. As such, it is a intricate web in which
 and with which we experience the world. In addition to neurons,
 the brain consists of about the same number of glial cells, around 700
 kilometers of blood vessels, and the extracellular matrix, and is
 surrounded by clear water-like cerebrospinal fluid, which
 together all work to maintain the delicate neurons' environment in a
-healthy state. Given the vast numbers of neurons, glial cells and
-blood vessels, a natural approach to understanding the brain's physiology
-and function is through continuum-based modeling.
+healthy state.  An adult human brain weighs around 3 pounds (or 
+$\sim$1.3 kg); yet it contains nearly 86 billion neurons, another 85 billion 
+glial cells and over 400 miles ($\sim$644 km) of capillaries.  At the 
+whole-organ level, this is already an enormous amount of complexity yet we 
+still have not added several factors; such as the large-scale vasculature or 
+the flow of the interestitial fluid.  Due to the innate micro-scale complexity 
+of the brain,  %
+%
+%Given the vast numbers of neurons, glial cells and
+%blood vessels, 
+a natural approach, attempting to understand the brain's physiology
+and function, is homogenized, continuum-based modeling;  here, the 
+focus is on modeling the large-scale behavior arising from the aggregate of 
+small-scale contributions. 
 
 While continuum-based brain modeling has many applications, our
 motivation for writing this book and the corresponding software tools
@@ -46,7 +57,7 @@ integration of images of different types is crucial to achieve
 patient-specific assessment. Our intention with this book is to equip
 the reader with software tools to perform such types of studies.
 
-Obviously, many other applications involve continuum-based models of
+Many other applications involve continuum-based models of
 the brain's physiology.  For instance, alternative macroscopic
 theories involving the prion-related development of Alzheimer's
 disease have been proposed~\cite{fornari2019prion,
@@ -76,12 +87,18 @@ seizure via an elliptic PDE~\cite{grech2008review}.
     mesh. MR image types are discussed in Chapter~\ref{chp:chp2}}
   \label{fig:chp1:pipeline}
 \end{figure}
-This book will not dive deeply into any of the applications mentioned
-above, but we wish to enable personalized continuum-based modeling in
-an accessible manner. You, the reader of this book, will learn how to
-formulate, set-up and implement mathematical and computational models
-of brain biophysics in patient-specific geometries using finite
-element simulations and MR images (see Figure
+
+This book focuses on creating the basic foundation, of computational resources, 
+necessary to enable continuum-based modeling of the human brain.  Though we 
+don't focus explicitly on the exciting multiphysics applications mentioned 
+above, the approach discussed here is generalizable to multiphysics problems.  %
+%
+%This book will not dive deeply into any of the applications mentioned
+%above, but we wish to enable personalized continuum-based modeling in
+%an accessible manner.  
+You, the reader of this book, will learn how to formulate, set-up and implement 
+mathematical and computational models of brain biophysics in patient-specific 
+geometries using finite element simulations and MR images (see Figure
 \ref{fig:chp1:pipeline}). We will use the evolution and distribution
 of a solute concentration due to diffusion as a model problem, and
 increase the complexity of the data and techniques involved in the
