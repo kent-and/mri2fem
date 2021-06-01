@@ -8,7 +8,15 @@ a brain hemisphere from T1-weighted MR images using the tools
 introduced in Chapter~\ref{chp:chp2}. Next, we show how to define a
 finite element discretization of the diffusion
 equation~\eqref{eq:diffusion} over this mesh to simulate the influx of
-an injected tracer.
+an injected tracer\footnote{As we mentioned, MRI scanners work by manipulating 
+a magnetic field around the patient and then measuring the body's molecular 
+interaction with radio waves. Non-toxic substances, designed specifically 
+with this interaction in mind, have been developed that can injected into 
+a patient to improve the visibility of internal body structures.  These 
+substances are referred to as \textit{MRI tracers} or, also, as 
+\textit{MRI contrast agents}.  Dennis Carr and Wolfgang Schorner published 
+the first tracer-enhanced MR images, in humans, using gadolinium 
+diethylenetriaminepentacetate \cite{thomas2013}.}.
 
 \section{Generating a volume mesh from T1-weighted MRI}
 \label{sec:chp3:tools}
@@ -52,7 +60,8 @@ Chapter~\ref{sec:chp3:advanced} at the end of this chapter.
 
 The next step is to create surfaces, representing, for example, the
 interface between the pial membrane and the surrounding cerebrospinal
-fluid (CSF), referred to here as the pial surface, or the interface
+fluid (CSF), referred to here as the pial surface 
+(Figure~\ref{fig:chp3:freeview-scr}), or the interface
 between white and gray matter, from the T1-weighted MRI series just
 extracted. We will use FreeSurfer for this task, and as an example, we
 will extract the pial surface surrounding the left hemisphere of a
@@ -164,9 +173,16 @@ named \pythoninline{create\_volume\_mesh}, within it that can be called as
 
 \noindent Given an input STL filename (\pythoninline{stlfile}), an
 output mesh filename with the \pythoninline{mesh} suffix
-(\pythoninline{meshfile}), and an optional mesh resolution
-(\pythoninline{resolution}, defaulting to 16), the script creates an
-\svmtk{} \pythoninline{Domain} object, generates a volume mesh from the
+(\pythoninline{meshfile}), and an optional mesh resolution\footnote{
+the \pythoninline{resolution} parameter is a number that coarsely specifies 
+the size of the mesh elements; higher values of \pythoninline{resolution} 
+produce meshes comprised of smaller average tetrahedral diameters.  The 
+\pythoninline{resolution} parameter default is 16.  Small changes in this 
+value will not typically produce a visual difference 
+(i.e.~\pythoninline{resolution}=18) though large differences 
+(e.g.~\pythoninline{resolution}=32 or 64) will produce visually distinct 
+meshes with a clear difference in tetrahedral element size.}, the script 
+creates an \svmtk{} \pythoninline{Domain} object, generates a volume mesh from the
 surface via the call to \pythoninline{create\_mesh}, and saves this
 mesh in the \pythoninline{.mesh} format to the output mesh file. The
 mesh resolution parameter determines the maximum size of a tetrahedron
@@ -270,7 +286,11 @@ and visualized in ParaView.
   \centering
   \includegraphics[width=0.49\textwidth]{./graphics/chp3/raw-stlmesh.png}
   \includegraphics[width=0.49\textwidth]{./graphics/chp3/remesh-stlmesh.png}
-  \caption{Original (left) pial surface and (right) after remeshing with \svmtk{}}
+  \caption{Original (left) pial surface and (right) after remeshing with 
+  \svmtk{}.  Remeshing improves the fidelity of the mesh and, at a high level, 
+  starts by subdividing tetrahedron based on a criteria, such as a maximal 
+  diameter or anisotropy condition, and further subdividing neighboring 
+  tetrahedron as needed (e.g.~to ensure overall mesh quality).}
   \label{fig:chp3:ernie-remesh}
 \end{figure}
 
@@ -306,14 +326,14 @@ iteration followed by a local `swelling' operation that aims to prevent
 any shrinkage in the volume of the original patch, whereas Laplacian smoothing 
 consists only of local smoothing operations and the volume of the original
 patch might not be preserved \cite{taubin1995curve}. Between the two, we
-recommend Taubin smoothing. The integer value \pythoninline{n}
-sets the number of times the smoothing process should take place. Higher
-values will produce a smoother mesh; however, too high of a value may
-result in a loss of resolution in brain features, such as the sulci and
-gyri (grooves and bumps), on the brain surface. Finally, the floating
-point value \pythoninline{eps} determines the strength of the
-smoothing operation for each smoothing iteration, and should be in the
-interval $[0, 1]$ with $0.0$ ($1.0$) indicating no (full)
+recommend Taubin smoothing as the Laplacian approach tends to significantly 
+diminish anatomical features. The integer value \pythoninline{n} sets the number 
+of times the smoothing process should take place. Higher values will produce a 
+smoother mesh; however, too high of a value may result in a loss of resolution 
+in brain features, such as the sulci and gyri (grooves and bumps), on the brain 
+surface. Finally, the floating point value \pythoninline{eps} determines the 
+strength of the smoothing operation for each smoothing iteration, and should 
+be in the interval $[0, 1]$ with $0.0$ ($1.0$) indicating no (full)
 smoothing.
 \begin{figure}
   \centering
@@ -726,13 +746,22 @@ $p$, in the script, as shown in the code block below:
     \caption{Plots of the quantities of interest, in arbitrary units (AU), 
 	associated with the computed concentration: total amount of solute 
 	$Q$ over time $t$ (left) and concentration $u(p, t)$ for a given 
-	point $p$ over time $t$ (right).}
+	point $p$ over time $t$ (right).  The unphysical early 
+        concentration (right) results from a numerical artifact which is common 
+        when solving diffusion problems; we discuss an adjustment in our solution 
+        method, to remedy this behavior, in Chapter~\ref{chp:chp6}. }
     \label{fig:chp3:png-plots}
 \end{figure}
 
 \index{mass lumping}
-The approximation of the solute concentration at a given point over
-time demonstrates an interesting numerical artefact: the concentration
+The plot of total solute (Figure~\ref{fig:chp3:png-plots}, left) shows a 
+steady increase of solute within the brain as the available tracer 
+at the boundary (implemented by the concentration boundary condition 
+\pythoninline{u\_d}) increases.  As the process is diffusive, the total 
+solute will increase until the concentration of the solution within the brain 
+and at the boundary are in equilibrium. The approximation of the solute 
+concentration (Figure~\ref{fig:chp3:png-plots}, right) at a given point over
+time demonstrates an interesting numerical artifact: the concentration
 drops below zero to become negative at early times (between 0 and 550
 min). Negative solute concentrations are clearly unphysiological, but
 a common numerical problem with diffusion simulations. A partial and
@@ -758,15 +787,25 @@ used ParaView to plot clips of snapshots of the solute
 concentrations, with the x-axis as the normal direction for the clips
 and the view direction, rescaled to the data range over all
   timesteps, and using the viridis color scheme.
-\begin{figure}[h]
-    \begin{tabular}{l l l l}
-    \imagetop{2h}&  \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/2h}}&
-    \imagetop{6h}&  \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/6h}}\\
-    \imagetop{12h}& \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/12h}}&
-    \imagetop{24h}& \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/24h}}\\
-    \imagetop{48h}& \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/48h}}&
-    \imagetop{72h}& \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/72h}}
-    \end{tabular}
+%\begin{figure}[h]
+%    \begin{tabular}{l l l l}
+%    \imagetop{2h}&  \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/2h}}&
+%    \imagetop{6h}&  \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/6h}}\\
+%    \imagetop{12h}& \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/12h}}&
+%    \imagetop{24h}& \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/24h}}\\
+%    \imagetop{48h}& \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/48h}}&
+%    \imagetop{72h}& \imagetop{\includegraphics[width=0.4\textwidth]{./graphics/chp3/mri-tracer/72h}}
+%    \end{tabular}
+%    \caption{Simulated tracer concentration at given times (2, 6, 12, 24, 48, 
+%	and 72 hours) post-injection into subarachnoid CSF. Blue 
+%	represents lower values, while yellow represents higher values.  
+%	The scalar concentration is plotted on the whole brain volume mesh; the 
+%	mesh has been sliced, in ParaView, for sagittal visualization.}
+%    \label{fig:chp3:approximate-numerical-soln}
+%\end{figure}
+
+\begin{figure}[h]\centering
+    \includegraphics[width=0.9\textwidth]{./graphics/chp3/mri-tracer/alltimes}
     \caption{Simulated tracer concentration at given times (2, 6, 12, 24, 48, 
 	and 72 hours) post-injection into subarachnoid CSF. Blue 
 	represents lower values, while yellow represents higher values.  
@@ -774,6 +813,8 @@ and the view direction, rescaled to the data range over all
 	mesh has been sliced, in ParaView, for sagittal visualization.}
     \label{fig:chp3:approximate-numerical-soln}
 \end{figure}
+
+
 
 \section{Advanced topics for working with larger cohorts}
 \label{sec:chp3:advanced}
