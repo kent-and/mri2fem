@@ -12,7 +12,12 @@ different regions of the brain and its environment based on
 \item
   Create brain meshes by combining the two hemispheres,
 \item
-  Map parcellations onto brain meshes, and
+  Map parcellations\footnote{a parcellation is a way of diving the brain 
+  into distinct regions.  {\freesurfer}, for instance, does this as part of 
+  the \emp{recon-all} process and this is why we can use Freeview to see the 
+  different parts of a subject's brain, such as the hippocampus or anterior 
+  cingulate, after \emp{recon-all} completes.} 
+  onto brain meshes, and
 \item
   Locally refine parcellated brain meshes.
 \end{itemize}
@@ -237,7 +242,7 @@ we can tag all the tetrahedra of the ventricles.
 	\pythoninline{surfaces} list.  The regions of (B) are colored by an 
 	independent color scheme that shows all possible combinations, of 
 	volumes, addressable by \pythoninline{smap.add}.  The bottom panel (C) 
-	shows four different subdomains of (B) and their corresponding bit 
+	shows four, of the six, different subdomains of (B) and their corresponding bit 
 	strings. The left image, corresponding to bit string `1000', denotes 
 	the volume that is within the left hemisphere, but not within the right 
 	hemisphere, white matter or ventricles -- hence the gray matter of the 
@@ -246,7 +251,9 @@ we can tag all the tetrahedra of the ventricles.
 	surface that is within the left hemisphere and within both the white 
 	surface and ventricles; hence the left ventricle. Finally, the image 
 	for the bit string `0110' corresponds to the white matter of the right 
-	hemisphere. }
+	hemisphere. For completeness, the remaining two bit strings for the 
+	regions shown in (B) are `1010' (left, magenta region) and `0111' 
+	(right, golden region).}
 \label{fig:chp4:smap-example}
 \end{figure}
 
@@ -386,7 +393,13 @@ instead of the volume output following the flag \emp{-{}-surf}. The
 essential flag \emp{-{}-match}, followed by one or more integers, will mark
 all voxels whose assigned segmentation region identification tag matches any of 
 the given integer values. For instance, to select all voxels from the fourth 
-ventricle, we can use \emp{-{}-match 15}. Alternatively, specific regions can 
+ventricle, we can use \emp{-{}-match 15}\footnote{{\freesurfer} assigns a numeric 
+label to each identified region in the brain.  As discussed in the previous 
+section, these labels can be viewed by opening a subject's \emp{aseg.mgz} file 
+using Freeview.  Doing so, we see that a value of `15' is assigned, by 
+{\freesurfer} to the region that its segmentation procedure identifies as 
+the subject's fourth ventricle.}. 
+Alternatively, specific regions can 
 also be identified by designated flags, for instance, as follows:
 \begin{itemize}
 \item \emp{-{}-ventricles} marks voxels in the third and lateral ventricles and in the choroid plexus,
@@ -703,14 +716,20 @@ after conversion from .mesh to .vtu or .xdmf.
 \section{Working with parcellations and finite element meshes} 
 \label{sec:import-freesurfer-parcellation}
 \index{parcellations}
-Brain parcellations, as segmented by {\freesurfer}'s \emp{recon-all},
-include hundreds of larger and smaller regions\footnote{Numbers are assigned 
-to different regions, by default, when \freesurfer{} performs a segmentation. 
-These numbers are specific to \freesurfer{} but independent of a subject.  
-We note that what \freesurfer{} identifies as `region N' (where N is some 
-number) may differ between patients depending on their individual brain 
-topology.}  For instance, in the left hemisphere, \freesurfer{} assigns the 
-numeric code of 17 to the hippocampus\footnote{In many
+{\freesurfer}'s \emp{recon-all} automatic segmentation process can identify 
+almost two hundred different brain regions%
+%Brain parcellations, as segmented by {\freesurfer}'s \emp{recon-all},
+%include hundreds of larger and smaller regions
+\footnote{{\freesurfer}'s \emp{recon-all} parcellates a brain into the regions 
+defined by the Desikan-Killiany and Destrieux atlases.  Numbers are assigned 
+to the different regions, by default, when \freesurfer{} performs the 
+segmentation. These numbers are specific to \freesurfer{} but independent of a 
+subject.  We note that the particular brain matter that \freesurfer{} 
+identifies as `region N' (where N is some number) may differ between patients 
+depending on their individual brain topology.}.  {\freesurfer} labels 
+identified regions with a numeric code.  For instance, in the left 
+hemisphere, \freesurfer{} assigns the numeric code of 17 to the 
+hippocampus\footnote{In many
   neuroscience applications, the hippocampus region is of special
   interest because it is central to memory consolidation. The reader
   is refered to the interesting story of Henry Molaison, aka Patient
