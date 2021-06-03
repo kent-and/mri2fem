@@ -340,12 +340,28 @@ smoothing.
   \centering
   \includegraphics[width=0.30\textwidth]{./graphics/chp3/unsmoothed.png}
   \includegraphics[width=0.30\textwidth]{./graphics/chp3/taubin-smoothed-10.png}
-  \includegraphics[width=0.30\textwidth]{./graphics/chp3/oversmoothing.png}
+  \includegraphics[width=0.30\textwidth]{./graphics/chp3/oversmoothing.png}\\
+  \includegraphics[width=0.90\textwidth]{./graphics/chp3/smooth_zoom.png}
   \caption{Surface smoothing: original pial surface 
-    (\emp{lh.pial.remesh.stl}, left), after Taubin smoothing with
-    {\svmtk} (\emp{lh.pial.smooth.stl}, middle), and Laplacian over-smoothing (right).}
+    (\emp{lh.pial.remesh.stl}, top left), after Taubin smoothing with
+    {\svmtk} (\emp{lh.pial.smooth.stl}, top middle), and Laplacian over-smoothing 
+    (top right).  The bottom row shows a zoomed view of the three paradigms 
+    of the top row; the volume loss of the Laplace over-smoothing is evident.}
   \label{fig:chp3:ernie-smoothing}
 \end{figure}
+
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=0.80\textwidth]{./graphics/chp3/smooth_zoom.png}
+%  \caption{Surface smoothing: original pial surface 
+%    (\emp{lh.pial.remesh.stl}, left), after Taubin smoothing with
+%    {\svmtk} (\emp{lh.pial.smooth.stl}, middle), and Laplacian over-smoothing (right).}
+%  \label{fig:chp3:ernie-smoothing-zoomed}
+%\end{figure}
+
+
+
+
 %
 \index{ParaView}
 \index{file format!STL}
