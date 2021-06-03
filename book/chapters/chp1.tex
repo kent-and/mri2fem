@@ -144,15 +144,83 @@ concentration distribution throughout $\Omega$ at $t=0$. The combined
 problem \eqref{eq:diffusion} is a complete initial boundary-value
 problem and will be our model problem.
 
-\section{On reading this book}
 
-This text assumes a basic knowledge of PDEs. For instance, the
-diffusion equation \eqref{eq:diffusion} is a classical continuum-based
-PDE with well-known behaviour in both the mathematical and numerical
-sense. The reader unfamiliar with this equation is advised to first
-consult an introductory text on solving PDEs using the finite element
-method~\cite{tveito2004introduction, gockenbach2006understanding,
-  langtangen2016solving, langtangen2019introduction}.
+%\section{A brief overview of brain physiology}
+%Throughout this book we will refer to various clinical terms.  Many of these 
+%are pertinent to our efforts here, such as those describing the different 
+%types of medical images we will use, and will be discussed.  However, we will 
+%often refer to various physiological terms that we will not discuss rigorously. 
+%In this section, we briefly overview some basic physiology that may be benefit 
+%readers who are largely unfamiliar with neuroscience.
+%
+%The brain is part of the central nervous system, which also includes the spinal 
+%cord and cranial nerves.  At a high level, the brain is organized into two 
+%hemispheres (left and right) which are connected by a structure called the 
+%\textit{corpus callosum}. Each hemisphere can be further subdivided into four 
+%\textit{lobes} called the \textit{frontal}, \textit{parietal}, 
+%\textit{temporal} and \textit{occipital} lobes.  Each lobe is comprised of 
+%several regions which can be further mapped to brain function; for instance, 
+%areas in the temporal lobe are associated to memory and emotion while the 
+%frontal lobe is associated with decision-making, attention, movement, and 
+%speech, etc.
+%
+%The brain is composed of neurons and glial cells. 
+%The neurons send and receive the electrical impulses central to our thoughts, 
+%memories and basic function. The glial cells are the most numerous cells in 
+%the brain; their primary function is to maintain homeostasis, support the 
+%neurons and provide the insulating tissue, called myelin, that enable the 
+%transmission of electrical signals between neurons.  Each neuron is comprised 
+%of a soma (cell body) and two types of projected structures: the dendritic 
+%projections (or dendrites) receive signals from other neurons while the 
+%axonal projections (or axons) send signals to other neurons.  
+%
+%The brain can largely be viewed in terms of \textit{gray matter} and 
+%\textit{white matter}.  The gray matter, also called the cortex, is made up of 
+%the cell bodies of the neurons, the dendrites, the axons that are not coated 
+%in myelin along with the synapses and glial cells.  The white matter, which 
+%is `below' the gray matter or `subcortical', is made up mostly of those axons 
+%that are covered in myelin; the white matter, which appears white due to 
+%the myelin, provides the connectivity between neurons across larger distances 
+%within the brain. 
+%
+%The brain sits within the skull but three primary layers of tissue, called 
+%the \textit{meninges}, which sit between the cortical surface and the skull 
+%cranium \cite{rua2018}.  Nearest to the cortex is the \textit{pia mater}, 
+%referred to within this text as the pial surface.  The pial surface hugs the 
+%cortex and is blanketed with blood vessels.  Many of these vessels descend 
+%into the brain via pial invaginations and the pia plays a role in forming the 
+%perivascular (or Virchow-Robin) spaces, surrounding the vessel, as it descends 
+%from the pial surface.  Above the pial layer is the \textit{arachnoid mater} 
+%which is comprised of layers of connective tissue but does not contain blood 
+%vessels.  
+%
+%The area between the pial mater and the arachnoid mater is called the 
+%\textit{subarachnoid space} (SAS).  The SAS is made up of delicate connective 
+%tissue trabeculae through which the blood vessels, on the surface of the 
+%pia, wind their way through; the SAS is also filled with \textit{cerebrospinal 
+%fluid} (CSF).  CSF is produced by a structure in the brain called the 
+%\textit{ventricles} and circulates from the ventricles, around the brain and 
+%down into the spinal column.  CSF provides a protective barrier to the brain 
+%and aids in homeostasis; see e.g.~\cite{khasawneh2018}, and the sources therein, 
+%for an introduction.  The last meningeal layer is the \textit{dura mater} which 
+%further protects the brain and also contains special vessels, called lymphatic 
+%vessels, which provide essential immune system function throughout the body.
+
+
+\section{On reading this book}
+This text does not assume that the reader is well versed in anatomy or in 
+neuroscience.  In fact, the bulk of the anatomical familiarity needed to 
+successfully follow along with this text is covered in 
+Chapter~\ref{sec:chp2:anatomy}.  We have also made liberal use of footnoes and 
+citations to inform the reader of additionally interesting, or contextually 
+useful, anatomical or physiological details. This text does, however, assume a 
+basic knowledge of PDEs. For instance, the diffusion equation 
+\eqref{eq:diffusion} is a classical continuum-based PDE with well-known 
+behavior in both the mathematical and numerical sense. The reader unfamiliar 
+with this equation is advised to first consult an introductory text on solving 
+PDEs using the finite element
+method~\cite{gockenbach2006understanding,
+  langtangen2016solving, langtangen2019introduction,tveito2004introduction}.
 
 The reader is assumed to be comfortable executing commands from a
 command line in a terminal window (also canonically referred

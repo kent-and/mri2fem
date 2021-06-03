@@ -159,10 +159,31 @@ can then open and view .nii files in ParaView, just as you would any other
 file. To unzip .nii.gz to .nii, one can use \emp{mri\_convert}:
 \terminal{\$ mri\_convert adc.nii.gz adc.nii \\ 
 \$ mri\_convert fa.nii.gz fa.nii} 
-\noindent Try opening the files \emp{adc.nii} and
-\emp{fa.nii}; after loading the files in ParaView, you may also need to select 
-\button{Volume} from the \emp{Representation} menu in the left pane. The 
-results should look similar to Figure~\ref{fig:chp5:DTIfa}.
+
+\noindent Lets open \emp{adc.nii} and verify that we can reproduce 
+Figure~\ref{fig:chp5:DTIfa} (left); the process will be the same for 
+\emp{fa.nii}.  After loading the AnalyzeNifTIIO plugin, described above, 
+and opening \emp{adc.nii} click \button{Apply}.  You will likely see an 
+empty three-dimensional cube in the view window.  In the left pane, 
+find the \emp{Representation} option and change this to \emp{Volume}.  You 
+should now see something that looks similar to a `brain in a box' viewed from 
+the top. Now click \button{Filters$\rightarrow$Alphabetical} and select 
+\emp{Slice}.  In the left pane, find the option labeled \emp{Normal}; it 
+should be under the option labeled \emp{Origin}.  Change the \emp{Normal} 
+from \emp{1 0 0} to \emp{0 1 0} and click \button{Apply}.  
+
+In the left pane, once more, hide the object \emp{adc.nii} by clicking the 
+picture of the eye next to its name.  Now, rotate the view window so that you 
+can see the X-Z plane; the result should look similar to 
+Figure~\ref{fig:chp5:DTIfa}.  We can make it look more similar by changing the 
+color scheme.  In the left pane, find the section labeled \emp{Coloring}.  Mouse 
+over the buttons here until you find the button labeled \emp{Choose preset}. 
+Click this and select the \emp{Black, blue and white} color scheme, 
+click \button{Apply} and then close the color scheme preset window.  The image 
+you see now was saved and post-processed to remove the border outside the 
+skull to produce Figure~\ref{fig:chp5:DTIfa} (left).  You can repeat these 
+steps with \emp{fa.nii}, this time using the \emp{jet} color scheme, to 
+reproduce Figure~\ref{fig:chp5:DTIfa} (right).
 
 Generally, the average FA value is around 0.5 and changes by around 2\%
 during day/night~\cite{voldsbekk2020evidence}.  Anisotropy decreases
@@ -360,7 +381,12 @@ the \emp{ras2vox} transformation to determine coordinates in voxel
 space.
 
 We can now reshape the DTI data into a cell-wise structure based on the 
-extracted indices (now in voxel space):
+extracted indices\footnote{Voxels are located based on the DOF coordinates in 
+the \emp{FunctionSpace} object.  This approach guarantees that there are no 
+missing values as every DOF maps to some voxel.  However, some voxels may 
+correspond to more than one DOF as there may be more tetrahedron in the mesh 
+than there are voxels if the mesh has a resolution which is less than the 
+1mm resolution of the T1 (voxel) image space.} (now in voxel space):
 \newpythonsnippet{chp5}{dti_data_to_mesh.py}{70}{72}
 \noindent With the reshaped DTI data in hand, we assign these to a {\fenics} tensor 
 field, \pythoninline{D}, allowing the data to be saved alongside the mesh data.
