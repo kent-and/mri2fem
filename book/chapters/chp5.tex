@@ -190,14 +190,17 @@ In this section, we aim to
 \index{preprocessing DTI data}
 
 The DTI data can be quite rough compared to the T1 data and our
-corresponding finite element meshes. Moreover, the signal can be
-disturbed near the cerebrospinal fluid (CSF), which makes the data in certain areas of
-the cortical grey matter and in regions near the ventricle system
-less reliable. Indeed, inspection of the eigenvalues of the DTI tensor
-shows non-physiological (zero and/or negative) eigenvalues. To ensure
-a physiologically (and mathematically) reasonable diffusion tensor, we
-recommend preprocessing the diffusion tensor prior to numerical
-simulation. In particular, we present in this chapter two scripts that
+corresponding finite element meshes; DTI data is typically at a low resolution 
+of 96x96x50 while T1 resolution is typically much higher at 
+256x256x256\footnote{see Figure~\ref{fig:chp2:t1vt2} (left) versus 
+Figure~\ref{fig:chp5:DTIslices}}. Moreover, the signal can be disturbed near 
+the cerebrospinal fluid (CSF), which makes the data in certain areas of the 
+cortical grey matter and in regions near the ventricle system less reliable. 
+Indeed, inspection of the eigenvalues of the DTI tensor shows 
+non-physiological (zero and/or negative) eigenvalues. To ensure a 
+physiologically (and mathematically) reasonable diffusion tensor, we recommend 
+preprocessing the diffusion tensor prior to numerical simulation. In 
+particular, we present in this chapter two scripts that
 \begin{itemize}
 \item
   Check the DTI tensor data for non-physiological values and
