@@ -1,12 +1,11 @@
 #!/bin/bash
 
-
 cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd 
 
-echo "This require that the scripts in chp4 and chp5 are complete" 
+echo "This requires that the scripts in chp4 and chp5 are complete" 
 if [ -f ../chp4/lh.pial.stl -a -f ../chp4/rh.pial.stl -a  -f ../chp4/lh.white.stl -a  -f ../chp4/rh.white.stl -a -f ../chp4/lh.ventricles.stl ]; 
 then
-    echo "Requried chp4 files found"
+    echo "Required chp4 files found"
     
     # Making folder to store sufaces from chp4     
     mkdir -p surfaces
@@ -14,15 +13,15 @@ then
     # Copying surfaces files from chp4 
     cp ../chp4/lh.pial.stl ../chp4/rh.pial.stl ../chp4/lh.white.stl ../chp4/rh.white.stl  ../chp4/lh.ventricles.stl surfaces
 else 
-    echo "Requried chp4 files not found"
+    echo "Required chp4 files not found"
     exit
 fi
 
 if [ -f ../chp5/clean-tensor.mgz ]; 
 then
-    echo "Requried chp5 files found"
+    echo "Required chp5 files found"
 else 
-    echo "Requried chp5 files not found"
+    echo "Required chp5 files not found"
     exit
 fi
 

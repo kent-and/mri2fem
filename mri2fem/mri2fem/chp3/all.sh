@@ -26,7 +26,7 @@ fi
 # time, and space. Assume that we have run recon-all, and starting
 # from the generated surface files here.
 
-# Convert to STL, not that lh.pial.stl is generated
+# Convert to STL, note that lh.pial.stl is generated
 mris_convert ${MRI2FEMDATA}/freesurfer/ernie/surf/lh.pial ./lh.pial.stl
 
 # Generate volume meshes
