@@ -10,7 +10,7 @@ is represented both in terms of a different coordinate system, and at a
 different resolution, than the computational mesh.  To overcome the 
 first challenge, we will use local extrapolation of nearby valid values; 
 to overcome the second challenge, we will co-register\footnote{
-See also section~\ref{sec:chp-dti:freesurfer-coord}.} the data 
+See also Section~\ref{sec:chp-dti:freesurfer-coord}.} the data 
 with images, previously mentioned in the text, used to construct the 
 computational mesh.  
 %display sharp transitions that will need to be
@@ -293,7 +293,7 @@ is one precisely when all of the eigenvalues are positive and the fractional ani
 there is larger than zero but less than one.  The \emp{valid} vector is therefore 
 a mask that indicates where the DTI tensor contains physically admissible values.
 The \emp{valid} mask is then reshaped\footnote{the term \textit{reshaped} here 
-means that the (tensor) data is re-organized into an expected form.  An example 
+means that the (tensor) data is re-organized into an expected form. An example 
 would be reshaping a $1\times 9$ (row) tensor to a $3\times 3$ (matrix) tensor 
 by putting the first three entries, of the $1\times 9$ tensor, in the first 
 row, the next three in the second row and the last three in the final row of 
