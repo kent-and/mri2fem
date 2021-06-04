@@ -1,0 +1,20 @@
+## Downloading data
+# A sample dataset is available at Zenodo (search for mri2fem
+# dataset). The script download_data will download the current
+# version of this dataset for you:
+
+./download_data.sh
+
+## Setting the data path
+# These scripts rely on knowing the location of the data set, and in
+# particular the environment variable MRI2FEMDATA. Source the script
+# setup_mri2fem_dataset.sh to set this path
+
+source setup_mri2fem_dataset.sh
+
+## Running all scripts
+# Each chapter directory has an all.sh script for running all scripts
+# in that directory. All directories can be run via the top-level
+# script:
+
+./all.sh
