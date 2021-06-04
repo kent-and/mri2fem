@@ -133,7 +133,7 @@ particular, we begin with the following steps:
   Using FEniCS, we implement a version of the diffusion simulation
   script presented in
   Chapter~\ref{sec:chp3:fenics-code-implementation} allowing for
-  anisotropic diffusion and the computation of integrals over labelled
+  anisotropic diffusion and the computation of integrals over labeled
   regions.
 \end{itemize}
 In the numerical simulation, we represent the DTI data in the form of
@@ -142,9 +142,9 @@ code for setting up the diffusion tensor field reads
 \newpythonsnippet{chp6}{chp6-diffusion-mritracer.py}{35}{38}
 
 \index{FEniCS!integrating over regions}
-\noindent We compute the average amount of tracer in a labelled region by
+\noindent We compute the average amount of tracer in a labeled region by
 integrating the concentration over the region and dividing by the
-region's volume as follows (with the regions labelled 17 and 1035 as
+region's volume as follows (with the regions labeled 17 and 1035 as
 examples):
 \newpythonsnippet{chp6}{chp6-diffusion-mritracer.py}{151}{152}
 
@@ -364,10 +364,15 @@ adaptive case.
   \label{chp6:meshstat}
 \end{table}
 
-
-In summary, we have established that assessing the process of  tracer distribution within the brain due to diffusion is a feasible, but somewhat
-computationally demanding task. In our case, we focused on the hippocampus and Gadobutrol enrichment and found that indeed 
-a standard Galerkin procedure was sufficent given a locally refined mesh of a few hundred thousand cells. Quasi-uniform meshes on the
-other hand needs several million cells before convergence. We also remark that mass-lumping schemes, which are often prefered due
-to their monotonic properties that reduce non-physical oscillations on the short-term, is suffering from significant added numerical diffusivity
-and corresponding non-physical spread of tracer in long-term scenarios.     
+In summary, we have established that assessing the process of tracer
+distribution within the brain due to diffusion is a feasible, but
+somewhat computationally demanding task. In our case, we focused on
+the hippocampus and Gadobutrol enrichment and found that indeed a
+standard Galerkin procedure was sufficient given a locally refined
+mesh of a few hundred thousand cells. Quasi-uniform meshes on the
+other hand needs several million cells before convergence. We also
+remark that mass-lumping schemes, which are often prefered due to
+their monotonic properties that reduce non-physical oscillations on
+the short-term, is suffering from significant added numerical
+diffusivity and corresponding non-physical spread of tracer in
+long-term scenarios.

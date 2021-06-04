@@ -380,13 +380,14 @@ define on our mesh and convert these to voxel indices:
 the \emp{ras2vox} transformation to determine coordinates in voxel
 space.
 
-We can now reshape the DTI data into a cell-wise structure based on the 
-extracted indices\footnote{Voxels are located based on the DOF coordinates in 
-the \emp{FunctionSpace} object.  This approach guarantees that there are no 
-missing values as every DOF maps to some voxel.  However, some voxels may 
-correspond to more than one DOF as there may be more tetrahedron in the mesh 
-than there are voxels if the mesh has a resolution which is less than the 
-1mm resolution of the T1 (voxel) image space.} (now in voxel space):
+We can now reshape the DTI data into a cell-wise structure based on
+the extracted indices\footnote{Voxels are located based on the degree
+  of freedom (DOF) coordinates from the \emp{FunctionSpace} object. This
+  approach guarantees that there are no missing values as every coordinate
+  maps to some voxel. However, some voxels may correspond to more
+  than one mesh cell as there may more cells in the mesh than there
+  are voxels e.g.~if the mesh has a resolution which is less than the 
+  resolution of the T1 (voxel) image space.} (now in voxel space):
 \newpythonsnippet{chp5}{dti_data_to_mesh.py}{70}{72}
 \noindent With the reshaped DTI data in hand, we assign these to a {\fenics} tensor 
 field, \pythoninline{D}, allowing the data to be saved alongside the mesh data.
