@@ -8,7 +8,7 @@ parser.add_argument('--mesh',default="DTI_16", type=str)
 parser.add_argument('--time_steps',default=90, type=int)      
 parser.add_argument('--final_time', default=9, type=float) # default is 9 hours :w
 parser.add_argument('--lumped',default="lumped", type=str)      
-parser.add_argument('--label', default="std", type=str)
+parser.add_argument('--annotation', default="std", type=str)
 args = parser.parse_args()
 
 
@@ -56,7 +56,7 @@ u_0 = Constant(0.0)
 f   = Constant(0.0)
 
 # output file 
-vtkfile = File('chp6-diffusion-mritracer-{}/solution.pvd'.format(args.label) )
+vtkfile = File('chp6-diffusion-mritracer-{}/solution.pvd'.format(args.annotation) )
 
 # function space for solution 
 V    = FunctionSpace(mesh, 'Lagrange', 1)
@@ -161,27 +161,27 @@ for n in range(time_steps):
 
 # write the various results to csv files 
 import csv
-with  open('time_{}.csv'.format(args.label), 'w') as outfile:
+with  open('time_{}.csv'.format(args.annotation), 'w') as outfile:
    writer = csv.writer(outfile)
    writer.writerows(map(lambda x: [x], time_points))
 
-with  open('tracer17_{}.csv'.format(args.label), 'w') as outfile:
+with  open('tracer17_{}.csv'.format(args.annotation), 'w') as outfile:
    writer = csv.writer(outfile)
    writer.writerows(map(lambda x: [x], unit17))
 
-with  open('tracer1028_{}.csv'.format(args.label), 'w') as outfile:
+with  open('tracer1028_{}.csv'.format(args.annotation), 'w') as outfile:
    writer = csv.writer(outfile)
    writer.writerows(map(lambda x: [x], unit1028))
 
-with  open('tracer1035_{}.csv'.format(args.label) , 'w') as outfile:
+with  open('tracer1035_{}.csv'.format(args.annotation) , 'w') as outfile:
    writer = csv.writer(outfile)
    writer.writerows(map(lambda x: [x], unit1035))
 
-with  open('tracer3028_{}.csv'.format(args.label), 'w') as outfile:
+with  open('tracer3028_{}.csv'.format(args.annotation), 'w') as outfile:
    writer = csv.writer(outfile)
    writer.writerows(map(lambda x: [x], unit3028))
 
-with  open('tracer3035_{}.csv'.format(args.label) , 'w') as outfile:
+with  open('tracer3035_{}.csv'.format(args.annotation) , 'w') as outfile:
    writer = csv.writer(outfile)
    writer.writerows(map(lambda x: [x], unit3035))
 

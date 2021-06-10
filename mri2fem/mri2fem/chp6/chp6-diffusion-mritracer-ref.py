@@ -8,7 +8,7 @@ parser.add_argument('--mesh',default="DTI_16", type=str)
 parser.add_argument('--time_steps',default=90, type=int)      
 parser.add_argument('--final_time', default=9, type=float) # default is 9 hours :w
 parser.add_argument('--lumped',default="lumped", type=str)      
-parser.add_argument('--label', default="std", type=str)
+parser.add_argument('--annotation', default="std", type=str)
 args = parser.parse_args()
 
 
@@ -58,7 +58,7 @@ f   = Constant(0.0)
 ud_str = '1.0'   
 u_d    = Expression(ud_str,degree=1)
 
-vtkfile = File('chp6-diffusion-mritracer-{}/solution.pvd'.format(args.label) )
+vtkfile = File('chp6-diffusion-mritracer-{}/solution.pvd'.format(args.annotation) )
 
 V    = FunctionSpace(mesh, 'Lagrange', 1)
 
@@ -130,11 +130,11 @@ for n in range(time_steps):
 
 import csv
 
-with  open('time_{}.csv'.format(args.label), 'w') as outfile:
+with  open('time_{}.csv'.format(args.annotation), 'w') as outfile:
    writer = csv.writer(outfile)
    writer.writerows(map(lambda x: [x], time_points))
 
-with  open('tracer17_{}.csv'.format(args.label), 'w') as outfile:
+with  open('tracer17_{}.csv'.format(args.annotation), 'w') as outfile:
    writer = csv.writer(outfile)
    writer.writerows(map(lambda x: [x], unit17))
 
