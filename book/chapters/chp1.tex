@@ -2,23 +2,17 @@
 \label{chp:chp1}
 
 Our brain is our most precious, yet most mysterious organ. It consists
-of 100 billion neurons, each neuron typically having 10,000 connections
+of near 100 billion neurons, each neuron typically having 10,000 connections
 of lengths of up to a meter. As such, it is a intricate web in which
 and with which we experience the world. In addition to neurons,
 the brain consists of about the same number of glial cells, around 700
 kilometers of blood vessels, and the extracellular matrix, and is
 surrounded by clear water-like cerebrospinal fluid, which
 together all work to maintain the delicate neurons' environment in a
-healthy state.  An adult human brain weighs around 3 pounds (or 
-$\sim$1.3 kg); yet it contains nearly 86 billion neurons, another 85 billion 
-glial cells and over 400 miles ($\sim$644 km) of capillaries.  At the 
-whole-organ level, this is already an enormous amount of complexity yet we 
-still have not added several factors; such as the large-scale vasculature or 
-the flow of the interstitial fluid.  Due to the innate micro-scale complexity 
-of the brain,  %
-%
-%Given the vast numbers of neurons, glial cells and
-%blood vessels, 
+healthy state. At the whole-organ level, this is already an enormous amount of 
+complexity yet we still have not added several factors; such as the electrical 
+impulses between neurons or the complex chemical signaling pathways that help 
+to maintain homeostasis.  Due to the innate micro-scale complexity of the brain,  
 a natural approach, attempting to understand the brain's physiology
 and function, is homogenized, continuum-based modeling;  here, the 
 focus is on modeling the large-scale behavior arising from the aggregate of 
@@ -91,11 +85,7 @@ seizure via an elliptic PDE~\cite{grech2008review}.
 This book focuses on creating the basic foundation, of computational resources, 
 necessary to enable continuum-based modeling of the human brain.  Though we 
 don't focus explicitly on the exciting multiphysics applications mentioned 
-above, the approach discussed here is generalizable to multiphysics problems.  %
-%
-%This book will not dive deeply into any of the applications mentioned
-%above, but we wish to enable personalized continuum-based modeling in
-%an accessible manner.  
+above, the approach discussed here is generalizable to multiphysics problems.  
 You, the reader of this book, will learn how to formulate, set-up and implement 
 mathematical and computational models of brain biophysics in patient-specific 
 geometries using finite element simulations and MR images (see Figure
@@ -143,68 +133,6 @@ solute concentration: the function $u_0$ represents the known initial
 concentration distribution throughout $\Omega$ at $t=0$. The combined
 problem \eqref{eq:diffusion} is a complete initial boundary-value
 problem and will be our model problem.
-
-
-%\section{A brief overview of brain physiology}
-%Throughout this book we will refer to various clinical terms.  Many of these 
-%are pertinent to our efforts here, such as those describing the different 
-%types of medical images we will use, and will be discussed.  However, we will 
-%often refer to various physiological terms that we will not discuss rigorously. 
-%In this section, we briefly overview some basic physiology that may be benefit 
-%readers who are largely unfamiliar with neuroscience.
-%
-%The brain is part of the central nervous system, which also includes the spinal 
-%cord and cranial nerves.  At a high level, the brain is organized into two 
-%hemispheres (left and right) which are connected by a structure called the 
-%\textit{corpus callosum}. Each hemisphere can be further subdivided into four 
-%\textit{lobes} called the \textit{frontal}, \textit{parietal}, 
-%\textit{temporal} and \textit{occipital} lobes.  Each lobe is comprised of 
-%several regions which can be further mapped to brain function; for instance, 
-%areas in the temporal lobe are associated to memory and emotion while the 
-%frontal lobe is associated with decision-making, attention, movement, and 
-%speech, etc.
-%
-%The brain is composed of neurons and glial cells. 
-%The neurons send and receive the electrical impulses central to our thoughts, 
-%memories and basic function. The glial cells are the most numerous cells in 
-%the brain; their primary function is to maintain homeostasis, support the 
-%neurons and provide the insulating tissue, called myelin, that enable the 
-%transmission of electrical signals between neurons.  Each neuron is comprised 
-%of a soma (cell body) and two types of projected structures: the dendritic 
-%projections (or dendrites) receive signals from other neurons while the 
-%axonal projections (or axons) send signals to other neurons.  
-%
-%The brain can largely be viewed in terms of \textit{gray matter} and 
-%\textit{white matter}.  The gray matter, also called the cortex, is made up of 
-%the cell bodies of the neurons, the dendrites, the axons that are not coated 
-%in myelin along with the synapses and glial cells.  The white matter, which 
-%is `below' the gray matter or `subcortical', is made up mostly of those axons 
-%that are covered in myelin; the white matter, which appears white due to 
-%the myelin, provides the connectivity between neurons across larger distances 
-%within the brain. 
-%
-%The brain sits within the skull but three primary layers of tissue, called 
-%the \textit{meninges}, which sit between the cortical surface and the skull 
-%cranium \cite{rua2018}.  Nearest to the cortex is the \textit{pia mater}, 
-%referred to within this text as the pial surface.  The pial surface hugs the 
-%cortex and is blanketed with blood vessels.  Many of these vessels descend 
-%into the brain via pial invaginations and the pia plays a role in forming the 
-%perivascular (or Virchow-Robin) spaces, surrounding the vessel, as it descends 
-%from the pial surface.  Above the pial layer is the \textit{arachnoid mater} 
-%which is comprised of layers of connective tissue but does not contain blood 
-%vessels.  
-%
-%The area between the pial mater and the arachnoid mater is called the 
-%\textit{subarachnoid space} (SAS).  The SAS is made up of delicate connective 
-%tissue trabeculae through which the blood vessels, on the surface of the 
-%pia, wind their way through; the SAS is also filled with \textit{cerebrospinal 
-%fluid} (CSF).  CSF is produced by a structure in the brain called the 
-%\textit{ventricles} and circulates from the ventricles, around the brain and 
-%down into the spinal column.  CSF provides a protective barrier to the brain 
-%and aids in homeostasis; see e.g.~\cite{khasawneh2018}, and the sources therein, 
-%for an introduction.  The last meningeal layer is the \textit{dura mater} which 
-%further protects the brain and also contains special vessels, called lymphatic 
-%vessels, which provide essential immune system function throughout the body.
 
 
 \section{On reading this book}
