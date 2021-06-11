@@ -188,10 +188,13 @@ the ventricles and aqueduct from subcortical gray matter.
   \sidecaption
   \centering
   \includegraphics[width=0.49\textwidth]{./graphics/chp2/DTI-slice-image-crop.png}
-  \caption{A raw, axially-oriented dMRI image of the brain. The ventricles (center) 
-appear in low contrast whereas areas of high diffusion bias, along axonal fibers, 
-are more pronounced.}
-  \label{fig:chp2:dti}
+%\caption{A raw, axially-oriented dMRI image of the brain. The ventricles (center) 
+%appear in low contrast whereas areas of high diffusion bias, along axonal fibers, 
+%are more pronounced.}
+\caption{A raw, axially-oriented dMRI image of the brain. Notice that the 
+ventricles (center) appear in lower contrast due to the strongly isotropic 
+diffusion of the water contained within them.} 
+\label{fig:chp2:dti}
 \end{figure}
 
 %
@@ -201,24 +204,29 @@ Diffusion MRI (dMRI) is an imaging modality that detects water
 molecule movement patterns \cite{jeurissen2017,soares2013hitchhiker}.
 Both isotropic and anisotropic diffusion coefficients can be
 determined.  Diffusion tensor imaging (DTI) is a specific type of 
-diffusion-weighted MRI. Figure~\ref{fig:chp2:dti}, an example of a DTI-weighted
-image, high signal intensities (white regions of the image) correspond
-to areas where the diffusive motion of particles has a coherent
-directionality; conversely, low directionality regions, where the
-diffusive behavior is relatively undirected (i.e.~more isotropic),
-correspond to a low (darker) intensity. For instance, in the
-ventricles, which are filled with CSF, the molecular
-motion is less restricted and molecules can move about in almost any
-direction; these regions are therefore darker.  Along axonal
-bundles, which heavily bias the extracellular fluid flow, we see
-higher signal intensities and these regions of a dMRI image appear
-brighter.
+diffusion-weighted MRI. Figure~\ref{fig:chp2:dti}, an example of a 
+DTI-weighted image.  At a high level, a reference image (of T2 type) 
+is used as a comparison and the DTI imaging process measures the 
+difference in that reference signal with several follow-up signals.  The 
+resulting sequence provides information about how water diffuses in different 
+regions of the brain.
+%high signal intensities (white regions of the image) correspond
+%to areas where the diffusive motion of particles has a coherent
+%directionality; conversely, low directionality regions, where the
+%diffusive behavior is relatively undirected (i.e.~more isotropic),
+%correspond to a low (darker) intensity. For instance, in the
+%ventricles, which are filled with CSF, the molecular
+%motion is less restricted and molecules can move about in almost any
+%direction; these regions are therefore darker.  Along axonal
+%bundles, which heavily bias the extracellular fluid flow, we see
+%higher signal intensities and these regions of a dMRI image appear
+%brighter.
 
-DTI can provide information on both the magnitude and (multiple) directions 
-of the movement of molecular water in the brain; that is, how water travels.  
-In mathematical terms, DTI provides information regarding the diffusion 
-tensor, $D$, in \eqref{eq:diffusion}.  In three dimensions, this tensor has 
-nine entries and a global representation given by
+More specifically, DTI provides information on both the magnitude and 
+(multiple) directions of the movement of molecular water in the brain; that is, 
+how water travels.  In mathematical terms, DTI provides information regarding 
+the diffusion tensor, $D$, in \eqref{eq:diffusion}.  In three dimensions, this 
+tensor has nine entries and a global representation given by
 \begin{equation}
 D = \begin{pmatrix}
   d_{11} & d_{12} & d_{13} \\
