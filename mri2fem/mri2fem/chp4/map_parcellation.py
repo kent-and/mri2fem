@@ -14,7 +14,6 @@ def map_parcellation_to_mesh(parcfile, meshfile):
     # data position 100, 100, 100
     print(data.shape)
     print(data[100, 100, 100])
-    return
     # Import brain mesh
     mesh = Mesh()
     with XDMFFile(meshfile) as file:
