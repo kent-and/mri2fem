@@ -40,7 +40,7 @@ def write_xdmf_to_h5(xdmfdir, hdf5file):
         
     # Read facet data to a MeshFunction (of dim n-1)
     boundaries = df.MeshFunction("size_t", mesh, n-1, 0)
-    with XDMFFile("%s/boundaries.xdmf" % xdmfdir) as infile:
+    with df.XDMFFile("%s/boundaries.xdmf" % xdmfdir) as infile:
         infile.read(boundaries, "boundaries")
 
     # Write all files into a single h5 file.
