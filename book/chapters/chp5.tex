@@ -1,30 +1,23 @@
 \chapter{Introducing directionality with diffusion tensors}
 \label{chap:dti}
-\index{DTI}
-In this chapter, we focus on how to transfer information from
-diffusion tensor imaging (DTI) data to our finite element
+\index{DTI} In this chapter, we focus on how to transfer information
+from diffusion tensor imaging (DTI) data to our finite element
 methods. To do so, we will need to overcome a few practical
-challenges. In particular, the raw DTI data can contain non-physiological 
-data, especially near the CSF, which we will repair.  Moreover, raw DTI data 
-is represented both in terms of a different coordinate system, and at a 
-different resolution, than the computational mesh.  To overcome the 
-first challenge, we will use local extrapolation of nearby valid values; 
-to overcome the second challenge, we will co-register\footnote{
-See also Section~\ref{sec:chp-dti:freesurfer-coord}.} the data 
-with images, previously mentioned in the text, used to construct the 
-computational mesh.  
-%display sharp transitions that will need to be
-%addressed. To overcome these challenges, we will use sub-sampling, and
-%smoothing techniques, in addition to co-registering the DTI data with
-%several of the images we have already used in the construction of our
-%mesh.  
-%
+challenges. In particular, the raw DTI data can contain
+non-physiological data, especially near the CSF. Moreover, the raw DTI
+data is represented both in terms of a different coordinate system and
+at a different resolution than the computational mesh. To overcome the
+first challenge, we will use local extrapolation of nearby valid
+values; to overcome the second challenge, we will
+co-register\footnote{See Section~\ref{sec:chp-dti:freesurfer-coord}.}
+the data with the images used to construct the computational mesh.
+
 Concretely, we will
 \begin{itemize}
 \item
   Process the diffusion tensor images to extract mean diffusivity and
   fractional anisotropy\footnote{Mean diffusivity and fractional 
-  anisotropy are defined in equations \eqref{eqn:chp5:md} and 
+  anisotropy are defined in~\eqref{eqn:chp5:md} and 
   \eqref{eqn:chp5:fa}, respectively.} data, and
 \item
   Map the DTI tensor data into a finite element representation created from
@@ -152,8 +145,8 @@ anisotropy is defined~\cite{kindlmann2007geodesic} by
 NIfTI files can be viewed in ParaView. You might first need to enable
 the NIfTI viewer plugin by selecting the ParaView menu option labeled
 \button{Tools$\rightarrow$Manage Plugins}, selecting the plugin option%
-\footnote{the correct plugin may also be named AnalyzeNifTIIO in earlier 
-versions (i.e.~before 5.7.0) of ParaView} 
+\footnote{The correct plugin may also be named AnalyzeNifTIIO in earlier 
+versions (i.e.~before 5.7.0) of ParaView.} 
 \button{AnalyzeNifTIReaderWriter} and then clicking \button{Load Selected}. You
 can then open and view .nii files in ParaView, just as you would any other
 file. To unzip .nii.gz to .nii, one can use \emp{mri\_convert}:
@@ -213,8 +206,8 @@ In this section, we aim to
 The DTI data can be quite rough compared to the T1 data and our
 corresponding finite element meshes; DTI data is typically at a low resolution 
 of 96x96x50 while T1 resolution is typically much higher at 
-256x256x256\footnote{see Figure~\ref{fig:chp2:t1vt2} (left) versus 
-Figure~\ref{fig:chp5:DTIslices}}. Moreover, the signal can be disturbed near 
+256x256x256\footnote{See Figure~\ref{fig:chp2:t1vt2} (left) versus 
+Figure~\ref{fig:chp5:DTIslices}.}. Moreover, the signal can be disturbed near 
 the cerebrospinal fluid (CSF), which makes the data in certain areas of the 
 cortical grey matter and in regions near the ventricle system less reliable. 
 Indeed, inspection of the eigenvalues of the DTI tensor shows 
@@ -292,7 +285,7 @@ to the locations where DTI data are available.  The value at each index of \emp{
 is one precisely when all of the eigenvalues are positive and the fractional anisotropy 
 there is larger than zero but less than one.  The \emp{valid} vector is therefore 
 a mask that indicates where the DTI tensor contains physically admissible values.
-The \emp{valid} mask is then reshaped\footnote{the term \textit{reshaped} here 
+The \emp{valid} mask is then reshaped\footnote{The term \textit{reshaped} here 
 means that the (tensor) data is re-organized into an expected form. An example 
 would be reshaping a $1\times 9$ (row) tensor to a $3\times 3$ (matrix) tensor 
 by putting the first three entries, of the $1\times 9$ tensor, in the first 
@@ -544,9 +537,9 @@ be done manually, but it is preferable to do this using registration tools
 such as \emp{bbregister}, which was used with
 \emp{dt\_recon} in Chapter~\ref{sec:chp-dti:freesurfer-dtrecon}. In
 our example, the affine transformation matrix can computed by taking
-the inverse of the augmented matrix found in \emp{register.lta}\footnote{this 
+the inverse of the augmented matrix found in \emp{register.lta}\footnote{This 
 file was created by bbregister as part of the dt\_recon command discussed 
-in Section~\ref{sec:chp-dti:freesurfer-dtrecon}} located in folder 
+in Section~\ref{sec:chp-dti:freesurfer-dtrecon}.} located in folder 
 \emp{\$SUBJECTS\_DIR/ernie/dti}. The augmented matrix is a combination of the 
 matrix $A$ and the vector $b$ with the following structure:
 \[\arraycolsep=2.0pt\def\arraystretch{1.3}
