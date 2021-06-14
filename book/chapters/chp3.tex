@@ -9,15 +9,16 @@ a brain hemisphere from T1-weighted MR images using the tools
 introduced in Chapter~\ref{chp:chp2}. Next, we show how to define a
 finite element discretization of the diffusion
 equation~\eqref{eq:diffusion} over this mesh to simulate the influx of
-an injected tracer\footnote{As we mentioned, MRI scanners work by manipulating 
-a magnetic field around the patient and then measuring the body's molecular 
-interaction with radio waves. Non-toxic substances, designed specifically 
-with this interaction in mind, have been developed that can injected into 
-a patient to improve the visibility of internal body structures.  These 
-substances are referred to as \textit{MRI tracers} or, also, as 
-\textit{MRI contrast agents}.  Dennis Carr and Wolfgang Schorner published 
-the first tracer-enhanced MR images, in humans, using gadolinium 
-diethylenetriaminepentacetate \cite{thomas2013}.}.
+an injected tracer\footnote{MRI scanners operate by manipulating a
+  magnetic field around the patient and then measuring the body's
+  molecular interaction with radio waves. Non-toxic substances,
+  designed specifically with this interaction in mind, have been
+  developed that can be injected into a patient to improve the
+  visibility of internal body structures. These substances are
+  referred to as \textit{MRI tracers} or \textit{MRI contrast agents}.
+  Dennis Carr and Wolfgang Schorner published the first
+  tracer-enhanced MR images, in humans, using gadolinium
+  diethylenetriaminepentacetate \cite{thomas2013}.}.
 
 \section{Generating a volume mesh from T1-weighted MRI}
 \label{sec:chp3:tools}
@@ -134,10 +135,10 @@ directory \emp{\ernieoutput/surf}, we can run
 \terminal{\$ mris\_convert ./lh.pial pial.stl}
 
 \noindent to create the file \emp{lh.pial.stl} in the current
-directory\footnote{Note that one can avoid 
-the automatic addition of the prefix lh. in lh.pial.stl by using ./ in the 
-output filename if desired.}. The resulting file can be opened in several 
-different programs, for instance, ParaView or Gmsh.
+directory\footnote{Note that one can avoid the automatic addition of
+  the prefix lh. in lh.pial.stl by adding the prefix ./ to the output
+  filename.}. The resulting file can be opened in several different
+programs, for instance, ParaView or Gmsh.
 
 \subsection{Creating a volume mesh from a surface}
 \label{subsec:chp3:mesh-creation}
@@ -175,12 +176,12 @@ named \pythoninline{create\_volume\_mesh}, within it that can be called as
 \noindent Given an input STL filename (\pythoninline{stlfile}), an
 output mesh filename with the \pythoninline{mesh} suffix
 (\pythoninline{meshfile}), and an optional mesh resolution\footnote{
-the \pythoninline{resolution} parameter is a number that coarsely specifies 
+The \pythoninline{resolution} parameter is a number that coarsely specifies 
 the size of the mesh elements; higher values of \pythoninline{resolution} 
 produce meshes comprised of smaller average tetrahedral diameters.  The 
-\pythoninline{resolution} parameter default is 16.  Small changes in this 
+\pythoninline{resolution} parameter default in this script is 16.  Small changes in this 
 value will not typically produce a visual difference 
-(i.e.~\pythoninline{resolution}=18) though large differences 
+(i.e.~\pythoninline{resolution}=18) while larger differences 
 (e.g.~\pythoninline{resolution}=32 or 64) will produce visually distinct 
 meshes with a clear difference in tetrahedral element size.}, the script 
 creates an \svmtk{} \pythoninline{Domain} object, generates a volume mesh from the
@@ -749,8 +750,8 @@ and save these in, for instance, PNG format. The resulting plots are
 shown in Figure~\ref{fig:chp3:png-plots}. The complete script
 (including the plot code) is available in the book scripts
 (\emp{mri2fem/chp3/diffusion.py}).  The concentration at various points%
-\footnote{The point we consider, $p$, does not represent a point of any 
-particular significance; $p$ was selected as an arbitrary point in the 
+\footnote{The point we consider here does not represent a point of any 
+particular significance; $p$ was selected simply as an arbitrary point in the 
 interior of the brain mesh.} can be investigated by modifying the value of 
 $p$, in the script, as shown in the code block below:
 \newpythonsnippet{chp3}{diffusion.py}{62}{68}
@@ -941,7 +942,7 @@ process, and are often required as input for the next stage.  The recon-all
 command can be used to execute the full set of 34 stages or to execute only 
 a portion of the stages.  Some of the available \emp{recon-all} flags are 
 shown below; a full list of options is available 
-online\footnote{see \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all/}}. 
+online\footnote{See \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all/}}. 
 %We can
 %initiate each step separately by using the following flags instead of
 %\emp{-all}.

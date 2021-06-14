@@ -12,9 +12,9 @@ different regions of the brain and its environment based on
 \item
   Create brain meshes by combining the two hemispheres,
 \item
-  Map parcellations\footnote{a parcellation is a way of diving the brain 
-  into distinct regions.  {\freesurfer}, for instance, does this as part of 
-  the \emp{recon-all} process and this is why we can use Freeview to see the 
+  Map parcellations\footnote{A parcellation is a way of dividing the brain 
+  into distinct regions. {\freesurfer}, for instance, does this as part of 
+  the \emp{recon-all} process and this is why we can use Freeview to view the 
   different parts of a subject's brain, such as the hippocampus or anterior 
   cingulate, after \emp{recon-all} completes.} 
   onto brain meshes, and
@@ -394,9 +394,8 @@ essential flag \emp{-{}-match}, followed by one or more integers, will mark
 all voxels whose assigned segmentation region identification tag matches any of 
 the given integer values. For instance, to select all voxels from the fourth 
 ventricle, we can use \emp{-{}-match 15}\footnote{{\freesurfer} assigns a numeric 
-label to each identified region in the brain.  As discussed in the previous 
-section, these labels can be viewed by opening a subject's \emp{aseg.mgz} file 
-using Freeview.  Doing so, we see that a value of `15' is assigned, by 
+label to each identified region in the brain. These labels can be viewed by opening a subject's \emp{aseg.mgz} file 
+using Freeview.  Doing so, we see that a value of `15' is assigned by 
 {\freesurfer} to the region that its segmentation procedure identifies as 
 the subject's fourth ventricle.}. 
 Alternatively, specific regions can 
@@ -432,9 +431,9 @@ we define a customizable bash script (\emp{extract-ventricles.sh}). We begin by 
 ventricle and aqueduct by setting the \emp{matchval} variable\footnote{Setting 
 the \emp{matchval} variable only \textit{allows for} the inclusion of the fourth 
 ventricle and aqueduct.  In particular, the aqueduct is a small, fine structure 
-and is typically not fully differentiated.  It is good to note 
-that volume files can be edited manually using Freeview; for instance, to 
-repair a partially resolved, or missing, aqueduct. See 
+and is typically not fully differentiated. Note 
+that volume files can be edited manually using Freeview, for instance to 
+repair a partially resolved or missing aqueduct. See 
 \url{https://surfer.nmr.mgh.harvard.edu/fswiki/FreeviewGuide/FreeviewTools/VoxelEdit} 
 for more detail.} and we set the \emp{num\_smoothing} iterations:
 \lstinputlisting[style=bashStyle,firstline=7,lastline=15]{../mri2fem/mri2fem/chp4/extract-ventricles.sh}
@@ -717,10 +716,7 @@ after conversion from .mesh to .vtu or .xdmf.
 \label{sec:import-freesurfer-parcellation}
 \index{parcellations}
 {\freesurfer}'s \emp{recon-all} automatic segmentation process can identify 
-almost two hundred different brain regions%
-%Brain parcellations, as segmented by {\freesurfer}'s \emp{recon-all},
-%include hundreds of larger and smaller regions
-\footnote{{\freesurfer}'s \emp{recon-all} parcellates a brain into the regions 
+almost two hundred different brain regions\footnote{{\freesurfer}'s \emp{recon-all} parcellates a brain into the regions 
 defined by the Desikan-Killiany and Destrieux atlases.  Numbers are assigned 
 to the different regions, by default, when \freesurfer{} performs the 
 segmentation. These numbers are specific to \freesurfer{} but independent of a 
