@@ -9,39 +9,40 @@
 
 Observations surrounding the nature and fundamental biology of
 humankind date back to some of our earliest written historical
-accounts.  Brain pulsatile behaviour and the structure of brain
-folding were described in the ancient Egyptian \textit{Edwin Smith
-Surgical Papyrus}\footnote{The text is named after the dealer who
-bought it.} dating back to 1700 BC.  Hippocrates, the father of
-medicine, hypothesized that the brain was the \textit{seat of
-intelligence}, while Aristotle was fascinated by and wrote about
-both \textit{sleep} and \textit{dreams}. However, early methods of
-investigating human anatomy directly were crude and invasive.
-Arguably, one of the profound medical achievements of our modern age
-is the advent of non-invasive imaging technologies.
+accounts. Brain pulsatile behaviour and the structure of brain folding
+were described in the ancient Egyptian \textit{Edwin Smith Surgical
+Papyrus}\footnote{The text is named after the dealer who bought it.}
+dating back to 1700 BC. Hippocrates, the father of medicine,
+hypothesized that the brain was the \textit{seat of intelligence},
+while Aristotle was fascinated by and wrote about both \textit{sleep}
+and \textit{dreams}. However, early methods of directly investigating
+human anatomy were crude and invasive.  Arguably, one of the profound
+medical achievements of our modern age is the advent of non-invasive
+imaging technologies.
 
-The imaging revolution was born with Wilhelm R{\"o}ntgen's discovery of
-x-rays already in 1895. A few years later, Marie Curie successfully
-isolated radium, and x-rays then began to be used medically. Still,
-even with these early breakthroughs, positron emission tomography
-(PET) would not arrive until 1950, and it would be 1967 before the
-first clinical x-ray computed tomography (CT) scanner was put to use.
-An explosive development of different techniques followed these
-successes and the reader who is interested in the fascinating history of 
-radiology can find more details in \cite{thomas2013}.  We now have many new 
-imaging methods at our disposal; in addition to PET and CT, the various 
-magnetic resonance (MR) imaging techniques\footnote{MR images will play a 
-fundamental role in this book.  We introduce MR images in 
-Chapter~\ref{chp:chp2}, but do have a sneak peek at 
-Figures~\ref{fig:chp2:brain}-\ref{fig:chp2:t1vt2}.  It is astonishing that, 
-in less than 100 years since Isidor Rabi published his seminal work measuring 
-the nuclear spin of molecules \cite{thomas2013}, MRI has become a cornerstone 
-of medical science and, soon, of mathematical modeling of the human brain.     
-} have proven to be indispensable for 
-understanding the brain of living patients. The medical imaging field is now 
-vast. For instance, the annual meeting of the Radiological Society of North
-America hosts around 25,000 attendees, while the corresponding number
-for the meeting of the Society for Neuroscience is 44,000.  
+The imaging revolution was born with Wilhelm R{\"o}ntgen's discovery
+of X-rays as far back as in 1895. A few years later, Marie Curie
+successfully isolated radium, and X-rays then began to be used
+medically. Still, even with these early breakthroughs, positron
+emission tomography (PET) would not arrive until 1950, and it would be
+1967 before the first clinical X-ray computed tomography (CT) scanner
+was put to use. An explosive development of different techniques
+followed these successes and the reader who is interested in the
+fascinating history of radiology can find more details
+in \cite{thomas2013}. We now have many new imaging methods at our
+disposal; in addition to PET and CT, the various magnetic resonance
+(MR) imaging techniques\footnote{MR images will play a fundamental
+role in this book. We introduce MR images in Chapter~\ref{chp:chp2},
+but do take a sneak peek at
+Figures~\ref{fig:chp2:brain}--\ref{fig:chp2:t1vt2}. It is astonishing
+that, in less than 100 years since Isidor Rabi published his seminal
+work measuring the nuclear spin of molecules \cite{thomas2013}, MRI
+has become a cornerstone of medical science and of mathematical
+modeling of the human brain.} have proven to be indispensable for
+understanding the brain of living patients. The medical imaging field
+is now vast. For instance, the annual meeting of the Radiological
+Society of North America hosts around 25,000 attendees, while 44,000
+people attended the meeting of the Society for Neuroscience.
 
 Meanwhile, engineering and industrial applications have led to the
 rapid development of both numerical methods, and applications using
@@ -58,23 +59,23 @@ barrier. Therefore, the impact of computational modeling on medical
 imaging and neuroscience has not yet reached its full potential. Our
 aim with this book is to provide a bridge between common tools in
 medical imaging and neuroscience, and the numerical solution of PDEs
-that can arise in brain modelling.  More specifically, our work focuses 
-on the use of two existing tools, {\freesurfer} and {\fenics}, as well as 
-one novel tool, the {\svmtk}, developed for this book.
-
+that can arise in brain modeling. More specifically, our work focuses
+on the use of two existing tools, {\freesurfer} and {\fenics}, and one
+novel tool, the {\svmtk}, developed for this book.
  
-A central, and practical, problem preventing a more widespread interest in the 
-mathematical modeling of the human brain is that of anatomical mesh generation. 
-The generation of physiological finite element meshes of the brain is not an 
-easy task. The sulcal and gyral folds of the cortex are intricate, 
-and the extracellular diffusion tensor, dictated largely by axonal white-matter 
-bundles, is anisotropic and tortuous. Nevertheless, such features are essential 
-for even the simplest, patient-specific PDE models of brain structural 
-deformation and fluid dynamics. Accurately capturing anatomical features is
-important for a wide variety of problems of practical interest,
-particularly for understanding the mechanisms underlying
-neurodegenerative pathology evolution. This book stands at the gateway
-of these pressing problems.
+A central, and practical, problem preventing a more widespread
+interest in the mathematical modeling of the human brain is that of
+anatomical mesh generation.  Generating physiological finite element
+meshes of the brain is not an easy task. The sulcal and gyral folds of
+the cortex are intricate, and the extracellular diffusion tensor,
+dictated largely by axonal white-matter bundles, is anisotropic and
+tortuous. Nevertheless, such features are essential for even the
+simplest, patient-specific PDE models of brain structural deformation
+and fluid dynamics. The ability to accurately capture anatomical
+features could help us address many human problems, particularly when
+it comes to understanding the mechanisms underlying neurodegenerative
+pathology evolution. This book stands at the gateway of these pressing
+problems.
 
 Herein, we guide the reader through a straightforward methodology for
 ascertaining the basic assets, that is, a finite element mesh and the
@@ -85,7 +86,7 @@ capabilities provided by the Computational Geometry Algorithms Library
 (CGAL), thus offering an approachable set of features specifically for
 the brain modeling community. Along the way, we will also employ the
 automatic segmentation capacity of the FreeSurfer tool set, a
-gold-standard for MR image processing. The marriage of mathematical
+gold standard for MR image processing. The marriage of mathematical
 modeling, clinical imaging, and numerical analysis is demonstrated by
 solving a simplified PDE model of anisotropic gadobutrol diffusion in
 the brain.
@@ -98,11 +99,10 @@ Eeg Emblem for the imaging data, Johannes Ring for creating Docker
 images, and Ana Budisa, J\o rgen Dokken, Kyrre Eeg Emblem, Ingeborg
 Gjerde, Martin Hornkj\o l, Miroslav Kuchta, Yngve Mardal Moe, Geir
 Ringstad, Vegard Vinje, and Bastian Zapf for their extremely
-constructive feedback on the book and the associated software. 
-Jacob Schreiner has made significant contributions to SVM-Tk and
-finally, the first and last author wish to thank 
-Anders M. Dale for hosting several research visits to La Jolla, 
-which were instrumental for starting this project. 
+constructive feedback on the book and the associated software.  Jacob
+Schreiner has made significant contributions to SVM-Tk and finally,
+the we wish to thank Anders M. Dale for hosting several research
+visits to La Jolla, which were instrumental for starting this project.
 
 
 \vspace{\baselineskip}
