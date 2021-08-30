@@ -4,7 +4,7 @@
 In this chapter, we return to our model problem~\eqref{eq:diffusion}
 and bring together the different tools and techniques introduced in
 Chapters~\ref{chp:chp3} to \ref{chap:dti}. The computational domain
-will be determined from T1-weighted data and divided into grey and
+will be determined from T1-weighted data and divided into gray and
 white matter subdomains, diffusion tensor imaging (DTI) data will be
 employed in the construction of the heterogeneous and anisotropic
 diffusion tensor, and specific sub regions, such as the hippocampus,
@@ -13,7 +13,7 @@ by a diffusive process.
 
 In practice, one should first address data and mesh resolution
 issues. For instance, raw DTI data can exhibit rough transitions, as
-well as noise. This is particularly true in the grey matter proximal
+well as noise. This is particularly true in the gray matter proximal
 to cerebrospinal fluid (e.g.~Figures~\ref{fig:chp5:DTIfa} and
 \ref{fig:chp5:freesurfer-parc} in Chapter \ref{chap:dti}). Here, we assume that 
 the DTI data have been suitably smoothened and denoised for use in simulations. In
@@ -124,7 +124,7 @@ and compute the average concentrations in different brain regions. In
 particular, we begin with the following steps:
 \begin{itemize}
 \item
-  We create a brain mesh with grey and white matter marked and
+  We create a brain mesh with gray and white matter marked and
   ventricles removed and mark parcellation regions as described in
   Chapter~\ref{chp4:parcellations}. 
 \item
@@ -156,8 +156,8 @@ FEniCS code.
 
 \subsection{Regional distribution of gadobutrol}
 We compute the average concentrations of gadobutrol diffusing in from
-the brain's surface in regions 17 (hippocampus), 1035 (insula grey
-matter), 3035 (insula white matter), 1028 (superior frontal grey
+the brain's surface in regions 17 (hippocampus), 1035 (insula gray
+matter), 3035 (insula white matter), 1028 (superior frontal gray
 matter), and 3028 (superior frontal white matter).  Gadobutrol has a
 diffusivity approximately twice that of amyloid-beta, and the
 estimated mesh size and time step of the previous section should therefore apply
@@ -167,12 +167,12 @@ Figures~\ref{fig:chp6:numerics4}--\ref{fig:chp6:numerics5}. Note that, here,
 we consider the tracer distribution in certain regions as a
 function of time; the distribution therefore starts at a low value and increases 
 with time as the solute diffuses throughout the brain. Clearly, the
-distribution of gadobutrol in the grey matter regions and hippocampus
+distribution of gadobutrol in the gray matter regions and hippocampus
 are affected much more than in the white matter regions. This result is
-expected since both the grey matter and hippocampus are
+expected since both the gray matter and hippocampus are
 closer to the cerebrospinal fluid where, in our simulation, the gadobutrol
 concentration is assumed to reside initially.  It is also observed
-that the upper regions, that is, the superior frontal grey and white matter
+that the upper regions, that is, the superior frontal gray and white matter
 (1028 and 3028, respectively), experience faster gadobutrol deposition
 than the corresponding regions on the side of the brain.
 \begin{figure}%[t]
@@ -180,8 +180,8 @@ than the corresponding regions on the side of the brain.
   \includegraphics[width=0.7\textwidth]{./graphics/chp6/tracer_uniform_notlump_regions_64.png}
   \caption{Average concentration of gadobutrol (y-axis, arbitrary
     unit) versus time (x-axis, hours) in different brain regions: 17
-    (hippocampus), 1035 (insula grey matter), 3035 (insula white
-    matter), 1028 (superior frontal grey matter), and 3028
+    (hippocampus), 1035 (insula gray matter), 3035 (insula white
+    matter), 1028 (superior frontal gray matter), and 3028
     (superior frontal white matter). Time step: 6 minutes, $N=64$ brain
     mesh (cf.~below).}
   \label{chp6:regions}
