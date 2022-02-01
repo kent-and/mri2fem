@@ -72,7 +72,7 @@ To conduct a full image stack segmentation and surface reconstruction,
 we take advantage of the FreeSurfer command \emp{recon-all}. This
 command is compute-intensive, with likely run times of up to 24
 hours. To invoke \emp{recon-all}, we select one of the T1 DICOM files:
-for instance, in~\emp{\ernieT1}, we can pick \emp{IM\_0162}. Next, we
+e.g., in~\emp{\ernieT1}, we can pick \emp{IM\_0162}. Next, we
 decide on a subject identifier for the FreeSurfer pipeline; we choose
 to name this example subject "ernie". We are now ready to launch
 \emp{recon-all}:\footnote{It is advisable to do this on a separate
@@ -898,9 +898,9 @@ to execute only a portion of the stages. Some of the available
 available online.\footnote{See
   \url{https://surfer.nmr.mgh.harvard.edu/fswiki/recon-all/}}
 \begin{itemize}
-\item \emp{recon-all -autorecon1 -subjid \textit{subject}}: starts the step-1 process, which includes stages 1 to 5, involving normalization and skull stripping using the data in the subject folder named \textit{subject}; 
-\item \emp{recon-all -autorecon2 -subjid \textit{subject}}: starts the step-2 process, which includes stages 6 to 23, involving segmentation and surface generation using the data in the subject folder named \textit{subject};
-\item \emp{recon-all -autorecon3 -subjid \textit{subject}}: starts the step-3 process, which includes stages 24 to 34, involving statistical data generation and final parcellation using the data in the subject folder named \textit{subject};
+\item \emp{recon-all -autorecon1 -subjid \textit{subject}}: starts the step-1 process,\\ which includes stages 1 to 5, involving normalization and skull stripping using the data in the subject folder named \textit{subject}; 
+\item \emp{recon-all -autorecon2 -subjid \textit{subject}}: starts the step-2 process,\\ which includes stages 6 to 23, involving segmentation and surface generation using the data in the subject folder named \textit{subject};
+\item \emp{recon-all -autorecon3 -subjid \textit{subject}}: starts the step-3 process,\\ which includes stages 24 to 34, involving statistical data generation and final parcellation using the data in the subject folder named \textit{subject};
 \end{itemize} 
 
 These flags can be useful for restarting the segmentation. For
