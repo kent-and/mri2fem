@@ -211,10 +211,9 @@ convert the mesh to a \fenics-supported file format (for example .xml, .xdmf,
 .h5). The Python package meshio (see~Chapter
 \ref{sec:chp2:meshio}) is well suited for this purpose and can
 convert between many different input and output mesh formats. For
-instance, to convert to the FEniCS .xdmf format, we can run
+instance, to convert to the FEniCS .xdmf format, we can run\footnote{More recent versions of the meshio package now use \textit{meshio convert} instead of \textit{meshio-convert}.  That is, the hyphen has been replaced with a space; at the time of publication, the hyphenated version was standard.}
 \terminal{\$ meshio-convert lh.mesh lh.xdmf}
-\noindent The .xdmf file can then be viewed in a program such as
-ParaView.
+\noindent The .xdmf file can then be viewed in a program such as ParaView.
 
 \section{Improved volume meshing by surface preprocessing}
 \label{sec:chp3:improved-volume-meshing}
