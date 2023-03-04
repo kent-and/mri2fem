@@ -29,7 +29,7 @@ source setup_mri2fem_dataset.sh
 # works around this issue.
 #
 # Assuming you have a (tetrahedral) brain mesh called 
-$ myBrainMesh.mesh, the conversion script can be run with
+# myBrainMesh.mesh, the conversion script can be run with
 
 python3 SVMTk-tet-mesh-to-FEniCS-XDMF.py myBrainMesh.mesh
 
