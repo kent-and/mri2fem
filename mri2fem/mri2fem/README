@@ -18,31 +18,3 @@ source setup_mri2fem_dataset.sh
 # script:
 
 ./all.sh
-
-## Converting an tetrahedral SVMTk .mesh file to a FEniCS 
-# compatible XDMF.  The SVMTk uses CGAL to write .mesh files 
-# which are output in MEDIT format.  At the time of writing, 
-# meshio would convert MEDIT formatted files to a FEniCS 
-# compatible XDMF format.  However, recent updates to meshio 
-# now convert MEDIT formats to an XDMF format that is not 
-# compatible with FEniCS.  We have included a script that 
-# works around this issue.
-#
-# Assuming you have a (tetrahedral) brain mesh called 
-# myBrainMesh.mesh, the conversion script can be run with
-
-python3 SVMTk-tet-mesh-to-FEniCS-XDMF.py myBrainMesh.mesh
-
-# Two files will be produced for use, together, with the 
-# FEniCS function XDMFFile(...):
-# myBrainMesh.xdmf and myBrainMesh.h5
-
-## Analogous to the above, converting a triangular SVMTk 
-# .mesh file to a FEniCS compatible XDMF format can be 
-# done using 
-
-python3 SVMTk-tri-mesh-to-FEniCS-XDMF.py myBrainMesh.mesh
-
-# where myBrainSliceMesh.mesh is a 2D triangular mesh generated
-# using the volume slicing functionality of the SVMTk
-
